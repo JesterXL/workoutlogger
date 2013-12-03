@@ -6,6 +6,8 @@ class SetVO
   bool goodForm;
   int reps;
   double weight;
+  int goalReps;
+  double goalWeight;
   
   
 }
