@@ -52,10 +52,6 @@ void login()
   Map<String, String> data = new Map();
   data['username'] = "jessewarden";
   data['password'] = "jessewarden";
-//  HttpRequest.postFormData(theURL, data, 
-//      requestHeaders: headers)
-//      .then(onLoginSuccess)
-//      .catchError(onLoginError);
   
   HttpRequest.request(theURL, 
       method: "POST", 
