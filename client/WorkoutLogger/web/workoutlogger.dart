@@ -51,11 +51,20 @@ void login()
   
   Map<String, String> data = new Map();
   data['username'] = "jessewarden";
-  data['password'] = "password";
-  HttpRequest.postFormData(theURL, data, 
-      requestHeaders: headers)
+  data['password'] = "jessewarden";
+//  HttpRequest.postFormData(theURL, data, 
+//      requestHeaders: headers)
+//      .then(onLoginSuccess)
+//      .catchError(onLoginError);
+  
+  HttpRequest.request(theURL, 
+      method: "POST", 
+      mimeType: "application/json", 
+      requestHeaders: headers, 
+      sendData: jsonData)
       .then(onLoginSuccess)
       .catchError(onLoginError);
+  
 }
 
 void onLoginSuccess(_)
