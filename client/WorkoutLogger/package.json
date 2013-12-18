@@ -1,0 +1,30 @@
+{
+  "name": "WorkoutLogger",
+  "version": "0.0.0",
+  "description": "",
+  "main": "web/worklogger.html",
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-dart2js": "~0.0.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-mkdir": "~0.1.1"
+  },
+  "scripts": {
+    "test": "web/workoutloggertests.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JesterXL/workoutlogger"
+  },
+  "keywords": [
+    "dart",
+    "fitness"
+  ],
+  "author": "Jesse Warden",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JesterXL/workoutlogger/issues"
+  }
+}

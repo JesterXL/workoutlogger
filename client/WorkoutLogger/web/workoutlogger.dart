@@ -1,5 +1,3 @@
-
-
 import 'dart:html';
 import 'com/jessewarden/workoutlogger/workoutloggerlib.dart';
 
