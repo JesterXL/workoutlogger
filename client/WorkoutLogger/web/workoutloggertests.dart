@@ -8,6 +8,16 @@ void main()
   test("testing stuff", () =>
       expect(true, true)
       );
+	
+	test("another test", ()
+	{
+		expect(1, 1);
+	});
+	
+	test("third test", ()
+	{
+		expect(false, false);
+	});
   
 //  test('callback is executed once', () {
 //    // wrap the callback of an asynchronous call with [expectAsync0] if
