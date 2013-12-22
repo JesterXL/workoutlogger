@@ -1,6 +1,6 @@
 from django.contrib import admin
-from workoutapi.models import Workout, Circuit, Set
+from workoutapi.models import Workout, Exercise, Set
 
 admin.site.register(Workout)
-admin.site.register(Circuit)
+admin.site.register(Exercise)
 admin.site.register(Set)
