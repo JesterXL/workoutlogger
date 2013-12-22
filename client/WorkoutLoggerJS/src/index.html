@@ -24,9 +24,14 @@
 //        console.log("Cow:", Cow);
 //    });
 
-    require(["com/jessewarden/workoutlogger/services/GetTokenService"], function(GetTokenService)
+    require(["com/jessewarden/workoutlogger/services/GetTokenService",
+             "com/jessewarden/workoutlogger/events/EventBus"], function(GetTokenService, EventBus)
     {
-        console.log("GetTokenService:", GetTokenService);
+
+        EventBus.on("GetTokenService:success", function(msg)
+        {
+            console.log("Event was sent.");
+        });
        service = new GetTokenService();
         service.getToken();
     });
