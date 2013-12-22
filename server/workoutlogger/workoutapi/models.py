@@ -8,7 +8,7 @@ class Workout(models.Model):
 	type = models.CharField(max_length=100)
 	total_time_in_milliseconds = models.IntegerField(default=0)
 
-class Circuit(models.Model):
+class Excercise(models.Model):
 	name = models.CharField(max_length=100)
 	workout = models.ForeignKey(Workout)
 
@@ -19,4 +19,4 @@ class Set(models.Model):
 	weight = models.IntegerField(default=0)
 	goal_reps = models.IntegerField(default=0)
 	goal_weight = models.IntegerField(default=0)
-	circuit = models.ForeignKey(Circuit)
+	excercise = models.ForeignKey(Excercise)
