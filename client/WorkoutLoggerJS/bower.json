@@ -1,0 +1,25 @@
+{
+  "name": "WorkoutLoggerJS",
+  "version": "0.0.0",
+  "authors": [
+    "Jesse Warden <jesse@jessewarden.com>"
+  ],
+  "description": "Workout logger application",
+  "main": "src/main.js",
+  "keywords": [
+    "fitness"
+  ],
+  "license": "MIT",
+  "homepage": "http://jessewarden.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  }
+}
