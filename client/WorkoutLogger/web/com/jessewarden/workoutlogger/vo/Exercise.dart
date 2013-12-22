@@ -1,7 +1,7 @@
 part of workoutloggerlib;
 
-class CircuitVO
+class Exercise
 {
   String name;
-  List<SetVO> sets;
+  List<Set> sets;
 }

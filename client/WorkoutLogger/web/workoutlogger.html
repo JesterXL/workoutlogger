@@ -4,14 +4,15 @@
   <head>
     <meta charset="utf-8">
     <title>Workout Logger</title>
-    <link rel="stylesheet" href="workoutlogger.css">
+    <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css">
+    <link rel="import" href="com/jessewarden/workoutlogger/views/ExerciseSetView.html">
+    
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
   </head>
   <body>
-    <div>
-      <div id="mainContent"></div>
-    </div>
-
-    <script type="application/dart" src="workoutlogger.dart"></script>
-    <script src="packages/browser/dart.js"></script>
+  	
+  	<exerciseset-view></exerciseset-view>
+    
   </body>
 </html>
