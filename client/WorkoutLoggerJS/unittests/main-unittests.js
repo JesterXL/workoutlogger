@@ -16,16 +16,15 @@ require.config({
 		underscore: "../bower_components/underscore-amd/underscore",
 		backbone: "../bower_components/backbone-amd/backbone"
 	},
-	shim: {
-		'underscore': {
-			exports: '_'
-		}
-	},
 	// ask Require.js to load these files (all our tests)
 	deps: tests,
 
 	// start test run, once Require.js is done
-	callback: window.__karma__.start
+	callback: function()
+	{
+		console.log("sup");
+		window.__karma__.start();
+	}
 });
 
 

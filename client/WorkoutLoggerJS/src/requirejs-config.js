@@ -6,4 +6,3 @@ require.config({
 		backbone: "../bower_components/backbone-amd/backbone"
 	}
 });
-window.__karma__.start();

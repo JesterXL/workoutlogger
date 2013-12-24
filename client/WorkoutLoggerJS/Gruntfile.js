@@ -19,11 +19,15 @@ module.exports = function(grunt)
 		{
 			options:
 			{
-				files: ["src/unittests/BasicSpec.js"],
+				files: [
+					{pattern: 'unittests/*Spec.js', included: false},
+					"unittests/main-unittests.js"
+//					"src/unittests/*Spec.js"
+				],
 				runnerPort: 9999,
 				singleRun: true,
 				browsers: ["Chrome"],
-				frameworks: ["jasmine"]
+				frameworks: ["jasmine", "requirejs"]
 			},
 			dev:
 			{
