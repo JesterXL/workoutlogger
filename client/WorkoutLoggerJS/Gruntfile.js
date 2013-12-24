@@ -25,40 +25,11 @@ module.exports = function(grunt)
 				browsers: ["Chrome"],
 				frameworks: ["jasmine"]
 			},
-			continuous:
-			{
-				singleRun: true,
-				browsers: ["Chrome"]
-			},
 			dev:
 			{
-				reporters: "dots"
-			},
-			unit:
-			{
-				autoWatch: true,
-				background: true
+				reporters: ["dots"]
 			}
 		}
-
-//		copy:
-//		{
-//			main:
-//			{
-//				files:
-//					[
-//						{expand: true, flatten: true, src: ['src/unittests/BasicTest.js'], dest: 'tests/', filter: 'isFile'}
-//					]
-//			}
-//		},
-
-//		open:
-//		{
-//			dev:
-//			{
-//				path: "http://localhost:9100/web/workoutloggertests.html"
-//			}
-//		},
 	});
 
 	// Load the plugin that provides the "uglify" task.
@@ -74,6 +45,6 @@ module.exports = function(grunt)
 
 	// Default task(s).
 	grunt.registerTask('default', ['karma']);
-	grunt.registerTask('tests', ['karma']);
+	grunt.registerTask('tests', ['karma', 'open']);
 
 };
