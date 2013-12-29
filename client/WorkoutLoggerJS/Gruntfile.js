@@ -16,6 +16,8 @@ module.exports = function(grunt)
 	});
 
 	grunt.loadNpmTasks('grunt-karma');
+	// TODO: figure out weird exception when she runs
+//	grunt.loadNpmTasks('grunt-jasmine-coverage');
 
 	// Default task(s).
 	grunt.registerTask('default', ['karma']);

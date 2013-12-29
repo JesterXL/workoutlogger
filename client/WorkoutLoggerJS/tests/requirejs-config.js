@@ -23,6 +23,9 @@ requirejs.config({
 		},
 		'jquery': {
 			exports: "$"
+		},
+		'backbone': {
+			exports: "Backbone"
 		}
 	},
 
