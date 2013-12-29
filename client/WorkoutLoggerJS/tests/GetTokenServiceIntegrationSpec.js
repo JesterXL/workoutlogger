@@ -23,10 +23,9 @@ define(["jquery",
 			expect(true).toBe(true);
 		});
 
-		var flag;
 		it("fails to get the token since no local server is running", function()
 		{
-
+			var flag;
 			var callback = {
 				called: false,
 				handler: function()
