@@ -1,0 +1,24 @@
+{
+  "name": "WorkoutLoggerJS",
+  "version": "0.0.0",
+  "authors": [
+    "JesterXL <jessew@webappsolution.com>"
+  ],
+  "main": "src/index.html",
+  "keywords": [
+    "fitness",
+    "health"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  }
+}

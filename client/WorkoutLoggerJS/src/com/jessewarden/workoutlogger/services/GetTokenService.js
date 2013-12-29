@@ -1,5 +1,6 @@
-define(["com/jessewarden/workoutlogger/services/ServicesLocator",
-		"com/jessewarden/workoutlogger/events/EventBus"], function(ServicesLocator, EventBus)
+define(["jquery",
+		"com/jessewarden/workoutlogger/services/ServicesLocator",
+		"com/jessewarden/workoutlogger/events/EventBus"], function($, ServicesLocator, EventBus)
 {
 
 	function GetTokenService()
@@ -9,6 +10,8 @@ define(["com/jessewarden/workoutlogger/services/ServicesLocator",
 
 	GetTokenService.prototype.getToken = function()
 	{
+		this.token = null;
+		var me = this;
 		$.ajax(
 		{
 			url: ServicesLocator.GET_TOKEN,
@@ -18,16 +21,25 @@ define(["com/jessewarden/workoutlogger/services/ServicesLocator",
 				console.log("data:", data);
 				console.log("dataType:", dataType);
 				console.log("jqXHR:", jqXHR);
+				me.onSuccess(data);
 			},
 			error: function(errorStuff)
 			{
 				console.error("GetTokenService::error, stuff:", errorStuff);
+				me.onError(errorStuff);
 			},
 			contentType: "application/json"
-		}).done(function()
-		{
-			EventBus.trigger("GetTokenService:success");
 		});
+	};
+
+	GetTokenService.prototype.onSuccess = function(data)
+	{
+		EventBus.trigger("GetTokenService:success");
+	};
+
+	GetTokenService.prototype.onError = function(error)
+	{
+		EventBus.trigger("GetTokenService:error");
 	};
 
 	return GetTokenService;

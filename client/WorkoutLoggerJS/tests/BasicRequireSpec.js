@@ -1,4 +1,4 @@
-define(["../src/BasicVO"], function(BasicVO)
+define(["BasicVO"], function(BasicVO)
 {
 	describe("BasicVO ", function()
 	{
@@ -18,6 +18,11 @@ define(["../src/BasicVO"], function(BasicVO)
 		it("not null", function()
 		{
 			expect(basicVO).not.toBe(null);
+		});
+
+		it("has no method test", function()
+		{
+			expect(basicVO.test).not.toBeDefined();
 		});
 
 	});
