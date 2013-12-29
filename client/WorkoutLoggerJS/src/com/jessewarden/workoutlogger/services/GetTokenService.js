@@ -17,15 +17,15 @@ define(["jquery",
 			url: ServicesLocator.GET_TOKEN,
 			success: function(data, dataType, jqXHR)
 			{
-				console.log("GetTokenService::success, results:");
-				console.log("data:", data);
-				console.log("dataType:", dataType);
-				console.log("jqXHR:", jqXHR);
+//				console.log("GetTokenService::success, results:");
+//				console.log("data:", data);
+//				console.log("dataType:", dataType);
+//				console.log("jqXHR:", jqXHR);
 				me.onSuccess(data);
 			},
 			error: function(errorStuff)
 			{
-				console.error("GetTokenService::error, stuff:", errorStuff);
+//				console.error("GetTokenService::error, stuff:", errorStuff);
 				me.onError(errorStuff);
 			},
 			contentType: "application/json"
