@@ -1,4 +1,4 @@
-define(["../.",
+define(["../../../../",
 		"unittests/com/jessewarden/workoutlogger/services/GetTokenService",
 		"unittests/com/jessewarden/workoutlogger/events/EventBus"], function($, GetTokenService, EventBus)
 {

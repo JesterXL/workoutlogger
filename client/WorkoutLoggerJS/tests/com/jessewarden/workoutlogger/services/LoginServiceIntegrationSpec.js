@@ -1,4 +1,4 @@
-define(["../.",
+define(["../../../../",
 	"unittests/com/jessewarden/workoutlogger/services/LoginService",
 	"unittests/com/jessewarden/workoutlogger/services/GetTokenService",
 	"unittests/com/jessewarden/workoutlogger/services/LogoutService",
