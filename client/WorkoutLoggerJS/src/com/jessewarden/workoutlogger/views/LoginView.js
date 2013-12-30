@@ -13,7 +13,8 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 
 		events:
 		{
-			"click .btn-default":   "onLogin"
+			"click .btn-default":   "onLogin",
+			"keyup #loginViewPasswordInput": "onPasswordEnter"
 		},
 
 		initialize: function(args)
@@ -56,6 +57,14 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 				username: username,
 				password: password
 			});
+		},
+
+		onPasswordEnter: function(eventObject)
+		{
+			if(eventObject.keyCode == 13)
+			{
+				this.onLogin();
+			}
 		}
 
 	});

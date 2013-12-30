@@ -2,12 +2,14 @@ define(["jquery",
 	"com/jessewarden/workoutlogger/events/EventBus",
 	"com/jessewarden/workoutlogger/views/LoginView",
 			"com/jessewarden/workoutlogger/views/LoadingView",
+	"com/jessewarden/workoutlogger/views/MainView",
 	"com/jessewarden/workoutlogger/services/GetTokenService",
 	"com/jessewarden/workoutlogger/services/LoginService"],
 		function($,
 		         EventBus,
 		         LoginView,
 				LoadingView,
+				MainView,
 				GetTokenService,
 				LoginService)
 {
@@ -68,12 +70,21 @@ define(["jquery",
 		{
 			new GetTokenService().getToken();
 		}
+		else
+		{
+
+		}
 	};
 
 	WorkoutLoggerApp.prototype.onGetTokenSuccess = function(eventObject)
 	{
 		console.log("WorkoutLoggerApp::onGetTokenSuccess");
 		this.token = eventObject.token;
+		this.login();
+	};
+
+	WorkoutLoggerApp.prototype.login = function()
+	{
 		new LoginService().login(this.token, this.username, this.password);
 		this.username = null;
 		this.password = null;
@@ -93,7 +104,11 @@ define(["jquery",
 
 	WorkoutLoggerApp.prototype.showMainScreen = function()
 	{
-
+		if(this.mainView == null)
+		{
+			this.mainView = new MainView({el: this.content});
+		}
+		this.currentView = this.mainView;
 	};
 
 	return WorkoutLoggerApp;

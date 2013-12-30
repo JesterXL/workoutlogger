@@ -1,0 +1,13 @@
+<div xmlns="http://www.w3.org/1999/html">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Workout Type
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {{#each workoutTypes}}
+                <li><a href="#">{{type}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
