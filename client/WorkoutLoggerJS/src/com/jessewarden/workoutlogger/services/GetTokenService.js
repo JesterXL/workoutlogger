@@ -34,6 +34,7 @@ define(["jquery",
 
 	GetTokenService.prototype.onSuccess = function(data)
 	{
+		this.token = data;
 		EventBus.trigger("GetTokenService:success");
 	};
 

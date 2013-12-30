@@ -18,37 +18,39 @@ define(["jquery",
 			service = null;
 		});
 
-		it("cow", function()
-		{
-			expect(true).toBe(true);
-		});
-
-		it("fails to get the token since no local server is running", function()
+		it("successfully gets the token", function()
 		{
 			var flag;
+
 			var callback = {
 				called: false,
-				handler: function()
+				handleSuccess: function()
 				{
 					this.called = true;
 					flag = true;
+				},
+				handleError: function()
+				{
+					expect(true).toBe(false);
 				}
 			};
 			runs(function()
 			{
 				flag = false;
-				EventBus.on("GetTokenService:error", callback.handler, callback);
+				EventBus.on("GetTokenService:success", callback.handleSuccess, callback);
+				EventBus.on("GetTokenService:error", callback.handleError, callback);
 				service.getToken();
 			});
 
 			waitsFor(function()
 			{
 				return flag;
-			}, "The Value should be incremented", 3 * 1000);
+			}, "Failed to get the token", 5 * 1000);
 
 			runs(function()
 			{
 				expect(callback.called).toBe(true);
+				expect(service.token).not.toBe(null);
 			});
 		});
 

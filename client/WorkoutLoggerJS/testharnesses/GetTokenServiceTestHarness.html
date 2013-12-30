@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GetTokenServiceTestHarness</title>
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="requirejs-config.js"><</script>
+</head>
+<body>
+
+<script>
+    require(["com/jessewarden/workoutlogger/services/GetTokenService",
+        "com/jessewarden/workoutlogger/events/EventBus"], function(GetTokenService, EventBus)
+    {
+
+        EventBus.on("GetTokenService:success", function(msg)
+        {
+            console.log("token:", service.token);
+        });
+        EventBus.on("GetTokenService:error", function(msg)
+        {
+            console.error("Error.");
+        });
+        service = new GetTokenService();
+        service.getToken();
+    });
+
+</script>
+</body>
+</html>

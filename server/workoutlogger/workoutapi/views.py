@@ -70,6 +70,15 @@ def login_user(request):
 			return jsonResponse(False, 'invalid login')
 	except Exception, e:
 		print str(e)
+		return jsonResponse(False, 'unknown error')
+
+
+def logout_user(request):
+	print 'logout_user'
+	logout(request)
+	return jsonResponse(True, 'successfully logged out')
+
+
 
 # TODO: figure out how to get by user, not all workouts in system
 # def get_all_workouts(request):
