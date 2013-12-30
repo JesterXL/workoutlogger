@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EventBusTestHarness</title>
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="requirejs-config.js"></script>
+</head>
+<body>
+
+<script>
+    require(["com/jessewarden/workoutlogger/events/EventBus"], function(EventBus)
+    {
+        console.log("EventBus:", EventBus);
+
+    });
+
+</script>
+</body>
+</html>

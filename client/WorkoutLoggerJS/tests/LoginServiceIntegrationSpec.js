@@ -30,7 +30,19 @@ define(["jquery",
 		{
 			var flag;
 			var me = this;
-			var callback = {
+			var tokenCallback = {
+				called: false,
+				handleSuccess: function()
+				{
+					this.called = true;
+					flag = true;
+				},
+				handleError: function()
+				{
+					me.fail(Error("token service error"));
+				}
+			};
+			var loginCallback = {
 				called: false,
 				handleSuccess: function()
 				{
@@ -42,24 +54,38 @@ define(["jquery",
 					me.fail(Error('error handler'));
 				}
 			};
+
 			runs(function()
 			{
 				flag = false;
-				EventBus.on("LoginService:success", callback.handleSuccess, callback);
-				EventBus.on("LoginService:error", callback.handleError, callback);
-				loginService.login("jessewarden", "jessewarden");
+				EventBus.on("GetTokenService:success", tokenCallback.handleSuccess, tokenCallback);
+				EventBus.on("GetTokenService:error", tokenCallback.handleError, tokenCallback);
+				tokenService.getToken();
 
 			});
 
 			waitsFor(function()
 			{
 				return flag;
-			}, "Failed to get the token", 5 * 1000);
+			}, "Failed to get token", 1 * 1000);
 
 			runs(function()
 			{
-				expect(callback.called).toBe(true);
-				expect(loginService.user).not.toBe(null);
+				flag = false;
+				EventBus.on("LoginService:success", loginCallback.handleSuccess, loginCallback);
+				EventBus.on("LoginService:error", loginCallback.handleError, loginCallback);
+				loginService.login(tokenService.token, "jessewarden", "jessewarden");
+			});
+
+			waitsFor(function()
+			{
+				return flag;
+			}, "Failed to log an existing user out", 5 * 1000);
+
+
+			runs(function()
+			{
+				expect(loginCallback.called).toBe(true);
 			});
 
 		});

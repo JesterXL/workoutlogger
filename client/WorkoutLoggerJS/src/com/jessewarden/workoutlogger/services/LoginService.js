@@ -11,6 +11,7 @@ define(["jquery",
 
 	LoginService.prototype.login = function(token, username, password)
 	{
+		console.log("login, EventBus:", EventBus);
 		this.user = null;
 		var me = this;
 		var dataObject = {
@@ -53,12 +54,10 @@ define(["jquery",
 		try
 		{
 			this.user = response.data;
-			console.log("EventBus:", EventBus);
 			EventBus.trigger("LoginService:success");
 		}
 		catch(error)
 		{
-			console.error("parse error:", error);
 			this.onError(Error("failed to parse the response object"));
 		}
 	};
