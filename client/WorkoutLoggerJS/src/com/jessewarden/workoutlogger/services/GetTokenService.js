@@ -1,6 +1,7 @@
 define(["jquery",
+		"underscore",
 		"com/jessewarden/workoutlogger/services/ServicesLocator",
-		"com/jessewarden/workoutlogger/events/EventBus"], function($, ServicesLocator, EventBus)
+		"com/jessewarden/workoutlogger/events/EventBus"], function($, _, ServicesLocator, EventBus)
 {
 
 	function GetTokenService()
@@ -10,6 +11,7 @@ define(["jquery",
 
 	GetTokenService.prototype.getToken = function()
 	{
+		console.log("GetTokenService::getToken");
 		this.token = null;
 		var me = this;
 		$.ajax(
@@ -30,17 +32,35 @@ define(["jquery",
 			},
 			contentType: "application/json"
 		});
+		return this;
 	};
 
-	GetTokenService.prototype.onSuccess = function(data)
+	GetTokenService.prototype.onSuccess = function(response)
 	{
-		this.token = data;
-		EventBus.trigger("GetTokenService:success");
+		console.log("GetTokenService::onSuccess");
+		console.log("response:", response);
+		if(response && response.response == true)
+		{
+			this.token = response.data.token;
+			EventBus.trigger("GetTokenService:success", {token: this.token});
+		}
+		else
+		{
+			this.dispatchError(data.error);
+		}
 	};
 
 	GetTokenService.prototype.onError = function(error)
 	{
+		console.log("GetTokenService::onError");
 		EventBus.trigger("GetTokenService:error");
+		this.dispatchError(error.message);
+	};
+
+	GetTokenService.prototype.dispatchError = function(errorMessage)
+	{
+		console.log("GetTokenService::dispatchError, errorMessage:", errorMessage);
+		EventBus.trigger("GetTokenService:error", {error: Error(errorMessage)});
 	};
 
 	return GetTokenService;

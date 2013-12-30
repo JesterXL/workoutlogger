@@ -41,12 +41,19 @@ def index(request):
 	return jsonResponse(False, "invalid API call")
 
 def get_token(request):
-	print("get_token")
-	c = {}
-	c.update(csrf(request))
-	theToken = unicode(c['csrf_token'])
-	print("token:" + theToken)
-	return jsonResponse("token", theToken)
+	try:
+		print("get_token")
+		c = {}
+		c.update(csrf(request))
+		theToken = unicode(c['csrf_token'])
+		print("token:" + theToken)
+		customResponse = {}
+		customResponse["token"] = theToken
+		return jsonResponse(True, customResponse)
+	except Exception, e:
+		print str(e)
+		return jsonResponse(False, 'unknown token error')
+
 
 
 def login_user(request):

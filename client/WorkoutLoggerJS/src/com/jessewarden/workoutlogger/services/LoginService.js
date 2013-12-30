@@ -11,7 +11,7 @@ define(["jquery",
 
 	LoginService.prototype.login = function(token, username, password)
 	{
-		console.log("login, EventBus:", EventBus);
+		console.log("LoginService::login");
 		this.user = null;
 		var me = this;
 		var dataObject = {
@@ -19,6 +19,8 @@ define(["jquery",
 			password: password
 		};
 		var dataObjectJSON = JSON.stringify(dataObject);
+		console.log("dataObject:", dataObject);
+		console.log("dataObjectJSON:", dataObjectJSON);
 		var headers = {};
 		headers["X-CSRFToken"] = token;
 		headers["Content-Type"] = "text/plain";
@@ -47,14 +49,29 @@ define(["jquery",
 
 
 			});
+		return this;
 	};
 
 	LoginService.prototype.onSuccess = function(response)
 	{
 		try
 		{
-			this.user = response.data;
-			EventBus.trigger("LoginService:success");
+			if(response && response.response == true)
+			{
+				this.user = response.data;
+				EventBus.trigger("LoginService:success");
+			}
+			else
+			{
+				if(response)
+				{
+					this.onError(Error(response.error));
+				}
+				else
+				{
+					this.onError(Error("unknown error"));
+				}
+			}
 		}
 		catch(error)
 		{
@@ -65,8 +82,12 @@ define(["jquery",
 	LoginService.prototype.onError = function(error)
 	{
 		console.error("LoginService::onError");
-		console.error(error.toString());
-		EventBus.trigger("LoginService:error");
+		console.error(error);
+		if(error == "FORBIDDEN")
+		{
+			error = "CSRF verification failed. Request aborted.";
+		}
+		EventBus.trigger("LoginService:error", {error: Error(error)});
 	};
 
 	return LoginService;
