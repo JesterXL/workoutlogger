@@ -1,6 +1,6 @@
-define(["jquery",
-	"com/jessewarden/workoutlogger/services/LogoutService",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, LogoutService, EventBus)
+define(["../.",
+	"unittests/com/jessewarden/workoutlogger/services/LogoutService",
+	"unittests/com/jessewarden/workoutlogger/events/EventBus"], function($, LogoutService, EventBus)
 {
 	describe("LogoutService integration test", function()
 	{

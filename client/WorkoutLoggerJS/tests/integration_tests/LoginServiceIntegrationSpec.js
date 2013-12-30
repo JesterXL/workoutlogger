@@ -1,8 +1,8 @@
-define(["jquery",
-	"com/jessewarden/workoutlogger/services/LoginService",
-	"com/jessewarden/workoutlogger/services/GetTokenService",
-	"com/jessewarden/workoutlogger/services/LogoutService",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, LoginService, GetTokenService, LogoutService, EventBus)
+define(["../.",
+	"unittests/com/jessewarden/workoutlogger/services/LoginService",
+	"unittests/com/jessewarden/workoutlogger/services/GetTokenService",
+	"unittests/com/jessewarden/workoutlogger/services/LogoutService",
+	"unittests/com/jessewarden/workoutlogger/events/EventBus"], function($, LoginService, GetTokenService, LogoutService, EventBus)
 {
 	describe("LoginService integration test", function()
 	{

@@ -1,6 +1,6 @@
-define(["jquery",
-		"com/jessewarden/workoutlogger/services/GetTokenService",
-		"com/jessewarden/workoutlogger/events/EventBus"], function($, GetTokenService, EventBus)
+define(["../.",
+		"unittests/com/jessewarden/workoutlogger/services/GetTokenService",
+		"unittests/com/jessewarden/workoutlogger/events/EventBus"], function($, GetTokenService, EventBus)
 {
 	describe("GetTokenService integration test", function()
 	{
