@@ -1,4 +1,4 @@
-define(["unittests/com/jessewarden/workoutlogger/events/EventBus"], function(EventBus)
+define(["com/jessewarden/workoutlogger/events/EventBus"], function(EventBus)
 {
 	describe("EventBus", function()
 	{

@@ -17,7 +17,8 @@ module.exports = function(config) {
       'tests/requirejs-config.js',
 	    {pattern: 'bower_components/**/*.js', included: false},
       {pattern: 'src/**/*.js', included: false},
-	    {pattern: 'tests/*Spec.js', included: false}
+	    {pattern: 'tests/*Spec.js', included: false},
+	    {pattern: 'tests/**/*Spec.js', included: false}
     ],
 
 
