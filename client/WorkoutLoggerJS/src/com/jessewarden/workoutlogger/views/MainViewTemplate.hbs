@@ -4,10 +4,11 @@
             Workout Type
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
-            {{#each workoutTypes}}
-                <li><a href="#">{{type}}</a></li>
-            {{/each}}
+        <ul class="dropdown-menu" id="workoutTypeDropdown" name="workoutTypeDropdown">
+        {{#each workoutTypes}}
+            <li><a href="#">{{type}}</a></li>
+        {{/each}}
         </ul>
     </div>
+    <script src="../bower_components/bootstrap/js/dropdown.js"></script>
 </div>

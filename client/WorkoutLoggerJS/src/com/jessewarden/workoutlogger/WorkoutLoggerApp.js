@@ -25,7 +25,6 @@ define(["jquery",
 		this.mainView = null;
 
 		this.content = $("#content");
-		EventBus.on("LoginView:login", this.onLogin, this);
 
 		EventBus.on("GetTokenService:error", this.onLoginError, this);
 		EventBus.on("GetTokenService:success", this.onGetTokenSuccess, this);
@@ -48,6 +47,8 @@ define(["jquery",
 		{
 			this.loginView.setError(errorToShow);
 		}
+		EventBus.on("LoginView:login", this.onLogin, this);
+
 		this.currentView = this.loginView;
 	};
 
@@ -57,6 +58,10 @@ define(["jquery",
 		{
 			this.loadingView =  new LoadingView({el: this.content});
 		}
+		else
+		{
+			this.loadingView.render();
+		}
 		this.currentView = this.loadingView;
 	};
 
@@ -65,6 +70,7 @@ define(["jquery",
 		console.log("WorkoutLoggerApp::onLogin");
 		this.username = eventObject.username;
 		this.password = eventObject.password;
+
 		this.showLoading();
 		if(this.token == null)
 		{
@@ -72,7 +78,7 @@ define(["jquery",
 		}
 		else
 		{
-
+			this.login();
 		}
 	};
 
@@ -104,12 +110,29 @@ define(["jquery",
 
 	WorkoutLoggerApp.prototype.showMainScreen = function()
 	{
+		console.log("WorkoutLoggerApp::showMainScreen");
 		if(this.mainView == null)
 		{
 			this.mainView = new MainView({el: this.content});
 		}
 		this.currentView = this.mainView;
 	};
+
+//	WorkoutLoggerApp.prototype.showView = function(viewName)
+//	{
+//		if(viewName != this.currentView)
+//		{
+//			switch(viewName)
+//			{
+//				case "loginView":
+//
+//				case "loadingView":
+//
+//				case "mainView":
+//			}
+//		}
+//	};
+
 
 	return WorkoutLoggerApp;
 

@@ -1,7 +1,8 @@
 define(["jquery",
 	"json2",
+	"underscore",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, JSON, ServicesLocator, EventBus)
+	"com/jessewarden/workoutlogger/events/EventBus"], function($, JSON, _, ServicesLocator, EventBus)
 {
 
 	function LoginService()
@@ -77,7 +78,12 @@ define(["jquery",
 			if(response && response.response == true)
 			{
 				this.user = response.data;
-				EventBus.trigger("LoginService:success");
+				// [jwarden 1.2.2014] So sick of this catch getting errors further down the line.
+				// Leads to wild goose chases and less helpful exception errors.
+				_.delay(function()
+				{
+					EventBus.trigger("LoginService:success");
+				}, 100);
 			}
 			else
 			{

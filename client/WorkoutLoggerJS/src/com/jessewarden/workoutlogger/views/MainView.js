@@ -3,7 +3,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 	"backbone",
 	"com/jessewarden/workoutlogger/events/EventBus",
 	"com/jessewarden/workoutlogger/types/WorkoutTypes"], function(template,
-                                                               _,
+                                                                  _,
                                                                Backbone,
                                                                EventBus,
                                                                WorkoutTypes)
@@ -15,6 +15,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 
 		events:
 		{
+			"click #workoutTypeDropdown": "onMenuClicked"
 		},
 
 		initialize: function(args)
@@ -24,9 +25,21 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 
 		render: function()
 		{
-			console.log("MainView::render");
-			var model = {workoutTypes: WorkoutTypes.workoutTypes};
-			this.$el.html(template(model));
+			try
+			{
+				console.log("MainView::render");
+				var modelToRender = {workoutTypes: WorkoutTypes.workoutTypes};
+				this.$el.html(template(modelToRender));
+			}
+			catch(error)
+			{
+				console.error("MainView::render, error:", error);
+			}
+		},
+
+		onMenuClicked: function(event)
+		{
+			console.log("MainView::onMenuClicked, event:", event);
 		}
 
 	});

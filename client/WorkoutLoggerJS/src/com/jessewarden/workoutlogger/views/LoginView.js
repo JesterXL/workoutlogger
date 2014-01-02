@@ -13,7 +13,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 
 		events:
 		{
-			"click .btn-default":   "onLogin",
+			"click #btn-default":   "onLogin",
 			"keyup #loginViewPasswordInput": "onPasswordEnter"
 		},
 
@@ -50,6 +50,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 
 		onLogin: function()
 		{
+			console.log("LoginView::onLogin");
 			var username = $("#loginViewUsernameInput")[0].value;
 			var password = $("#loginViewPasswordInput")[0].value;
 //			var rememberMeCheckbox = $("#loginViewRememberMeCheckbox")[0];
