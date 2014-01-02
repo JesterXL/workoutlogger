@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
-import json
-from django.utils.functional import Promise
-from django.utils.encoding import force_text
-from django.core.serializers.json import DjangoJSONEncoder
+# import json
+# from django.utils.functional import Promise
+# from django.utils.encoding import force_text
+# from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
 class Workout(models.Model):
 	user = models.ForeignKey(User)
@@ -14,6 +15,18 @@ class Workout(models.Model):
 
 	def __unicode__(self):
 		return "Workout: " + self.name + "(" + self.type + ")"
+
+	def toJSON(self):
+		return {
+			"user": {
+				"id": self.user.id,
+			},
+			"name": str(self.name),
+			"occurrence": str(self.occurrence),
+			"type": str(self.type),
+			"total_time_in_milliseconds": self.total_time_in_milliseconds
+		}
+
 
 class Exercise(models.Model):
 	name = models.CharField(max_length=100)
@@ -34,8 +47,8 @@ class Set(models.Model):
 	def __unicode__(self):
 		return "Set: " + self.name
 
-class LazyEncoder(DjangoJSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Promise):
-            return force_text(obj)
-        return super(LazyEncoder, self).default(obj)
+# class LazyEncoder(DjangoJSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, Promise):
+#             return force_text(obj)
+#         return super(LazyEncoder, self).default(obj)

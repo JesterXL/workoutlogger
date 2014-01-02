@@ -90,11 +90,26 @@ def logout_user(request):
 
 
 # TODO: figure out how to get by user, not all workouts in system
-def workouts(request):
+def get_all_workouts(request):
 	try:
 		if request.user.is_authenticated():
-			allWorkouts = serializers.serialize("json", Workout.objects.all())
-			return jsonResponse(True, allWorkouts)
+			all_workouts = serializers.serialize("json", Workout.objects.all())
+			return jsonResponse(True, all_workouts)
+		else:
+			return need_to_login_error()
+	except Exception, e:
+		print(str(e))
+		return jsonResponse(False, e)
+
+def get_workout(request, workout_id):
+	try:
+		if request.user.is_authenticated():
+			found_workout = Workout.objects.select_related("user").get(id=workout_id)
+			print(found_workout)
+			print(found_workout.toJSON())
+			# found_workout_json = serializers.serialize("json", found_workout)
+			found_workout_json = found_workout.toJSON()
+			return jsonResponse(True, found_workout_json)
 		else:
 			return need_to_login_error()
 	except Exception, e:
