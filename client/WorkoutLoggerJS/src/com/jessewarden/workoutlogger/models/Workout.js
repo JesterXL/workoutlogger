@@ -6,7 +6,14 @@ define(["underscore",
 	)
 {
 	var WorkoutModel = Backbone.Model.extend({
-
+		defaults:
+		{
+			user: null,
+			name: null,
+			occurrence: null,
+			type: null,
+			totalTimeInMilliseconds: null
+		}
 	});
 
 	return WorkoutModel;

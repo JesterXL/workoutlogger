@@ -4,14 +4,18 @@ define(["jquery",
 			"com/jessewarden/workoutlogger/views/LoadingView",
 	"com/jessewarden/workoutlogger/views/MainView",
 	"com/jessewarden/workoutlogger/services/GetTokenService",
-	"com/jessewarden/workoutlogger/services/LoginService"],
+	"com/jessewarden/workoutlogger/services/LoginService",
+	"com/jessewarden/workoutlogger/collections/Workouts",
+	"com/jessewarden/workoutlogger/models/CurrentWorkout"],
 		function($,
 		         EventBus,
 		         LoginView,
 				LoadingView,
 				MainView,
 				GetTokenService,
-				LoginService)
+				LoginService,
+				Workouts,
+			CurrentWorkout)
 {
 	function WorkoutLoggerApp()
 	{
@@ -23,6 +27,9 @@ define(["jquery",
 		this.loginView = null;
 		this.loadingView = null;
 		this.mainView = null;
+
+		this.currentWorkout = new CurrentWorkout();
+		this.workouts = new Workouts();
 
 		this.content = $("#content");
 
@@ -113,7 +120,7 @@ define(["jquery",
 		console.log("WorkoutLoggerApp::showMainScreen");
 		if(this.mainView == null)
 		{
-			this.mainView = new MainView({el: this.content});
+			this.mainView = new MainView({el: this.content, currentWorkout: this.currentWorkout, workouts: this.workouts});
 		}
 		this.currentView = this.mainView;
 	};

@@ -42,7 +42,11 @@ define(["jquery",
 		if(response && response.response == true)
 		{
 			this.token = response.data.token;
-			EventBus.trigger("GetTokenService:success", {token: this.token});
+			var me = this;
+			_.delay(function()
+			{
+				EventBus.trigger("GetTokenService:success", {token: me.token});
+			}, 100);
 		}
 		else
 		{

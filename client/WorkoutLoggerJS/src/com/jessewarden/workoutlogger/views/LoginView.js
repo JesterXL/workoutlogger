@@ -13,7 +13,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 
 		events:
 		{
-			"click #btn-default":   "onLogin",
+			"click #loginButton":   "onLogin",
 			"keyup #loginViewPasswordInput": "onPasswordEnter"
 		},
 

@@ -5,8 +5,9 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" id="workoutTypeDropdown" name="workoutTypeDropdown">
-        {{#each workoutTypes}}
-            <li><a href="#">{{type}}</a></li>
+        {{#each workouts}}
+            <li><a href="#" data="{{id}}">{{name}}</a></li>
+
         {{/each}}
         </ul>
     </div>

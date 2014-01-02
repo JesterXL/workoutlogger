@@ -17,7 +17,7 @@ define([
 {
 	var WorkoutsCollection = Backbone.Collection.extend({
 
-		url: ServicesLocator.WORKOUTS,
+		url: ServicesLocator.GET_ALL_WORKOUTS,
 
 		model: Workout,
 

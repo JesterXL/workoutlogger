@@ -12,15 +12,25 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 		tagName: "div",
 
 		errorObject: null,
+		currentWorkout: null,
+		workouts: null,
 
 		events:
 		{
-			"click #workoutTypeDropdown": "onMenuClicked"
+			"click #workoutTypeDropdown a": "onMenuClicked"
 		},
 
 		initialize: function(args)
 		{
-			this.render();
+			this.currentWorkout = args.currentWorkout;
+			this.workouts = args.workouts;
+			var me = this;
+			this.workouts.fetch(
+				{success: function()
+				{
+					me.render();
+				}
+			});
 		},
 
 		render: function()
@@ -28,8 +38,9 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 			try
 			{
 				console.log("MainView::render");
-				var modelToRender = {workoutTypes: WorkoutTypes.workoutTypes};
-				this.$el.html(template(modelToRender));
+				this.$el.html(template({
+					workouts: this.workouts.toJSON()
+				}));
 			}
 			catch(error)
 			{
@@ -37,10 +48,14 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 			}
 		},
 
-		onMenuClicked: function(event)
+		onMenuClicked: function(mouseEvent)
 		{
-			console.log("MainView::onMenuClicked, event:", event);
+			switch(mouseEvent.target.text)
+			{
+
+			}
 		}
+
 
 	});
 	return MainView;
