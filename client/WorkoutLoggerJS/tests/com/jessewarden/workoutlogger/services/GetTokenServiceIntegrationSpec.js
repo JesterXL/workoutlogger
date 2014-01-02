@@ -22,6 +22,7 @@ define(["jquery",
 		{
 			var flag;
 
+
 			var callback = {
 				called: false,
 				handleSuccess: function()

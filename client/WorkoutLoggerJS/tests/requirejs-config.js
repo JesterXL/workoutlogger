@@ -15,7 +15,8 @@ requirejs.config({
 		"underscore": "../bower_components/underscore/underscore",
 		"backbone": "../bower_components/backbone/backbone",
 		"jquery": "../bower_components/jquery/jquery",
-		"json2": "../bower_components/json2/json2"
+		"json2": "../bower_components/json2/json2",
+		"moment": "../bower_components/momentjs/moment"
 	},
 
 	shim: {

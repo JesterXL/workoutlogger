@@ -2,7 +2,7 @@ define(["jquery",
 	"com/jessewarden/workoutlogger/services/LogoutService",
 	"com/jessewarden/workoutlogger/events/EventBus"], function($, LogoutService, EventBus)
 {
-	describe("LogoutService integration test", function()
+	xdescribe("LogoutService integration test", function()
 	{
 		"use strict";
 

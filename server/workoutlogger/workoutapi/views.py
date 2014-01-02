@@ -6,6 +6,9 @@ from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.core import serializers
 
+from workoutapi.models import Workout, Exercise, Set
+from django.core import serializers
+
 
 
 def jsonResponse(success, data):
@@ -32,7 +35,7 @@ def jsonResponse(success, data):
 	return httpResponse
 
 def need_to_login_error():
-	response = jsonResponse(false, "need to login")
+	response = jsonResponse(False, "need to login")
 	return response
 
 
@@ -86,16 +89,18 @@ def logout_user(request):
 	return jsonResponse(True, 'successfully logged out')
 
 
-
 # TODO: figure out how to get by user, not all workouts in system
-# def get_all_workouts(request):
-# 	try:
-# 		if request.user.is_authenticated():
-# 			return Workout.objects.all()
-# 		else
-# 			return need_to_login_error()
-# 	except Exception, e:
-# 		return jsonResponse(false, e)
+def workouts(request):
+	try:
+		if request.user.is_authenticated():
+			allWorkouts = serializers.serialize("json", Workout.objects.all())
+			return jsonResponse(True, allWorkouts)
+		else:
+			return need_to_login_error()
+	except Exception, e:
+		print(str(e))
+		return jsonResponse(False, e)
+
 # def get_all_circuits_from_workout_id(request, workoutID):
 # 	try:
 # 		if request.user.is_authenticated():

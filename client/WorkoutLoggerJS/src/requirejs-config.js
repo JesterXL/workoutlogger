@@ -6,7 +6,8 @@ requirejs.config({
 		"backbone": "../bower_components/backbone/backbone",
 		"jquery": "../bower_components/jquery/jquery",
 		"json2": "../bower_components/json2/json2",
-		"hbs": "../bower_components/hbs/hbs"
+		"hbs": "../bower_components/hbs/hbs",
+		"moment": "../bower_components/momentjs/moment"
 	},
 
 	shim: {

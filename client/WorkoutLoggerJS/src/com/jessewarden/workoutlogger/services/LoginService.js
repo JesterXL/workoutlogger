@@ -19,8 +19,8 @@ define(["jquery",
 			password: password
 		};
 		var dataObjectJSON = JSON.stringify(dataObject);
-		console.log("dataObject:", dataObject);
-		console.log("dataObjectJSON:", dataObjectJSON);
+//		console.log("dataObject:", dataObject);
+//		console.log("dataObjectJSON:", dataObjectJSON);
 		var headers = {};
 		headers["X-CSRFToken"] = token;
 		headers["Content-Type"] = "text/plain";
@@ -33,16 +33,16 @@ define(["jquery",
 				headers: headers,
 				success: function(data, dataType, jqXHR)
 				{
-					console.log("LoginService::success");
-					console.log("data:", data);
-					console.log("dataType:", dataType);
+//					console.log("LoginService::success");
+//					console.log("data:", data);
+//					console.log("dataType:", dataType);
 					me.onSuccess(data);
 				},
 				error: function(jqXHR, textStatus, errorThrown)
 				{
-					console.error("LoginService::error");
-					console.error(textStatus);
-					console.error(errorThrown);
+//					console.error("LoginService::error");
+//					console.error(textStatus);
+//					console.error(errorThrown);
 					me.onError(errorThrown);
 				},
 				contentType: "application/json"
@@ -56,6 +56,7 @@ define(["jquery",
 	{
 		try
 		{
+			console.log("LoginService::onSuccess");
 			if(response && response.response == true)
 			{
 				this.user = response.data;

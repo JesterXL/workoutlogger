@@ -20,5 +20,8 @@
   ],
   "devDependencies": {
     "grunt": "~0.4.2"
+  },
+  "dependencies": {
+    "momentjs": "~2.5.0"
   }
 }

@@ -1,12 +1,12 @@
 define(["jquery",
-		"underscore",
-		"com/jessewarden/workoutlogger/services/ServicesLocator",
-		"com/jessewarden/workoutlogger/events/EventBus"], function($, _, ServicesLocator, EventBus)
+	"underscore",
+	"com/jessewarden/workoutlogger/services/ServicesLocator",
+	"com/jessewarden/workoutlogger/events/EventBus"], function($, _, ServicesLocator, EventBus)
 {
 
-	function GetTokenService()
+	function GetAllWorkoutsService()
 	{
-		this.token = null;
+		this.workouts =
 	}
 
 	GetTokenService.prototype.getToken = function()
@@ -15,30 +15,30 @@ define(["jquery",
 		this.token = null;
 		var me = this;
 		$.ajax(
-		{
-			url: ServicesLocator.GET_TOKEN,
-			success: function(data, dataType, jqXHR)
 			{
+				url: ServicesLocator.GET_TOKEN,
+				success: function(data, dataType, jqXHR)
+				{
 //				console.log("GetTokenService::success, results:");
 //				console.log("data:", data);
 //				console.log("dataType:", dataType);
 //				console.log("jqXHR:", jqXHR);
-				me.onSuccess(data);
-			},
-			error: function(errorStuff)
-			{
+					me.onSuccess(data);
+				},
+				error: function(errorStuff)
+				{
 //				console.error("GetTokenService::error, stuff:", errorStuff);
-				me.onError(errorStuff);
-			},
-			contentType: "application/json"
-		});
+					me.onError(errorStuff);
+				},
+				contentType: "application/json"
+			});
 		return this;
 	};
 
 	GetTokenService.prototype.onSuccess = function(response)
 	{
 		console.log("GetTokenService::onSuccess");
-//		console.log("response:", response);
+		console.log("response:", response);
 		if(response && response.response == true)
 		{
 			this.token = response.data.token;
@@ -52,14 +52,14 @@ define(["jquery",
 
 	GetTokenService.prototype.onError = function(error)
 	{
-		console.error("GetTokenService::onError");
+		console.log("GetTokenService::onError");
 		EventBus.trigger("GetTokenService:error");
 		this.dispatchError(error.message);
 	};
 
 	GetTokenService.prototype.dispatchError = function(errorMessage)
 	{
-//		console.log("GetTokenService::dispatchError, errorMessage:", errorMessage);
+		console.log("GetTokenService::dispatchError, errorMessage:", errorMessage);
 		EventBus.trigger("GetTokenService:error", {error: Error(errorMessage)});
 	};
 
