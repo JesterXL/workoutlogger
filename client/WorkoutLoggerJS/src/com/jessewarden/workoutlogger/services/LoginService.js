@@ -14,13 +14,29 @@ define(["jquery",
 		console.log("LoginService::login");
 		this.user = null;
 		var me = this;
+
+		if(token == null)
+		{
+			throw new Error("LoginService::login, token cannot be null.");
+		}
+
+		if(username == null)
+		{
+			throw new Error("LoginService::login, username cannot be null.");
+		}
+
+		if(password == null)
+		{
+			throw new Error("LoginService::login, password cannot be null.");
+		}
+
 		var dataObject = {
 			username: username,
 			password: password
 		};
 		var dataObjectJSON = JSON.stringify(dataObject);
 //		console.log("dataObject:", dataObject);
-//		console.log("dataObjectJSON:", dataObjectJSON);
+		console.log("dataObjectJSON:", dataObjectJSON);
 		var headers = {};
 		headers["X-CSRFToken"] = token;
 		headers["Content-Type"] = "text/plain";
@@ -57,6 +73,7 @@ define(["jquery",
 		try
 		{
 			console.log("LoginService::onSuccess");
+			console.log("response:", response);
 			if(response && response.response == true)
 			{
 				this.user = response.data;

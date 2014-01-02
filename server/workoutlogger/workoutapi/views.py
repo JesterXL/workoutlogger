@@ -54,14 +54,17 @@ def get_token(request):
 		customResponse["token"] = theToken
 		return jsonResponse(True, customResponse)
 	except Exception, e:
-		print str(e)
+		print "Error: " + str(e)
 		return jsonResponse(False, 'unknown token error')
 
 
 
 def login_user(request):
 	try:
+		print("login_user")
+		print("json in request:" + request.body)
 		jsonLogin = json.loads(request.body)
+		print("username passed in: " + jsonLogin['username'])
 		user = authenticate(username=jsonLogin['username'], password=jsonLogin['password'])
 		if user is not None:
 			if user.is_active:
@@ -79,8 +82,8 @@ def login_user(request):
 		else:
 			return jsonResponse(False, 'invalid login')
 	except Exception, e:
-		print str(e)
-		return jsonResponse(False, 'unknown error')
+		print "Error: " + str(e)
+		return jsonResponse(False, 'unknown server error')
 
 
 def logout_user(request):

@@ -50,13 +50,15 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 
 		onLogin: function()
 		{
-			var username = $("#loginViewUsernameInput").value;
-			var password = $("#loginViewPasswordInput").value;
-			var rememberMeCheckbox = $("#loginViewRememberMeCheckbox").value;
-			if(rememberMeCheckbox == true)
-			{
-
-			}
+			var username = $("#loginViewUsernameInput")[0].value;
+			var password = $("#loginViewPasswordInput")[0].value;
+//			var rememberMeCheckbox = $("#loginViewRememberMeCheckbox")[0];
+//			console.log($("#loginViewUsernameInput"));
+//			console.log("rememberMe:", rememberMeCheckbox);
+//			if(rememberMeCheckbox == true)
+//			{
+//
+//			}
 
 			EventBus.trigger("LoginView:login", {
 				username: username,
