@@ -25,6 +25,7 @@ define([
 		{
 			try
 			{
+				console.log("Workouts::parse");
 				if(response && response.response == true)
 				{
 					var modelHashes = [];

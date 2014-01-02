@@ -30,14 +30,18 @@ define(["jquery",
 					console.log("WorkoutsIntegrationSpec::change");
 					flag = true;
 				});
-				collection.on("error")
+				collection.on("Workouts:error", function()
+				{
+					console.error("WorkoutsIntegrationSpec error'd");
+				});
 				collection.fetch({success: function()
 				{
 					console.log("WorkoutsIntegrationSpec::success");
+					flag = true;
 				},
 				error: function()
 				{
-					console.log("WorkoutsIntegrationSpec::error");
+					console.error("WorkoutsIntegrationSpec::error");
 					me.fail("Failed to connect to the server to get Workouts.");
 				}});
 			});
@@ -50,7 +54,7 @@ define(["jquery",
 
 			runs(function()
 			{
-				expect(collection.length).toBe(4);
+				expect(collection.length).toBe(5);
 			});
 		});
 
