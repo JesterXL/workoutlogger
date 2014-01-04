@@ -1,17 +1,18 @@
 <div xmlns="http://www.w3.org/1999/html">
-    <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Workout Type
-            <span class="caret"></span>
-        </button>
-        <ul class="list-group" id="workoutsList" name="workoutsList">
-        {{#each workouts}}
-            <li class="list-group-item"><a href="#" data="{{id}}">{{name}}</a></li>
-        {{/each}}
-        </ul>
+    <div class="container">
         <div class="row">
-            <div class="col-md-8" id="workoutContent">Select a Workout</div>
-            <div class="col-md-4" id="lastWorkoutContent"></div>
+            <div class="col-md-4">
+                <ul class="list-group" id="workoutsList" name="workoutsList">
+                    {{#each workouts}}
+                        <li class="list-group-item"><a href="#" data="{{id}}">{{name}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <div id="workoutContent">Select a Workout</div>
+                <div id="lastWorkoutContent"></div>
+            </div>
         </div>
+
     </div>
 </div>
