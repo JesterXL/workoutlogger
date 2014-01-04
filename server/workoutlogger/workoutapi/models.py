@@ -35,6 +35,12 @@ class Exercise(models.Model):
 	def __unicode__(self):
 		return "Excercise: " + self.name
 
+	def toJSON(self):
+		return {
+			"name": str(self.name),
+			"id": str(self.id)
+		}
+
 class Set(models.Model):
 	name = models.CharField(max_length=100)
 	good_form = models.BooleanField()

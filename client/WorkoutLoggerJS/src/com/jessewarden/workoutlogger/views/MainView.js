@@ -51,10 +51,8 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 		onMenuClicked: function(mouseEvent)
 		{
 			console.log("mouseEvent.target.text:", mouseEvent.target.text);
-			switch(mouseEvent.target.text)
-			{
+			var clickedWorkouts = this.workouts.findWhere({name: "Musketeer"});
 
-			}
 		}
 
 
