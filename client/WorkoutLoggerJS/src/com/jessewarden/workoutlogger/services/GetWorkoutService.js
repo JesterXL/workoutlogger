@@ -5,7 +5,20 @@ define(["jquery",
 	"com/jessewarden/workoutlogger/events/EventBus",
 	"com/jessewarden/workoutlogger/models/Workout",
 	"com/jessewarden/workoutlogger/models/Exercise",
-	"com/jessewarden/workoutlogger/collections/Exercises"], function($, _, JSON, ServicesLocator, EventBus, Workout, Exercise, Exercises)
+	"com/jessewarden/workoutlogger/collections/Exercises",
+	"com/jessewarden/workoutlogger/collections/WorkoutSets",
+	"com/jessewarden/workoutlogger/models/WorkoutSet"],
+		function($,
+		         _,
+		         JSON,
+		         ServicesLocator,
+		         EventBus,
+		         Workout,
+		         Exercise,
+		         Exercises,
+		         WorkoutSets,
+		         WorkoutSet
+			)
 {
 
 	function GetWorkoutService()
@@ -46,7 +59,24 @@ define(["jquery",
 				var exerciseList = [];
 				_.each(workoutObject.exercises, function(exerciseObject)
 				{
-					exerciseList.push(new Exercise({id: exerciseObject.id, name: exerciseObject.name}))
+
+					var workoutSetList = [];
+					_.each(exerciseObject.sets, function(setObject)
+					{
+						workoutSetList.push(new WorkoutSet({
+							id: setObject.id,
+							goodForm: setObject.good_form,
+							reps: setObject.reps,
+							weight: setObject.weight,
+							goalReps: setObject.goal_reps,
+							goalWeight: setObject.goal_weight
+						}));
+					});
+					var workoutSets = new WorkoutSets(workoutSetList);
+					exerciseList.push(new Exercise({
+													id: exerciseObject.id,
+													name: exerciseObject.name,
+													workoutSets: workoutSets}))
 				});
 				var exercises = new Exercises(exerciseList);
 				var workoutInitObject = {

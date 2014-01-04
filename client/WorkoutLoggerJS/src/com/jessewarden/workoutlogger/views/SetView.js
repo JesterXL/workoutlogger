@@ -1,15 +1,15 @@
 define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 	"jquery",
 	"underscore",
-	"backbone",
-	"com/jessewarden/workoutlogger/events/EventBus"],
+	"backbone"
+],
 	function(template,
 	         $,
 	         _,
 	         Backbone
 		)
 	{
-		var MainView = Backbone.View.extend({
+		var SetView = Backbone.View.extend({
 			tagName: "div",
 
 			events:
@@ -18,11 +18,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 
 			initialize: function(args)
 			{
-				this.workoutSet = args.workoutSet;
-				if(this.workoutSet != null)
-				{
-					this.render();
-				}
+				this.setWorkoutSet(args.workoutSet);
 			},
 
 			render: function()
@@ -30,20 +26,26 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				try
 				{
 					console.log("SetView::render");
-					this.$el.html(template({
-						workouts: this.workouts.toJSON()
-					}));
+					this.$el.html(template(this.workoutSet.toJSON()));
 				}
 				catch(error)
 				{
-					console.error("MainView::render, error:", error);
+					console.error("SetView::render, error:", error);
 				}
 			},
 
-
-
+			setWorkoutSet: function(workoutSet)
+			{
+				console.log("SetView::setWorkoutSet, workoutSet:", workoutSet);
+				console.log("this.render:", this.render);
+				this.workoutSet = workoutSet;
+				if(this.workoutSet != null)
+				{
+					this.render();
+				}
+			}
 
 		});
-		return MainView;
+		return SetView;
 
 	});

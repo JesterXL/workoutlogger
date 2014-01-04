@@ -53,6 +53,7 @@ class Set(models.Model):
 
 	def toJSON(self):
 		return {
+			"id": self.id,
 			"good_form": self.good_form,
 			"reps": self.reps,
 			"weight": self.weight,

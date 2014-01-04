@@ -1,10 +1,17 @@
 define(["hbs!com/jessewarden/workoutlogger/views/WorkoutViewTemplate",
+	"jquery",
 	"underscore",
 	"backbone",
-	"com/jessewarden/workoutlogger/events/EventBus"], function(template,
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/views/ExerciseView",
+	"com/jessewarden/workoutlogger/views/SetView"], function(template,
+                                                             $,
                                                                   _,
                                                                   Backbone,
-                                                                  EventBus)
+                                                                  EventBus,
+                                                                  ExerciseView,
+                                                                  SetView
+	)
 {
 	var WorkoutView = Backbone.View.extend({
 		tagName: "div",
@@ -38,8 +45,18 @@ define(["hbs!com/jessewarden/workoutlogger/views/WorkoutViewTemplate",
 				{
 					var exercises = this.workout.get("exercises");
 					var workoutJSON = this.workout.toJSON();
-					workoutJSON.exercises = exercises.toJSON();
+					var exercisesJSON = exercises.toJSON();
+					workoutJSON.exercises = exercisesJSON;
 					this.$el.html(template(workoutJSON));
+					var mainDiv = $('.panel-body');
+					var me = this;
+					var counter = -1;
+					exercises.each(function(exercise)
+					{
+						counter++;
+						var exerciseView = new ExerciseView({exercise: exercise});
+						mainDiv.append(exerciseView.el);
+					});
 				}
 				else
 				{
