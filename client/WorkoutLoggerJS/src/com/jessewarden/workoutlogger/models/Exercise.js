@@ -6,7 +6,8 @@ define(["underscore",
 	var Exercise = Backbone.Model.extend({
 		defaults:
 		{
-			name: null
+			name: null,
+			workoutSets: null
 		}
 	});
 

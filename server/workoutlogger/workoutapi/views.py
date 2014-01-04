@@ -119,14 +119,20 @@ def get_all_workouts(request):
 def get_workout(request, workout_id):
 	try:
 		if request.user.is_authenticated():
-			# first get all the associated exercises
+			# first get all the associated exercises and sets
 			related_exercises = Exercise.objects.filter(workout__id=workout_id)
 			found_workout = Workout.objects.get(id=workout_id)
-			# found_workout_json = serializers.serialize("json", found_workout)
 			found_workout_json = found_workout.toJSON()
 			found_workout_json["exercises"] = []
 			for exercise in related_exercises:
-				found_workout_json["exercises"].append(exercise.toJSON())
+				exercise_json = exercise.toJSON()
+				related_sets = Set.objects.filter(exercise__id=exercise.id)
+				
+				for workout_set in related_sets:
+					set_json = workout_set.toJSON()
+					exercise_json["sets"].append(set_json)
+
+				found_workout_json["exercises"].append(exercise_json)
 
 			return jsonResponse(True, found_workout_json)
 		else:
