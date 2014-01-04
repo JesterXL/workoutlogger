@@ -1,12 +1,20 @@
 define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
+	"jquery",
 	"underscore",
 	"backbone",
 	"com/jessewarden/workoutlogger/events/EventBus",
-	"com/jessewarden/workoutlogger/types/WorkoutTypes"], function(template,
-                                                                  _,
-                                                               Backbone,
-                                                               EventBus,
-                                                               WorkoutTypes)
+	"com/jessewarden/workoutlogger/types/WorkoutTypes",
+	"com/jessewarden/workoutlogger/views/WorkoutView",
+	"com/jessewarden/workoutlogger/services/GetWorkoutService"],
+		function(template,
+		         $,
+				_,
+				Backbone,
+				EventBus,
+				WorkoutTypes,
+				WorkoutView,
+				GetWorkoutService
+	)
 {
 	var MainView = Backbone.View.extend({
 		tagName: "div",
@@ -14,6 +22,8 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 		errorObject: null,
 		currentWorkout: null,
 		workouts: null,
+		workoutView: null,
+		getWorkoutService: null,
 
 		events:
 		{
@@ -51,8 +61,45 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 		onMenuClicked: function(mouseEvent)
 		{
 			console.log("mouseEvent.target.text:", mouseEvent.target.text);
-			var clickedWorkouts = this.workouts.findWhere({name: "Musketeer"});
+			var clickedWorkout = this.workouts.findWhere({name: mouseEvent.target.text});
+			this.setCurrentWorkout(clickedWorkout);
+		},
 
+		setCurrentWorkout: function(workout)
+		{
+			console.log("MainView::setCurrentWorkout, workout:", workout);
+			this.currentWorkout = workout;
+			if(workout.get("exercises") == null)
+			{
+				// get exercises first
+				if(this.getWorkoutService == null)
+				{
+					this.getWorkoutService = new GetWorkoutService();
+				}
+				var me = this;
+				EventBus.on("GetWorkoutService:success", function(eventObject)
+				{
+					if(eventObject.workout.get("exercises") != null)
+					{
+						me.currentWorkout.set({exercises: eventObject.workout.exercises});
+						me.setCurrentWorkout(eventObject.workout);
+					}
+					else
+					{
+						console.error("MainView::setCurrentWorkout, got a workout from the server, but failed to get exercises for it.");
+					}
+				});
+				this.getWorkoutService.getWorkout(workout.id);
+			}
+
+			if(this.workoutView == null)
+			{
+				this.workoutView = new WorkoutView({el: $('#workoutContent'), workout: workout});
+			}
+			else
+			{
+				this.workoutView.setWorkout(workout);
+			}
 		}
 
 

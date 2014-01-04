@@ -3,7 +3,9 @@ define(["jquery",
 	"json2",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
 	"com/jessewarden/workoutlogger/events/EventBus",
-	"com/jessewarden/workoutlogger/models/Workout"], function($, _, JSON, ServicesLocator, EventBus, Workout)
+	"com/jessewarden/workoutlogger/models/Workout",
+	"com/jessewarden/workoutlogger/models/Exercise",
+	"com/jessewarden/workoutlogger/collections/Exercises"], function($, _, JSON, ServicesLocator, EventBus, Workout, Exercise, Exercises)
 {
 
 	function GetWorkoutService()
@@ -36,15 +38,41 @@ define(["jquery",
 	{
 		console.log("GetWorkoutService::onSuccess");
 		console.log("response:", response);
-		if(response && response.response == true && response.data != null)
+		try
 		{
-			var workoutObject = JSON.parse(response.data);
-			this.workout = new Workout(workoutObject);
-			EventBus.trigger("GetWorkoutService:success", {workout: this.workout});
+			if(response && response.response == true && response.data != null)
+			{
+				var workoutObject = response.data;
+				var exerciseList = [];
+				_.each(workoutObject.exercises, function(exerciseObject)
+				{
+					exerciseList.push(new Exercise({id: exerciseObject.id, name: exerciseObject.name}))
+				});
+				var exercises = new Exercises(exerciseList);
+				var workoutInitObject = {
+					id: workoutObject.id,
+					occurrence: workoutObject.occurrence,
+					totalTimeInMilliseconds: workoutObject.total_time_in_milliseconds,
+					type: workoutObject.type,
+					name: workoutObject.name,
+					exercises: exercises
+				};
+				//this.workout = new Workout(workoutInitObject);
+				this.workout = new Workout(workoutInitObject);
+				var me = this;
+				_.delay(function()
+				{
+					EventBus.trigger("GetWorkoutService:success", {workout: me.workout});
+				}, 100);
+			}
+			else
+			{
+				this.dispatchError(data.error);
+			}
 		}
-		else
+		catch(error)
 		{
-			this.dispatchError(data.error);
+			this.dispatchError(Error('parse error:' + error.toString()));
 		}
 	};
 

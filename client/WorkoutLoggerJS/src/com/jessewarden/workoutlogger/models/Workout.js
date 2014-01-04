@@ -12,7 +12,8 @@ define(["underscore",
 			name: null,
 			occurrence: null,
 			type: null,
-			totalTimeInMilliseconds: null
+			totalTimeInMilliseconds: null,
+			exercises: null
 		}
 	});
 

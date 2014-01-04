@@ -15,7 +15,7 @@ define([
 							EventBus,
 							moment)
 {
-	var WorkoutsCollection = Backbone.Collection.extend({
+	var Workouts = Backbone.Collection.extend({
 
 		url: ServicesLocator.GET_ALL_WORKOUTS,
 
@@ -36,7 +36,7 @@ define([
 					{
 						var fields = modelObject.fields;
 						var workoutInit = {
-							_id: modelObject.pk,
+							id: modelObject.pk,
 							name: fields.name,
 							occurrence: moment(fields.occurrence).toDate(),
 							workoutType: null,
@@ -62,6 +62,6 @@ define([
 		}
 	});
 
-	return WorkoutsCollection;
+	return Workouts;
 
 });
