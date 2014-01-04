@@ -18,6 +18,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 
 			events:
 			{
+				"click #addSetButton": "onAddSet"
 			},
 
 			initialize: function(args)
@@ -67,6 +68,11 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				{
 					this.render();
 				}
+			},
+
+			onAddSet: function()
+			{
+
 			}
 
 		});

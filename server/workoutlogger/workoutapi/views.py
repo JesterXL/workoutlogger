@@ -141,6 +141,34 @@ def get_workout(request, workout_id):
 		print(str(e))
 		return jsonResponse(False, e)
 
+def add_set_to_exercise(request):
+	try:
+		if request.user.is_authenticated():
+			json_post = json.loads(request.body)
+			new_set = Set()
+			new_set.good_form = json_post.goodForm
+			new_set.reps = json_post.reps
+			new_set.weight = json_post.weight
+			new_set.goal_reps = json_post.goalReps
+			new_set.goal_weight = json_post.goalWeight
+			new_set.exercise = Exercise.objects.get(id=json_post.exerciseID)
+			new_set.save()
+			return jsonResponse(True, new_set.toJSON())
+	except Exception, e:
+		print str(e)
+		return jsonResponse(False, e)
+
+def delete_set(request):
+	try:
+		if request.user.is_authenticated():
+			json_post = json.loads(request.body)
+			Set.objects.filter(id=json_post.setID).delete()
+			return jsonResponse(True, True)
+	except Exception, e:
+		print str(e)
+		return jsonResponse(False, e)
+
+
 # def get_all_circuits_from_workout_id(request, workoutID):
 # 	try:
 # 		if request.user.is_authenticated():
