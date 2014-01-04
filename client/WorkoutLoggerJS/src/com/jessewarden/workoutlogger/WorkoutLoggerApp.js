@@ -6,7 +6,8 @@ define(["jquery",
 	"com/jessewarden/workoutlogger/services/GetTokenService",
 	"com/jessewarden/workoutlogger/services/LoginService",
 	"com/jessewarden/workoutlogger/collections/Workouts",
-	"com/jessewarden/workoutlogger/models/CurrentWorkout"],
+	"com/jessewarden/workoutlogger/models/CurrentWorkout",
+	"cookies"],
 		function($,
 		         EventBus,
 		         LoginView,
@@ -15,7 +16,8 @@ define(["jquery",
 				GetTokenService,
 				LoginService,
 				Workouts,
-			CurrentWorkout)
+			CurrentWorkout,
+			Cookies)
 {
 	function WorkoutLoggerApp()
 	{
@@ -40,6 +42,11 @@ define(["jquery",
 		EventBus.on("LoginService:success", this.onLoginSuccess, this);
 
 		this.showLogin();
+
+//		var loginCookie = Cookies.get("");
+		console.log("Cookies:", Cookies);
+		console.log("sessionid:", Cookies.get("sessionid"));
+		console.log("csrftoken:", Cookies.get("csrftoken"));
 	}
 
 	WorkoutLoggerApp.prototype.showLogin = function(errorToShow)
@@ -93,6 +100,8 @@ define(["jquery",
 	{
 		console.log("WorkoutLoggerApp::onGetTokenSuccess");
 		this.token = eventObject.token;
+		console.log("sessionid:", Cookies.get("sessionid"));
+		console.log("csrftoken:", Cookies.get("csrftoken"));
 		this.login();
 	};
 
@@ -113,6 +122,8 @@ define(["jquery",
 	{
 		console.log("WorkoutLoggerApp::onLoginSuccess, show main screen");
 		this.showMainScreen();
+		console.log("sessionid:", Cookies.get("sessionid"));
+		console.log("csrftoken:", Cookies.get("csrftoken"));
 	};
 
 	WorkoutLoggerApp.prototype.showMainScreen = function()

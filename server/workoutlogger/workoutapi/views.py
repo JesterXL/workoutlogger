@@ -69,6 +69,7 @@ def login_user(request):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
+				request.session.set_expiry(0)
 				userJson = {}
 				userJson['username'] = user.username
 				userJson['first_name'] = user.first_name
@@ -90,6 +91,17 @@ def logout_user(request):
 	print 'logout_user'
 	logout(request)
 	return jsonResponse(True, 'successfully logged out')
+
+def logged_in(request):
+	print "logged_in"
+	try:
+		if request.user.is_authenticated():
+			return jsonResponse(True, {"logged_in": True})
+		else:
+			return jsonResponse(True, {"logged_in": False})
+	except Exception, e:
+		print "Error: " + str(e)
+		return jsonResponse(False, 'unknown server error')
 
 
 # TODO: figure out how to get by user, not all workouts in system

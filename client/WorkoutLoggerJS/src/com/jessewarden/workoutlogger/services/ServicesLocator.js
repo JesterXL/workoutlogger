@@ -7,7 +7,8 @@ define([], function()
 		LOGIN: "http://localhost:8000/workoutapi/login_user",
 		LOGOUT: "http://localhost:8000/workoutapi/logout_user",
 		GET_ALL_WORKOUTS: "http://localhost:8000/workoutapi/get_all_workouts",
-		GET_WORKOUT: "http://localhost:8000/workoutapi/get_workout"
+		GET_WORKOUT: "http://localhost:8000/workoutapi/get_workout",
+		LOGGED_IN: "http://localhost:8000/workoutapi/logged_in"
 	};
 	return ServicesLocator;
 

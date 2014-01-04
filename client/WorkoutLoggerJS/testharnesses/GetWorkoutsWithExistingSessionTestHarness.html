@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GetWorkoutsWithExistingSessionTestHarness</title>
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="requirejs-config.js"></script>
+</head>
+<body>
+
+<script>
+    require(["com/jessewarden/workoutlogger/services/LoggedInService",
+        "com/jessewarden/workoutlogger/collections/Workouts",
+        "com/jessewarden/workoutlogger/events/EventBus"], function(LoggedInService, Workouts, EventBus)
+    {
+        service = new LoggedInService();
+        workouts = new Workouts();
+        workouts.on("change", function()
+        {
+            console.log("change");
+            console.log("length:", workouts.length);
+        });
+
+        EventBus.on("LoggedInService:success", function(eventObject)
+        {
+            console.log("eventObject:", eventObject);
+//            if(eventObject.loggedIn == true)
+//            {
+                workouts.fetch({success: function()
+                {
+                    console.log("success, args:", arguments);
+                }});
+//            }
+        });
+        EventBus.on("LoggedInService:error", function(msg)
+        {
+            console.error("Error.");
+        });
+
+        service.loggedIn();
+    });
+
+</script>
+</body>
+</html>
