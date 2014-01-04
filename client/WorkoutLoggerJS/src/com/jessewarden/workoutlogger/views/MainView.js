@@ -17,7 +17,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 
 		events:
 		{
-			"click #workoutTypeDropdown a": "onMenuClicked"
+			"click #workoutsList a": "onMenuClicked"
 		},
 
 		initialize: function(args)
@@ -27,9 +27,9 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 			var me = this;
 			this.workouts.fetch(
 				{success: function()
-				{
-					me.render();
-				}
+						{
+							me.render();
+						}
 			});
 		},
 
@@ -50,6 +50,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 
 		onMenuClicked: function(mouseEvent)
 		{
+			console.log("mouseEvent.target.text:", mouseEvent.target.text);
 			switch(mouseEvent.target.text)
 			{
 
