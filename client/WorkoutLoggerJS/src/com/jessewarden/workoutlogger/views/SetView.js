@@ -37,7 +37,6 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 			setWorkoutSet: function(workoutSet)
 			{
 				console.log("SetView::setWorkoutSet, workoutSet:", workoutSet);
-				console.log("this.render:", this.render);
 				this.workoutSet = workoutSet;
 				if(this.workoutSet != null)
 				{

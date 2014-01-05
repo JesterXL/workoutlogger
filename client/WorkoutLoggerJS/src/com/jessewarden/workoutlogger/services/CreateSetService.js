@@ -16,6 +16,7 @@ define(["jquery",
 	function CreateSetService()
 	{
 		this.createdWorkoutSet = null;
+		this.exerciseID = null;
 	}
 
 	CreateSetService.prototype.createSet = function(workoutSet, exerciseID)
@@ -23,6 +24,7 @@ define(["jquery",
 		console.log("CreateSetService::createSet, workoutSet:", workoutSet);
 		var me = this;
 		this.createdWorkoutSet = null;
+		this.exerciseID = exerciseID;
 		var setJSON = workoutSet.toJSON();
 		setJSON.exerciseID = exerciseID;
 		var headers = {};

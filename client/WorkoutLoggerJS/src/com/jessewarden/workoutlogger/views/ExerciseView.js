@@ -31,27 +31,22 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				try
 				{
 					console.log("ExerciseView::render");
-					console.log("this.exercise:", this.exercise);
 					this.$el.html(template(this.exercise.toJSON()));
 					var workoutSets = this.exercise.get("workoutSets");
 					if(workoutSets.length > 0)
 					{
 						var me = this;
-						console.log("this.$el:", this.$el);
 						var setViewsContent = $('#setViewsContent');
-						console.log("workoutSets:", workoutSets);
-						console.log("workoutSets.each:", workoutSets.each);
+						console.log("setViewsContent:", setViewsContent);
 						workoutSets.each(function(workoutSet)
 						{
-							console.log("workoutSet:", workoutSet);
-							console.log("SetView:", SetView);
 							var setView = new SetView({
 														workoutSet: workoutSet
 													  });
-							console.log("setViewsContent:", setViewsContent);
-							console.log("setViewsContent.append:", setViewsContent.append);
-							setViewsContent.append(setView.el);
+							//setViewsContent.append(setView.el);
+							setViewsContent.append("<b>Sup Man</b>");
 						});
+						console.log("ending setViewsContent:", setViewsContent);
 					}
 				}
 				catch(error)
@@ -66,13 +61,23 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				this.exercise = exercise;
 				if(this.exercise != null)
 				{
+					this.exercise.on("change", this.onExerciseChanged, this);
+					this.exercise.on("add", this.onExerciseChanged, this);
+					this.exercise.on("remove", this.onExerciseChanged, this);
 					this.render();
 				}
 			},
 
+			onExerciseChanged: function()
+			{
+				console.log("ExerciseView::onExerciseChanged");
+				this.render();
+			},
+
 			onAddSet: function()
 			{
-
+				console.log("ExerciseView::onAddSet");
+				this.exercise.createNewSet();
 			}
 
 		});
