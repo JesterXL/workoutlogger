@@ -65,6 +65,10 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 					this.exercise.on("change", this.onExerciseChanged, this);
 					this.exercise.on("add", this.onExerciseChanged, this);
 					this.exercise.on("remove", this.onExerciseChanged, this);
+					var sets = this.exercise.get("workoutSets");
+					sets.on("change", this.onExerciseChanged, this);
+					sets.on("add", this.onExerciseChanged, this);
+					sets.on("remove", this.onExerciseChanged, this);
 					this.render();
 				}
 			},
