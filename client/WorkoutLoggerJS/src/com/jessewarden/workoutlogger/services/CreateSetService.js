@@ -19,9 +19,14 @@ define(["jquery",
 		console.log("CreateSetService::createSet, workoutSet:", workoutSet);
 		var me = this;
 		this.createdWorkoutSet = null;
+		var setJSON = {
+
+		};
 		$.ajax(
 			{
 				url: ServicesLocator.CREATE_SET,
+				type: "POST",
+				data: setJSON,
 				success: function(data, dataType, jqXHR)
 				{
 					me.onSuccess(data);

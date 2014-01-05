@@ -1,6 +1,8 @@
 define(["jquery",
+	"underscore",
+	"backbone",
 	"com/jessewarden/workoutlogger/collections/Workouts",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, Workouts, EventBus)
+	"com/jessewarden/workoutlogger/events/EventBus"], function($, _, Backbone, Workouts, EventBus)
 {
 	describe("Workouts integration test", function()
 	{
@@ -54,7 +56,7 @@ define(["jquery",
 
 			runs(function()
 			{
-				expect(collection.length).toBe(5);
+				expect(collection.length).toBe(4);
 			});
 		});
 
