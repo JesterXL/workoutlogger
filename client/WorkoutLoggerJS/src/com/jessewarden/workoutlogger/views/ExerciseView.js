@@ -32,21 +32,22 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				{
 					console.log("ExerciseView::render");
 					this.$el.html(template(this.exercise.toJSON()));
+					var exerciseID = this.exercise.get("id");
 					var workoutSets = this.exercise.get("workoutSets");
 					if(workoutSets.length > 0)
 					{
+						console.log("workoutSets.length:", workoutSets.length);
 						var me = this;
-						var setViewsContent = $('#setViewsContent');
+						var setViewsContent = $('#exercise' + exerciseID);
 						console.log("setViewsContent:", setViewsContent);
 						workoutSets.each(function(workoutSet)
 						{
 							var setView = new SetView({
-														workoutSet: workoutSet
-													  });
+								workoutSet: workoutSet
+							});
 							//setViewsContent.append(setView.el);
-							setViewsContent.append("<b>Sup Man</b>");
+							$(me.el).append(setView.el);
 						});
-						console.log("ending setViewsContent:", setViewsContent);
 					}
 				}
 				catch(error)
