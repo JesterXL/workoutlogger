@@ -89,7 +89,7 @@ define(["jquery",
 				flag = false;
 				EventBus.on("DeleteSetService:success", deleteCallback.handleSuccess, deleteCallback);
 				EventBus.on("DeleteSetService:error", deleteCallback.handleError, deleteCallback);
-				createService.deleteSet(SET_ID);
+				deleteService.deleteSet(SET_ID);
 			});
 		});
 

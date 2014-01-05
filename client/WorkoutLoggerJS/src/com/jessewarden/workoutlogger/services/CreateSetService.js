@@ -1,10 +1,12 @@
 define(["jquery",
 	"underscore",
+	"cookies",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
 	"com/jessewarden/workoutlogger/events/EventBus",
 	"com/jessewarden/workoutlogger/factories/SetFactory"],
 		function($,
 		         _,
+		         Cookies,
 		         ServicesLocator,
 		         EventBus,
 		         SetFactory
@@ -23,11 +25,16 @@ define(["jquery",
 		this.createdWorkoutSet = null;
 		var setJSON = workoutSet.toJSON();
 		setJSON.exerciseID = exerciseID;
+		var headers = {};
+		headers["X-CSRFToken"] = Cookies.get("csrftoken");
+		headers["Content-Type"] = "text/plain";
+		headers["Accept"] = "text/plain";
 		$.ajax(
 			{
 				url: ServicesLocator.CREATE_SET,
 				type: "POST",
 				data: JSON.stringify(setJSON),
+				headers: headers,
 				success: function(data, dataType, jqXHR)
 				{
 					me.onSuccess(data);

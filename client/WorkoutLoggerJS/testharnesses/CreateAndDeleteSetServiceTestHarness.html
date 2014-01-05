@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CreateAndDeleteSetServiceTestHarness</title>
+    <script src="../bower_components/requirejs/require.js"></script>
+    <script src="requirejs-config.js"></script>
+</head>
+<body>
+
+<script>
+    require(["com/jessewarden/workoutlogger/events/EventBus",
+        "com/jessewarden/workoutlogger/services/CreateSetService",
+        "com/jessewarden/workoutlogger/services/DeleteSetService",
+        "com/jessewarden/workoutlogger/models/WorkoutSet",
+    "com/jessewarden/workoutlogger/services/GetTokenService",
+        "com/jessewarden/workoutlogger/services/LoginService"],
+            function(EventBus,
+                    CreateSetService,
+                    DeleteSetService,
+                    WorkoutSet)
+    {
+        var SET_ID = 999;
+        var EXERCISE_ID = 1;
+
+//        getToken = new GetTokenService();
+//        loginService = new LoginService();
+        createService = new CreateSetService();
+        deleteService = new DeleteSetService();
+
+        EventBus.on("CreateSetService:success", function()
+        {
+            console.log("CreateSetService:success, workoutSet.id:", createService.createdWorkoutSet.id);
+            deleteService.deleteSet(createService.createdWorkoutSet.id);
+        });
+        EventBus.on("CreateSetService:error", function()
+        {
+           console.error("failed");
+        });
+
+        EventBus.on("DeleteSetService:success", function()
+        {
+            console.log("delete success");
+        });
+        EventBus.on("DeleteSetService:error", function()
+        {
+            console.error("delete failed.");
+        });
+
+        var workoutSet = new WorkoutSet({
+            "goodForm": true,
+            "reps": 8,
+            "weight": 25,
+            "goalReps": 9,
+            "goalWeight": 30
+        });
+        createService.createSet(workoutSet, EXERCISE_ID);
+
+
+
+
+    });
+
+</script>
+</body>
+</html>

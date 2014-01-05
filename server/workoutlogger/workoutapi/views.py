@@ -143,17 +143,16 @@ def get_workout(request, workout_id):
 
 def add_set_to_exercise(request):
 	try:
-		print "add_set_to_exercise"
+		# print "add_set_to_exercise"
 		if request.user.is_authenticated():
 			json_post = json.loads(request.body)
-			print "exercise id: " + json_post.exerciseID
 			new_set = Set()
-			new_set.good_form = json_post.goodForm
-			new_set.reps = json_post.reps
-			new_set.weight = json_post.weight
-			new_set.goal_reps = json_post.goalReps
-			new_set.goal_weight = json_post.goalWeight
-			new_set.exercise = Exercise.objects.get(id=json_post.exerciseID)
+			new_set.good_form = json_post["goodForm"]
+			new_set.reps = json_post["reps"]
+			new_set.weight = json_post["weight"]
+			new_set.goal_reps = json_post["goalReps"]
+			new_set.goal_weight = json_post["goalWeight"]
+			new_set.exercise = Exercise.objects.get(id=json_post["exerciseID"])
 			new_set.save()
 			return jsonResponse(True, new_set.toJSON())
 	except Exception, e:
@@ -164,7 +163,11 @@ def delete_set(request):
 	try:
 		if request.user.is_authenticated():
 			json_post = json.loads(request.body)
-			Set.objects.filter(id=json_post.setID).delete()
+			set_before = Set.objects.filter(id=json_post["setID"])
+			print "set before: " + str(set_before.count())
+			Set.objects.filter(id=json_post["setID"]).delete()
+			set_after = Set.objects.filter(id=json_post["setID"])
+			print "set after: " + str(set_after.count())
 			return jsonResponse(True, True)
 	except Exception, e:
 		print str(e)

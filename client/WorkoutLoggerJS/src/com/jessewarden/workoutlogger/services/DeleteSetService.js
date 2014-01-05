@@ -1,11 +1,13 @@
 define(["jquery",
 	"underscore",
 	"json2",
+	"cookies",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
 	"com/jessewarden/workoutlogger/events/EventBus"],
 	function($,
 	         _,
 	         JSON,
+	         Cookies,
 	         ServicesLocator,
 	         EventBus
 		)
@@ -18,16 +20,21 @@ define(["jquery",
 		DeleteSetService.prototype.deleteSet = function(workoutSetID)
 		{
 
-			console.log("DeleteSetService::createSet, workoutSet:", workoutSet);
+			console.log("DeleteSetService::deleteSet, workoutSetID:", workoutSetID);
 			var me = this;
 			var deleteJSON = {
 				setID: workoutSetID
 			};
+			var headers = {};
+			headers["X-CSRFToken"] = Cookies.get("csrftoken");
+			headers["Content-Type"] = "text/plain";
+			headers["Accept"] = "text/plain";
 			$.ajax(
 				{
 					url: ServicesLocator.DELETE_SET,
 					type: "POST",
 					data: JSON.stringify(deleteJSON),
+					headers: headers,
 					success: function(data, dataType, jqXHR)
 					{
 						me.onSuccess(data);
