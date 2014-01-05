@@ -1,11 +1,13 @@
 define(["jquery",
 	"underscore",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"],
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/factories/SetFactory"],
 		function($,
 		         _,
 		         ServicesLocator,
-		         EventBus
+		         EventBus,
+		         SetFactory
 			)
 {
 
@@ -14,19 +16,18 @@ define(["jquery",
 		this.createdWorkoutSet = null;
 	}
 
-	CreateSetService.prototype.createSet = function(workoutSet)
+	CreateSetService.prototype.createSet = function(workoutSet, exerciseID)
 	{
 		console.log("CreateSetService::createSet, workoutSet:", workoutSet);
 		var me = this;
 		this.createdWorkoutSet = null;
-		var setJSON = {
-
-		};
+		var setJSON = workoutSet.toJSON();
+		setJSON.exerciseID = exerciseID;
 		$.ajax(
 			{
 				url: ServicesLocator.CREATE_SET,
 				type: "POST",
-				data: setJSON,
+				data: JSON.stringify(setJSON),
 				success: function(data, dataType, jqXHR)
 				{
 					me.onSuccess(data);
@@ -45,11 +46,11 @@ define(["jquery",
 		console.log("CreateSetService::onSuccess");
 		if(response && response.response == true)
 		{
-			this.token = response.data.token;
+			this.createdWorkoutSet = SetFactory.getWorkoutSetFromJSON(response.data);
 			var me = this;
 			_.delay(function()
 			{
-				EventBus.trigger("GetTokenService:success", {token: me.token});
+				EventBus.trigger("CreateSetService:success", {createdWorkoutSet: me.createdWorkoutSet});
 			}, 100);
 		}
 		else
@@ -58,19 +59,19 @@ define(["jquery",
 		}
 	};
 
-	GetTokenService.prototype.onError = function(error)
+	CreateSetService.prototype.onError = function(error)
 	{
-		console.error("GetTokenService::onError");
-		EventBus.trigger("GetTokenService:error");
+		console.error("CreateSetService::onError");
+		EventBus.trigger("CreateSetService:error");
 		this.dispatchError(error.message);
 	};
 
-	GetTokenService.prototype.dispatchError = function(errorMessage)
+	CreateSetService.prototype.dispatchError = function(errorMessage)
 	{
-//		console.log("GetTokenService::dispatchError, errorMessage:", errorMessage);
-		EventBus.trigger("GetTokenService:error", {error: Error(errorMessage)});
+//		console.log("CreateSetService::dispatchError, errorMessage:", errorMessage);
+		EventBus.trigger("CreateSetService:error", {error: Error(errorMessage)});
 	};
 
-	return GetTokenService;
+	return CreateSetService;
 
 });

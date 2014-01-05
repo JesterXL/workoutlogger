@@ -143,8 +143,10 @@ def get_workout(request, workout_id):
 
 def add_set_to_exercise(request):
 	try:
+		print "add_set_to_exercise"
 		if request.user.is_authenticated():
 			json_post = json.loads(request.body)
+			print "exercise id: " + json_post.exerciseID
 			new_set = Set()
 			new_set.good_form = json_post.goodForm
 			new_set.reps = json_post.reps
