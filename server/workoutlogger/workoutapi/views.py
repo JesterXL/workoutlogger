@@ -175,6 +175,24 @@ def delete_set(request):
 		print str(e)
 		return jsonResponse(False, e)
 
+def update_set(request):
+	try:
+		if request.user.is_authenticated():
+			json_post = json.loads(request.body)
+			existing_set = Set.objects.get(id=json_post["id"])
+			existing_set.good_form = json_post["goodForm"]
+			existing_set.reps = json_post["reps"]
+			existing_set.weight = json_post["weight"]
+			existing_set.goal_reps = json_post["goalReps"]
+			existing_set.goal_weight = json_post["goalWeight"]
+			existing_set.save()
+			return jsonResponse(True, True)
+	except Exception, e:
+		print str(e)
+		return jsonResponse(False, e)
+
+
+
 
 # def get_all_circuits_from_workout_id(request, workoutID):
 # 	try:

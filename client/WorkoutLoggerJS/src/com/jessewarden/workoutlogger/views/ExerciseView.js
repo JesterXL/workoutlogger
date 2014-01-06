@@ -28,7 +28,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 
 			},
 
-			render: function(event)
+			render: function()
 			{
 				try
 				{
@@ -67,7 +67,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				{
 					this.exercise.on("all", this.onExerciseChanged, this);
 					var sets = this.exercise.get("workoutSets");
-					sets.on("all", this.onExerciseChanged, this);
+//					sets.on("all", this.onExerciseChanged, this);
 					this.render();
 				}
 			},

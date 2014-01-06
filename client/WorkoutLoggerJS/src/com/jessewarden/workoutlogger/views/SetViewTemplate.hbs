@@ -1,11 +1,19 @@
 <div>
     <span>Reps:</span>
     <div class="input-group" style="width: 120px;">
-        <input type="text" class="form-control" value="{{reps}}">
+        <input type="number"
+               min="0"
+               max="9001"
+               step="1"
+               class="form-control" value="{{reps}}" id="repsSetViewInput{{id}}">
     </div>
     <span>Weight:</span>
     <div class="input-group" style="width: 120px;">
-        <input type="text" class="form-control" value="{{weight}}">
+        <input type="number"
+               min="0"
+               max="9001"
+               step="1"
+               class="form-control" value="{{weight}}" id="weightSetViewInput{{id}}>
         <span class="input-group-addon">lbs</span>
     </div>
     <a href="#" id="deleteSetLink{{id}}">Delete</a>

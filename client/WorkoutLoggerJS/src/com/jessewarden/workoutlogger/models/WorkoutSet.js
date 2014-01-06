@@ -1,7 +1,9 @@
 define(["underscore",
-	"backbone"],
+	"backbone",
+	"com/jessewarden/workoutlogger/services/UpdateSetService"],
 		function(_,
-        Backbone
+        Backbone,
+        UpdateSetService
 	)
 {
 	var WorkoutSet = Backbone.Model.extend({
@@ -13,6 +15,16 @@ define(["underscore",
 			weight: 0,
 			goalReps: 0,
 			goalWeight: 0
+		},
+
+		save: function()
+		{
+			console.log("WorkoutSet::save");
+			if(this.updateSetService == null)
+			{
+				this.updateSetService = new UpdateSetService();
+			}
+			this.updateSetService.updateSet(this);
 		}
 	});
 

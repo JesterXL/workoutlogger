@@ -33,9 +33,19 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 					var me = this;
 					_.defer(function()
 					{
-						$("#deleteSetLink" + me.workoutSet.get("id")).click(function()
+						var workoutID = me.workoutSet.get("id");
+						$("#deleteSetLink" + workoutID).click(function()
 						{
 							me.onDeleteSet();
+						});
+						var repsInput = $("#repsSetViewInput" + workoutID);
+						repsInput.change(function()
+						{
+							me.onRepsChanged();
+						});
+						repsInput.keydown(function()
+						{
+							me.onRepsChanged();
 						});
 					});
 
@@ -52,6 +62,11 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				this.workoutSet = workoutSet;
 				if(this.workoutSet != null)
 				{
+					var me = this;
+					this.saveRepsChange = _.throttle(function()
+					{
+						me.workoutSet.save();
+					}, 3 * 1000);
 					this.workoutSet.on("all", this.onWorkoutSetChanged, this);
 					this.render();
 				}
@@ -67,6 +82,23 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 			{
 				console.log("SetView::onWorkoutSetChanged", event);
 				this.render();
+			},
+
+			onRepsChanged: function()
+			{
+				console.log("SetView::onRepsChanged");
+				var workoutID = this.workoutSet.get("id");
+				var repsInput = $("#repsSetViewInput" + workoutID)[0];
+				var reps = parseInt(repsInput.value);
+				console.log("workoutID:", workoutID);
+				console.log("repsInput:", repsInput);
+				console.log("reps:", reps);
+				console.log("isnan:", isNaN(reps));
+				if(isNaN(reps) == false)
+				{
+					this.workoutSet.set("reps", reps);
+					this.saveRepsChange();
+				}
 			}
 
 		});
