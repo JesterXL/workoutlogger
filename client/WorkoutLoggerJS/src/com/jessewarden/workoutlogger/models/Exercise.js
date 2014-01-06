@@ -1,11 +1,13 @@
 define(["underscore",
 	"backbone",
 	"com/jessewarden/workoutlogger/services/CreateSetService",
+	"com/jessewarden/workoutlogger/services/DeleteSetService",
 	"com/jessewarden/workoutlogger/models/WorkoutSet",
 	"com/jessewarden/workoutlogger/events/EventBus"],
 		function(_,
                   Backbone,
                   CreateSetService,
+                  DeleteSetService,
                   WorkoutSet,
                   EventBus
 	)
@@ -46,6 +48,25 @@ define(["underscore",
 			console.log("Exercise::onCreateNewSetSuccess");
 			var sets = this.get("workoutSets");
 			sets.add(this.createSetService.createdWorkoutSet);
+		},
+
+		deleteSet: function(setID)
+		{
+			console.log("Exercise::deleteSet, setID:", setID);
+			if(this.deleteSetService == null)
+			{
+				this.deleteSetService = new DeleteSetService();
+				EventBus.on("DeleteSetService:success", this.onDeleteSetSuccess, this);
+			}
+			this.deleteSetService.deleteSet(setID);
+		},
+
+		onDeleteSetSuccess: function(event)
+		{
+			console.log("Exercise::onDeleteSetSuccess, setID:", event.workoutSetID);
+			var workoutSets = this.get("workoutSets");
+			var workoutSet = workoutSets.findWhere({id: event.workoutSetID});
+			workoutSets.remove(workoutSet);
 		}
 	});
 

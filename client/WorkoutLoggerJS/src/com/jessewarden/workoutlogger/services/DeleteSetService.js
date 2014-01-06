@@ -19,9 +19,9 @@ define(["jquery",
 
 		DeleteSetService.prototype.deleteSet = function(workoutSetID)
 		{
-
 			console.log("DeleteSetService::deleteSet, workoutSetID:", workoutSetID);
 			var me = this;
+			this.workoutSetID = workoutSetID;
 			var deleteJSON = {
 				setID: workoutSetID
 			};
@@ -56,7 +56,7 @@ define(["jquery",
 				var me = this;
 				_.delay(function()
 				{
-					EventBus.trigger("DeleteSetService:success");
+					EventBus.trigger("DeleteSetService:success", {workoutSetID: me.workoutSetID});
 				}, 100);
 			}
 			else

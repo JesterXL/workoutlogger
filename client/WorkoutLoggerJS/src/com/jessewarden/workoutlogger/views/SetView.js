@@ -1,20 +1,23 @@
 define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 	"jquery",
 	"underscore",
-	"backbone"
+	"backbone",
+	"com/jessewarden/workoutlogger/events/EventBus"
 ],
 	function(template,
 	         $,
 	         _,
-	         Backbone
+	         Backbone,
+	         EventBus
 		)
 	{
 		var SetView = Backbone.View.extend({
 			tagName: "div",
 
-			events:
-			{
-			},
+//			events:
+//			{
+//				"click #deleteSetLink": this.onDeleteSet
+//			},
 
 			initialize: function(args)
 			{
@@ -27,6 +30,15 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				{
 					console.log("SetView::render");
 					this.$el.html(template(this.workoutSet.toJSON()));
+					var me = this;
+					_.defer(function()
+					{
+						$("#deleteSetLink" + me.workoutSet.get("id")).click(function()
+						{
+							me.onDeleteSet();
+						});
+					});
+
 				}
 				catch(error)
 				{
@@ -40,8 +52,21 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				this.workoutSet = workoutSet;
 				if(this.workoutSet != null)
 				{
+					this.workoutSet.on("all", this.onWorkoutSetChanged, this);
 					this.render();
 				}
+			},
+
+			onDeleteSet: function()
+			{
+				console.log("onDeleteSet");
+				EventBus.trigger("SetView:onDeleteSet", {workoutSet: this.workoutSet});
+			},
+
+			onWorkoutSetChanged: function(event)
+			{
+				console.log("SetView::onWorkoutSetChanged", event);
+				this.render();
 			}
 
 		});
