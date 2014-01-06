@@ -29,8 +29,8 @@ define(["underscore",
 				goalReps: 0,
 				goalWeight: 0
 			});
-//			console.log("newSet:", newSet);
-//			console.log("CreateSetService:", CreateSetService);
+			this.get("workoutSets").add(newSet);
+			console.log("after adding, workoutSets:", this.get("workoutSets"));
 			if(this.createSetService == null)
 			{
 				this.createSetService = new CreateSetService();
@@ -45,8 +45,27 @@ define(["underscore",
 
 		onCreateNewSetSuccess: function(event)
 		{
-			console.log("Exercise::onCreateNewSetSuccess");
+			console.log("Exercise::onCreateNewSetSuccess, workoutSet:", this.createSetService.createdWorkoutSet);
+			console.log("cid:", event.cid);
 			var sets = this.get("workoutSets");
+			console.log("sets:", sets);
+
+			if(event.cid != null)
+			{
+				var foundSet = false;
+				sets.each(function(workoutSet)
+				{
+					if(workoutSet.cid == event.cid)
+					{
+						foundSet = true;
+						sets.remove(workoutSet);
+					}
+				});
+				if(foundSet == false)
+				{
+					console.warn("Exercise::onCreateNewSetSuccess, cannot find existing model with cid of " + event.cid);
+				}
+			}
 			sets.add(this.createSetService.createdWorkoutSet);
 		},
 

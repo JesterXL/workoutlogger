@@ -27,6 +27,7 @@ define(["jquery",
 		this.exerciseID = exerciseID;
 		var setJSON = workoutSet.toJSON();
 		setJSON.exerciseID = exerciseID;
+		setJSON.cid = workoutSet.cid;
 		var headers = {};
 		headers["X-CSRFToken"] = Cookies.get("csrftoken");
 		headers["Content-Type"] = "text/plain";
@@ -59,7 +60,8 @@ define(["jquery",
 			var me = this;
 			_.delay(function()
 			{
-				EventBus.trigger("CreateSetService:success", {createdWorkoutSet: me.createdWorkoutSet});
+				EventBus.trigger("CreateSetService:success", {createdWorkoutSet: me.createdWorkoutSet,
+																cid: response.data.cid});
 			}, 100);
 		}
 		else

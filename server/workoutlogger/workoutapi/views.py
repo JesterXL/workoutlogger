@@ -154,7 +154,9 @@ def add_set_to_exercise(request):
 			new_set.goal_weight = json_post["goalWeight"]
 			new_set.exercise = Exercise.objects.get(id=json_post["exerciseID"])
 			new_set.save()
-			return jsonResponse(True, new_set.toJSON())
+			new_set_json = new_set.toJSON()
+			new_set_json["cid"] = json_post["cid"]
+			return jsonResponse(True, new_set_json)
 	except Exception, e:
 		print str(e)
 		return jsonResponse(False, e)

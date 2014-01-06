@@ -23,32 +23,42 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 
 			initialize: function(args)
 			{
+				EventBus.on("SetView:onDeleteSet", this.onDeleteSet, this);
 				this.setExercise(args.exercise);
 			},
 
-			render: function()
+			render: function(event)
 			{
 				try
 				{
 					console.log("ExerciseView::render");
-					this.$el.html(template(this.exercise.toJSON()));
-					var exerciseID = this.exercise.get("id");
 					var workoutSets = this.exercise.get("workoutSets");
-					if(workoutSets.length > 0)
+					if(workoutSets.length < 1)
 					{
-						console.log("workoutSets.length:", workoutSets.length);
+						return;
+					}
+
+					var setView;
+					if(event == null || event == "remove")
+					{
+						this.$el.html(template(this.exercise.toJSON()));
+						var exerciseID = this.exercise.get("id");
 						var me = this;
 						var setViewsContent = $('#exercise' + exerciseID);
-						console.log("setViewsContent:", setViewsContent);
 						workoutSets.each(function(workoutSet)
 						{
-							var setView = new SetView({
+							setView = new SetView({
 								workoutSet: workoutSet
 							});
-							//setViewsContent.append(setView.el);
 							$(me.el).append(setView.el);
 						});
-						EventBus.on("SetView:onDeleteSet", this.onDeleteSet, this);
+					}
+					else if(event == "add")
+					{
+						setView = new SetView({
+							workoutSet: workoutSets.at(workoutSets.length - 1)
+						});
+						$(this.el).append(setView.el);
 					}
 				}
 				catch(error)
@@ -73,7 +83,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 			onExerciseChanged: function(event)
 			{
 				console.log("ExerciseView::onExerciseChanged, event:", event);
-				this.render();
+				this.render(event);
 			},
 
 			onAddSet: function()
