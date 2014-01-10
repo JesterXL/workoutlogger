@@ -20,6 +20,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 		initialize: function(args)
 		{
 			this.errorToShow = args.error;
+			this.modal = args.modal;
 			this.render();
 		},
 

@@ -44,11 +44,20 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 						console.log("setViewsContent:", setViewsContent);
 						workoutSets.each(function(workoutSet)
 						{
-							var setView = new SetView({
-								workoutSet: workoutSet
-							});
-							//setViewsContent.append(setView.el);
-							$(me.el).append(setView.el);
+							try
+							{
+								console.log("weight before:", workoutSet.get("weight"));
+								var setView = new SetView({
+									model: workoutSet
+								});
+								console.log("setView:", setView);
+								//setViewsContent.append(setView.el);
+								$(me.el).append(setView.el);
+							}
+							catch(error)
+							{
+								console.error("ExerciseView::render, setView creation error:", error);
+							}
 						});
 					}
 
@@ -67,7 +76,8 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 				{
 					this.exercise.on("all", this.onExerciseChanged, this);
 					var sets = this.exercise.get("workoutSets");
-//					sets.on("all", this.onExerciseChanged, this);
+					sets.on("remove", this.onExerciseChanged, this);
+					sets.on("add", this.onExerciseChanged, this);
 					this.render();
 				}
 			},
@@ -87,7 +97,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/ExerciseViewTemplate",
 			onDeleteSet: function(event)
 			{
 				console.log("ExerciseView::onDeleteSet");
-				this.exercise.deleteSet(event.workoutSet.id);
+				this.exercise.deleteSet(event.model.id);
 			}
 
 		});

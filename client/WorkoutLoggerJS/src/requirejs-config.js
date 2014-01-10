@@ -8,7 +8,8 @@ requirejs.config({
 		"json2": "../bower_components/json2/json2",
 		"hbs": "../bower_components/hbs/hbs",
 		"moment": "../bower_components/momentjs/moment",
-		"cookies": "../bower_components/cookies-js/src/cookies"
+		"cookies": "../bower_components/cookies-js/src/cookies",
+		"epoxy": "../bower_components/backbone.epoxy/backbone.epoxy"
 	},
 
 	shim: {

@@ -24,6 +24,7 @@
   "dependencies": {
     "momentjs": "~2.5.0",
     "backbone.localstorage": "~1.1.7",
-    "cookies-js": "~0.3.1"
+    "cookies-js": "~0.3.1",
+    "backbone.epoxy": "~1.0.3"
   }
 }

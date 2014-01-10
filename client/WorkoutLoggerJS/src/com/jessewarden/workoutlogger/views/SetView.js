@@ -2,26 +2,23 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 	"jquery",
 	"underscore",
 	"backbone",
+	"epoxy",
 	"com/jessewarden/workoutlogger/events/EventBus"
 ],
 	function(template,
 	         $,
 	         _,
 	         Backbone,
+	         Epoxy,
 	         EventBus
 		)
 	{
 		var SetView = Backbone.View.extend({
 			tagName: "div",
 
-//			events:
-//			{
-//				"click #deleteSetLink": this.onDeleteSet
-//			},
-
 			initialize: function(args)
 			{
-				this.setWorkoutSet(args.workoutSet);
+				this.setWorkoutSet(args.model);
 			},
 
 			render: function()
@@ -29,24 +26,35 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				try
 				{
 					console.log("SetView::render");
-					this.$el.html(template(this.workoutSet.toJSON()));
+					this.$el.html(template(this.model.toJSON()));
 					var me = this;
 					_.defer(function()
 					{
-						var workoutID = me.workoutSet.get("id");
+						var workoutID = me.model.get("id");
 						$("#deleteSetLink" + workoutID).click(function()
 						{
 							me.onDeleteSet();
 						});
+
 						var repsInput = $("#repsSetViewInput" + workoutID);
 						repsInput.change(function()
 						{
-							me.onRepsChanged();
+							me.onRepsChanged(repsInput[0]);
 						});
 						repsInput.keydown(function()
 						{
-							me.onRepsChanged();
+							me.onRepsChanged(repsInput[0]);
 						});
+						var weightSetViewInput = $("#weightSetViewInput" + workoutID);
+						weightSetViewInput.change(function()
+						{
+							me.onWeightChanged(weightSetViewInput[0]);
+						});
+						weightSetViewInput.keydown(function()
+						{
+							me.onWeightChanged(weightSetViewInput[0]);
+						});
+
 					});
 
 				}
@@ -58,16 +66,16 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 
 			setWorkoutSet: function(workoutSet)
 			{
-				console.log("SetView::setWorkoutSet, workoutSet:", workoutSet);
-				this.workoutSet = workoutSet;
-				if(this.workoutSet != null)
+				console.log("SetView::setWorkoutSet, model:", workoutSet);
+				this.model = workoutSet;
+				if(this.model != null)
 				{
 					var me = this;
-					this.saveRepsChange = _.throttle(function()
+					this.saveModelChanges = _.throttle(function()
 					{
-						me.workoutSet.save();
+						me.model.save();
 					}, 3 * 1000);
-					this.workoutSet.on("all", this.onWorkoutSetChanged, this);
+					this.model.on("all", this.onWorkoutSetChanged, this);
 					this.render();
 				}
 			},
@@ -75,20 +83,19 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 			onDeleteSet: function()
 			{
 				console.log("onDeleteSet");
-				EventBus.trigger("SetView:onDeleteSet", {workoutSet: this.workoutSet});
+				EventBus.trigger("SetView:onDeleteSet", {model: this.model});
 			},
 
 			onWorkoutSetChanged: function(event)
 			{
 				console.log("SetView::onWorkoutSetChanged", event);
-				this.render();
+				//this.render();
 			},
 
-			onRepsChanged: function()
+			onRepsChanged: function(repsInput)
 			{
 				console.log("SetView::onRepsChanged");
-				var workoutID = this.workoutSet.get("id");
-				var repsInput = $("#repsSetViewInput" + workoutID)[0];
+				var workoutID = this.model.get("id");
 				var reps = parseInt(repsInput.value);
 				console.log("workoutID:", workoutID);
 				console.log("repsInput:", repsInput);
@@ -96,8 +103,24 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 				console.log("isnan:", isNaN(reps));
 				if(isNaN(reps) == false)
 				{
-					this.workoutSet.set("reps", reps);
-					this.saveRepsChange();
+					this.model.set("reps", reps);
+					this.saveModelChanges();
+				}
+			},
+
+			onWeightChanged: function(weightInput)
+			{
+				console.log("SetView::onWeightChanged");
+				var workoutID = this.model.get("id");
+				var weight = parseInt(weightInput.value);
+				console.log("workoutID:", workoutID);
+				console.log("weightInput:", weightInput);
+				console.log("weight:", weight);
+				console.log("weight:", isNaN(weight));
+				if(isNaN(weight) == false)
+				{
+					this.model.set("weight", weight);
+					this.saveModelChanges();
 				}
 			}
 
