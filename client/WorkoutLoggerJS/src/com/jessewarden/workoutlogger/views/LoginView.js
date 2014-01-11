@@ -37,7 +37,7 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 			else
 			{
 				console.log("No error to render.");
-				model = {};
+				model = {modal: this.modal};
 			}
 			this.$el.html(template(model));
 		},

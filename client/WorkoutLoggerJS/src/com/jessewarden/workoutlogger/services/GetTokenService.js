@@ -1,7 +1,8 @@
 define(["jquery",
 		"underscore",
 		"com/jessewarden/workoutlogger/services/ServicesLocator",
-		"com/jessewarden/workoutlogger/events/EventBus"], function($, _, ServicesLocator, EventBus)
+		"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"], function($, _, ServicesLocator, EventBus, BaseService)
 {
 
 	function GetTokenService()
@@ -23,12 +24,12 @@ define(["jquery",
 //				console.log("data:", data);
 //				console.log("dataType:", dataType);
 //				console.log("jqXHR:", jqXHR);
-				me.onSuccess(data);
+				me._onSuccess(data, me.onSuccess, me.onError);
 			},
 			error: function(errorStuff)
 			{
 //				console.error("GetTokenService::error, stuff:", errorStuff);
-				me.onError(errorStuff);
+				me._onError(errorStuff, me.onError);
 			},
 			contentType: "application/json"
 		});
@@ -66,6 +67,8 @@ define(["jquery",
 //		console.log("GetTokenService::dispatchError, errorMessage:", errorMessage);
 		EventBus.trigger("GetTokenService:error", {error: Error(errorMessage)});
 	};
+
+	_.extend(GetTokenService.prototype, BaseService);
 
 	return GetTokenService;
 

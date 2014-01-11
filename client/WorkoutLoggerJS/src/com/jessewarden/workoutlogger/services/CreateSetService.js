@@ -3,13 +3,15 @@ define(["jquery",
 	"cookies",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
 	"com/jessewarden/workoutlogger/events/EventBus",
-	"com/jessewarden/workoutlogger/factories/SetFactory"],
+	"com/jessewarden/workoutlogger/factories/SetFactory",
+	"com/jessewarden/workoutlogger/services/BaseService"],
 		function($,
 		         _,
 		         Cookies,
 		         ServicesLocator,
 		         EventBus,
-		         SetFactory
+		         SetFactory,
+		         BaseService
 			)
 {
 
@@ -40,11 +42,11 @@ define(["jquery",
 				headers: headers,
 				success: function(data, dataType, jqXHR)
 				{
-					me.onSuccess(data);
+					me._onSuccess(data, me.onSuccess, me.onError);
 				},
 				error: function(errorStuff)
 				{
-					me.onError(errorStuff);
+					me._onError(errorStuff, me.onError);
 				},
 				contentType: "application/json"
 			});
@@ -82,6 +84,8 @@ define(["jquery",
 //		console.log("CreateSetService::dispatchError, errorMessage:", errorMessage);
 		EventBus.trigger("CreateSetService:error", {error: Error(errorMessage)});
 	};
+
+	_.extend(CreateSetService.prototype, BaseService);
 
 	return CreateSetService;
 

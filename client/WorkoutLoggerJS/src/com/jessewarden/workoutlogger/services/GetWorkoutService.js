@@ -7,7 +7,8 @@ define(["jquery",
 	"com/jessewarden/workoutlogger/models/Exercise",
 	"com/jessewarden/workoutlogger/collections/Exercises",
 	"com/jessewarden/workoutlogger/collections/WorkoutSets",
-	"com/jessewarden/workoutlogger/models/WorkoutSet"],
+	"com/jessewarden/workoutlogger/models/WorkoutSet",
+	"com/jessewarden/workoutlogger/services/BaseService"],
 		function($,
 		         _,
 		         JSON,
@@ -17,7 +18,8 @@ define(["jquery",
 		         Exercise,
 		         Exercises,
 		         WorkoutSets,
-		         WorkoutSet
+		         WorkoutSet,
+		         BaseService
 			)
 {
 
@@ -36,11 +38,11 @@ define(["jquery",
 				url: ServicesLocator.GET_WORKOUT + "/" + workoutID,
 				success: function(data, dataType, jqXHR)
 				{
-					me.onSuccess(data);
+					me._onSuccess(data, me.onSuccess, me.onError);
 				},
 				error: function(errorStuff)
 				{
-					me.onError(errorStuff);
+					me._onError(errorStuff, me.onError);
 				},
 				contentType: "application/json"
 			});
@@ -118,6 +120,8 @@ define(["jquery",
 		console.log("GetWorkoutService::dispatchError, errorMessage:", errorMessage);
 		EventBus.trigger("GetWorkoutService:error", {error: Error(errorMessage)});
 	};
+
+	_.extend(GetWorkoutService.prototype, BaseService);
 
 	return GetWorkoutService;
 

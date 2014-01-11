@@ -2,7 +2,8 @@ define(["jquery",
 	"json2",
 	"underscore",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, JSON, _, ServicesLocator, EventBus)
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"], function($, JSON, _, ServicesLocator, EventBus, BaseService)
 {
 
 	function LoginService()
@@ -53,14 +54,14 @@ define(["jquery",
 //					console.log("LoginService::success");
 //					console.log("data:", data);
 //					console.log("dataType:", dataType);
-					me.onSuccess(data);
+					me._onSuccess(data, me.onSuccess, me.onError);
 				},
 				error: function(jqXHR, textStatus, errorThrown)
 				{
 //					console.error("LoginService::error");
 //					console.error(textStatus);
 //					console.error(errorThrown);
-					me.onError(errorThrown);
+					me._onError(errorThrown, me.onError);
 				},
 				contentType: "application/json"
 
@@ -113,6 +114,8 @@ define(["jquery",
 		}
 		EventBus.trigger("LoginService:error", {error: Error(error)});
 	};
+
+	_.extend(LoginService.prototype, BaseService);
 
 	return LoginService;
 

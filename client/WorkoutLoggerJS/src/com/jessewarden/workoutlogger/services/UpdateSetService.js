@@ -2,12 +2,14 @@ define(["jquery",
 	"underscore",
 	"cookies",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"],
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"],
 	function($,
 	         _,
 	         Cookies,
 	         ServicesLocator,
-	         EventBus
+	         EventBus,
+	         BaseService
 		)
 	{
 
@@ -32,11 +34,11 @@ define(["jquery",
 					headers: headers,
 					success: function(data, dataType, jqXHR)
 					{
-						me.onSuccess(data);
+						me._onSuccess(data, me.onSuccess, me.onError);
 					},
 					error: function(errorStuff)
 					{
-						me.onError(errorStuff);
+						me._onError(errorStuff, me.onError);
 					},
 					contentType: "application/json"
 				});
@@ -72,6 +74,8 @@ define(["jquery",
 //		console.log("UpdateSetService::dispatchError, errorMessage:", errorMessage);
 			EventBus.trigger("UpdateSetService:error", {error: Error(errorMessage)});
 		};
+
+		_.extend(UpdateSetService.prototype, BaseService);
 
 		return UpdateSetService;
 

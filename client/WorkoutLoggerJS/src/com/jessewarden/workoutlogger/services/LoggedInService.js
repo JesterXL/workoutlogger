@@ -1,7 +1,8 @@
 define(["jquery",
 	"underscore",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, _, ServicesLocator, EventBus)
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"], function($, _, ServicesLocator, EventBus, BaseService)
 {
 
 	function LoggedInService()
@@ -18,11 +19,11 @@ define(["jquery",
 				type: "GET",
 				success: function(data, dataType, jqXHR)
 				{
-					me.onSuccess(data);
+					me._onSuccess(data, me.onSuccess, me.onError);
 				},
 				error: function(errorStuff)
 				{
-					me.onError(errorStuff);
+					me._onError(errorStuff, me.onError);
 				},
 				contentType: "application/json"
 			});
@@ -74,6 +75,11 @@ define(["jquery",
 //		console.log("LoggedInService::dispatchError, errorMessage:", errorMessage);
 		EventBus.trigger("LoggedInService:error", {error: Error(errorMessage)});
 	};
+
+	_.extend(LoggedInService.prototype, BaseService);
+
+	console.log("LoggedInService:", LoggedInService);
+	console.log("BaseService:", BaseService);
 
 	return LoggedInService;
 

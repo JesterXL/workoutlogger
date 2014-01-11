@@ -3,13 +3,15 @@ define(["jquery",
 	"json2",
 	"cookies",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"],
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"],
 	function($,
 	         _,
 	         JSON,
 	         Cookies,
 	         ServicesLocator,
-	         EventBus
+	         EventBus,
+	         BaseService
 		)
 	{
 
@@ -37,11 +39,11 @@ define(["jquery",
 					headers: headers,
 					success: function(data, dataType, jqXHR)
 					{
-						me.onSuccess(data);
+						me._onSuccess(data, me.onSuccess, me.onError);
 					},
 					error: function(errorStuff)
 					{
-						me.onError(errorStuff);
+						me._onError(errorStuff, me.onError);
 					},
 					contentType: "application/json"
 				});
@@ -77,6 +79,8 @@ define(["jquery",
 //		console.log("DeleteSetService::dispatchError, errorMessage:", errorMessage);
 			EventBus.trigger("DeleteSetService:error", {error: Error(errorMessage)});
 		};
+
+		_.extend(DeleteSetService.prototype, BaseService);
 
 		return DeleteSetService;
 

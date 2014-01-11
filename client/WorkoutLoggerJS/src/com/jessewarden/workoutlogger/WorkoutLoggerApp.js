@@ -29,6 +29,7 @@ define(["jquery",
 
 		this.currentView = null;
 		this.loginView = null;
+		this.loginViewPopup = null;
 		this.loadingView = null;
 		this.mainView = null;
 
@@ -45,6 +46,8 @@ define(["jquery",
 
 		EventBus.on("LoginService:error", this.onLoginError, this);
 		EventBus.on("LoginService:success", this.onLoginSuccess, this);
+
+		EventBus.on("needToLogin", this.onNeedToLogin, this);
 
 		this.showLoading();
 		new LoggedInService().loggedIn();
@@ -79,6 +82,18 @@ define(["jquery",
 		EventBus.on("LoginView:login", this.onLogin, this);
 
 		this.currentView = this.loginView;
+	};
+
+	WorkoutLoggerApp.prototype.showLoginPopup = function()
+	{
+		console.log("WorkoutLoggerApp::showLoginPopup");
+		if(this.loginViewPopup == null)
+		{
+			this.loginViewPopup = new LoginView({el: this.content, modal: true});
+		}
+		EventBus.on("LoginView:login", this.onLogin, this);
+
+		this.currentView = this.loginViewPopup;
 	};
 
 	WorkoutLoggerApp.prototype.showLoading = function()
@@ -149,6 +164,12 @@ define(["jquery",
 			this.mainView = new MainView({el: this.content, currentWorkout: this.currentWorkout, workouts: this.workouts});
 		}
 		this.currentView = this.mainView;
+	};
+
+	WorkoutLoggerApp.prototype.onNeedToLogin = function()
+	{
+		console.log("WorkoutLoggerApp::onNeedToLogin");
+		this.showLoginPopup();
 	};
 
 //	WorkoutLoggerApp.prototype.showView = function(viewName)

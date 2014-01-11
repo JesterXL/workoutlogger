@@ -1,6 +1,7 @@
 define(["jquery",
 	"com/jessewarden/workoutlogger/services/ServicesLocator",
-	"com/jessewarden/workoutlogger/events/EventBus"], function($, ServicesLocator, EventBus)
+	"com/jessewarden/workoutlogger/events/EventBus",
+	"com/jessewarden/workoutlogger/services/BaseService"], function($, ServicesLocator, EventBus, BaseService)
 {
 
 	function LogoutService()
@@ -16,11 +17,11 @@ define(["jquery",
 				url: ServicesLocator.LOGOUT,
 				success: function(data, dataType, jqXHR)
 				{
-					me.onSuccess(data);
+					me._onSuccess(data, me.onSuccess, me.onError);
 				},
 				error: function(errorStuff)
 				{
-					me.onError(errorStuff);
+					me._onError(errorStuff, me.onError);
 				},
 				contentType: "application/json"
 			});
@@ -37,6 +38,8 @@ define(["jquery",
 		console.error(error);
 		EventBus.trigger("LogoutService:error");
 	};
+
+	_.extend(LogoutService.prototype, BaseService);
 
 	return LogoutService;
 
