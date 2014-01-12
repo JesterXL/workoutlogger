@@ -3,7 +3,7 @@
 <head>
     <title>Workout Logger</title>
 
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" media="screen">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="../bower_components/requirejs/require.js"></script>
@@ -26,10 +26,15 @@
 
 <script>
 
-    require(["com/jessewarden/workoutlogger/WorkoutLoggerApp"], function(WorkoutLoggerApp)
+    require(["jquery"], function($)
     {
-        app = new WorkoutLoggerApp();
+        require(["com/jessewarden/workoutlogger/WorkoutLoggerApp"], function(WorkoutLoggerApp)
+        {
+            app = new WorkoutLoggerApp();
+        });
+
     });
+
 
 </script>
 

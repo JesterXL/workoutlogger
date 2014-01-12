@@ -1,9 +1,15 @@
 define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
+		"jquery",
 		"underscore",
 		"backbone",
+		"bootstrapmodal",
+	"bootstraptransition",
 		"com/jessewarden/workoutlogger/events/EventBus"], function(template,
+                                                                   $,
                               _,
                               Backbone,
+                              bootstrapmodal,
+                              bootstraptransition,
 								EventBus)
 {
 	var LoginView = Backbone.View.extend({
@@ -39,7 +45,10 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 				console.log("No error to render.");
 				model = {modal: this.modal};
 			}
+			console.log("model used to draw:", model);
 			this.$el.html(template(model));
+			this.$el.modal({show:true,
+						backdrop:'static'});
 		},
 
 		setError: function(errorObject)

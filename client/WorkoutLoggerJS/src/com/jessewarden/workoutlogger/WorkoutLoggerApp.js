@@ -38,6 +38,9 @@ define(["jquery",
 
 		this.content = $("#content");
 
+		this.showLoginPopup();
+		return;
+
 		EventBus.on("LoggedInService:success", this.onLoggedInSuccess, this);
 		EventBus.on("LoggedInService:error", this.onLoggedInError, this);
 
