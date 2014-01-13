@@ -10,6 +10,7 @@ requirejs.config({
 		"moment": "../bower_components/momentjs/moment",
 		"cookies": "../bower_components/cookies-js/src/cookies",
 		"epoxy": "../bower_components/backbone.epoxy/backbone.epoxy",
+		"bootstrap": "../bower_components/bootstrap/dist/js/bootstrap",
 		"bootstrapmodal": "../bower_components/bootstrap/js/modal",
 		"bootstraptransition": "../bower_components/bootstrap/js/transition"
 	},
@@ -26,6 +27,17 @@ requirejs.config({
 		},
 		'backbone': {
 			exports: "Backbone"
+		},
+		"bootstrap": {
+			deps: ["jquery"]
+		},
+		"bootstrapmodal":
+		{
+			deps: ["jquery"]
+		},
+		"bootstraptransition":
+		{
+			deps: ["jquery"]
 		}
 	}
 });
