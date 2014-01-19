@@ -52,9 +52,14 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
                             }
                         });
                 }
-				this.$el.html(template({
-					workouts: this.workouts.toJSON()
-				}));
+                else
+                {
+                    console.log("Got some, el:", this.$el);
+                    var renderedTemplate = template({
+                        workouts: this.workouts.toJSON()
+                    });
+                    this.$el.html(renderedTemplate);
+                }
 			}
 			catch(error)
 			{

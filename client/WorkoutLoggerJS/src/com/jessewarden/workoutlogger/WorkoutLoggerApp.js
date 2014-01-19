@@ -144,7 +144,6 @@ define(["jquery",
 		console.log("WorkoutLoggerApp::showMainScreen");
 		if(this.mainView == null)
 		{
-            console.log("this.content: ", this.content[0]);
 			this.mainView = new MainView({el: this.content, currentWorkout: this.currentWorkout, workouts: this.workouts});
 		}
         this.setCurrentView(this.mainView);
@@ -162,10 +161,12 @@ define(["jquery",
 		{
             if(this.currentView != null)
             {
-//			    this.currentView.remove();
+			    this.currentView.remove();
+                $(".container").html('<div id="content"></div>');
             }
 
             this.currentView = view;
+            this.currentView.setElement($("#content"));
             this.currentView.render();
 		}
 	};

@@ -49,7 +49,9 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
                     model = {modal: this.modal};
                 }
                 console.log("model used to draw:", model);
+                console.log("before:", this.$el.html());
                 this.$el.html(template(model));
+                console.log("after:", this.$el.html());
                 $('#loginModal').modal({show: true, backdrop: 'static', keyboard: false});
 
             }

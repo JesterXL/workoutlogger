@@ -13,7 +13,7 @@ define([
 				{
 					if(ResponseFactory.needToLogin(jqueryResponse) == true)
 					{
-						EventBus.trigger("needToLogin");
+//						EventBus.trigger("needToLogin");
 					}
 					successCallback.call(this, jqueryResponse);
 				}
@@ -27,7 +27,7 @@ define([
 			{
 				if(ResponseFactory.needToLoginError(errorStuff) == true)
 				{
-					EventBus.trigger("needToLogin");
+//					EventBus.trigger("needToLogin");
 				}
 				errorCallback.call(this, errorStuff);
 			}
