@@ -1,5 +1,4 @@
-{{#if modal}}
-    <div id="loginModal" class="modal fade" style="width: 500px; height: 400px;">
+    <div id="loginModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -30,20 +29,3 @@
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginModal">
         Launch demo modal
     </button>
-{{else}}
-    <div>
-        <p><span class="label label-danger{{#unless error}}.hide{{/unless}}">Error:</span> {{errorMessage}}</p>
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Username" id="loginViewUsernameInput" name="loginViewUsernameInput">
-        </div>
-
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Password" id="loginViewPasswordInput" name="loginViewPasswordInput">
-        </div>
-
-        <input type="checkbox" id="loginViewRememberMeCheckbox" name="loginViewRememberMeCheckbox">
-        <span class="label">Remember Me</span>
-
-        <button type="button" class="btn btn-default" id="loginButton" name="loginButton">Login</button>
-    </div>
-{{/if}}

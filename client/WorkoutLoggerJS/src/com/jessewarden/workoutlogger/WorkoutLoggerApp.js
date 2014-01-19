@@ -38,9 +38,6 @@ define(["jquery",
 
 		this.content = $("#content");
 
-		this.showLoginPopup();
-		return;
-
 		EventBus.on("LoggedInService:success", this.onLoggedInSuccess, this);
 		EventBus.on("LoggedInService:error", this.onLoggedInError, this);
 
@@ -72,11 +69,10 @@ define(["jquery",
 
 	WorkoutLoggerApp.prototype.showLogin = function(errorToShow)
 	{
-//		this.currentView = new LoginView({el: this.content, errorObject: {errorMessage: "You failed to login."}});
 		console.log("WorkoutLoggerApp::showLogin, errorToShow:", errorToShow);
 		if(this.loginView == null)
 		{
-			this.loginView = new LoginView({el: this.content, error: errorToShow});
+			this.loginView = new LoginView({el: this.content, error: errorToShow, modal: true});
 		}
 		else
 		{
@@ -84,19 +80,7 @@ define(["jquery",
 		}
 		EventBus.on("LoginView:login", this.onLogin, this);
 
-		this.currentView = this.loginView;
-	};
-
-	WorkoutLoggerApp.prototype.showLoginPopup = function()
-	{
-		console.log("WorkoutLoggerApp::showLoginPopup");
-		if(this.loginViewPopup == null)
-		{
-			this.loginViewPopup = new LoginView({el: this.content, modal: true});
-		}
-		EventBus.on("LoginView:login", this.onLogin, this);
-
-		this.currentView = this.loginViewPopup;
+        this.setCurrentView(this.loginView);
 	};
 
 	WorkoutLoggerApp.prototype.showLoading = function()
@@ -105,11 +89,7 @@ define(["jquery",
 		{
 			this.loadingView =  new LoadingView({el: this.content});
 		}
-		else
-		{
-			this.loadingView.render();
-		}
-		this.currentView = this.loadingView;
+        this.setCurrentView(this.loadingView);
 	};
 
 	WorkoutLoggerApp.prototype.onLogin = function(eventObject)
@@ -164,9 +144,10 @@ define(["jquery",
 		console.log("WorkoutLoggerApp::showMainScreen");
 		if(this.mainView == null)
 		{
+            console.log("this.content: ", this.content[0]);
 			this.mainView = new MainView({el: this.content, currentWorkout: this.currentWorkout, workouts: this.workouts});
 		}
-		this.currentView = this.mainView;
+        this.setCurrentView(this.mainView);
 	};
 
 	WorkoutLoggerApp.prototype.onNeedToLogin = function()
@@ -175,20 +156,19 @@ define(["jquery",
 		this.showLoginPopup();
 	};
 
-//	WorkoutLoggerApp.prototype.showView = function(viewName)
-//	{
-//		if(viewName != this.currentView)
-//		{
-//			switch(viewName)
-//			{
-//				case "loginView":
-//
-//				case "loadingView":
-//
-//				case "mainView":
-//			}
-//		}
-//	};
+	WorkoutLoggerApp.prototype.setCurrentView = function(view)
+	{
+		if(view != this.currentView)
+		{
+            if(this.currentView != null)
+            {
+//			    this.currentView.remove();
+            }
+
+            this.currentView = view;
+            this.currentView.render();
+		}
+	};
 
 
 	return WorkoutLoggerApp;

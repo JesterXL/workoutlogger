@@ -34,13 +34,6 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 		{
 			this.currentWorkout = args.currentWorkout;
 			this.workouts = args.workouts;
-			var me = this;
-			this.workouts.fetch(
-				{success: function()
-						{
-							me.render();
-						}
-			});
 		},
 
 		render: function()
@@ -48,6 +41,17 @@ define(["hbs!com/jessewarden/workoutlogger/views/MainViewTemplate",
 			try
 			{
 				console.log("MainView::render");
+                if(this.workouts && this.workouts.length < 1)
+                {
+                    console.log("no workouts, so calling fetch...");
+                    var me = this;
+                    this.workouts.fetch(
+                        {success: function()
+                            {
+                                me.render();
+                            }
+                        });
+                }
 				this.$el.html(template({
 					workouts: this.workouts.toJSON()
 				}));

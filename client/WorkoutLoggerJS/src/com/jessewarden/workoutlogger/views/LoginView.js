@@ -29,28 +29,48 @@ define(["hbs!com/jessewarden/workoutlogger/views/LoginViewTemplate",
 		{
 			this.errorToShow = args.error;
 			this.modal = args.modal;
-			this.render();
 		},
 
 		render: function()
 		{
 			console.log("LoginView::render");
-			var model;
-			if(this.errorToShow != null)
-			{
-				console.log("this.errorToShow:", this.errorToShow);
-				console.log("this.errorToShow.message:", this.errorToShow.message);
-				model = {error: true, errorMessage: this.errorToShow.message};
-			}
-			else
-			{
-				console.log("No error to render.");
-				model = {modal: this.modal};
-			}
-			console.log("model used to draw:", model);
-			this.$el.html(template(model));
-//			this.$el.modal({show:true});
+            try
+            {
+                var model;
+                if(this.errorToShow != null)
+                {
+                    console.log("this.errorToShow:", this.errorToShow);
+                    console.log("this.errorToShow.message:", this.errorToShow.message);
+                    model = {error: true, errorMessage: this.errorToShow.message, modal: true};
+                }
+                else
+                {
+                    console.log("No error to render.");
+                    model = {modal: this.modal};
+                }
+                console.log("model used to draw:", model);
+                this.$el.html(template(model));
+                $('#loginModal').modal({show: true, backdrop: 'static', keyboard: false});
+
+            }
+            catch(error)
+            {
+                console.error("LoginView::render, error: ", error);
+            }
 		},
+
+        remove: function()
+        {
+            console.log("LoginView::remove");
+            // Really? REEALLLY?
+            $('#loginModal').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+
+            this.$el.remove();
+            this.stopListening();
+            return this;
+        },
 
 		setError: function(errorObject)
 		{

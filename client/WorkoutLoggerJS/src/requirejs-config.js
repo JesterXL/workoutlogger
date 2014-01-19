@@ -1,6 +1,6 @@
 requirejs.config({
 	baseUrl: '',
-
+    waitSeconds: 2,
 	paths: {
 		"underscore": "../bower_components/underscore/underscore",
 		"backbone": "../bower_components/backbone/backbone",
