@@ -2,14 +2,12 @@ define(["hbs!com/jessewarden/workoutlogger/views/SetViewTemplate",
 	"jquery",
 	"underscore",
 	"backbone",
-	"epoxy",
 	"com/jessewarden/workoutlogger/events/EventBus"
 ],
 	function(template,
 	         $,
 	         _,
 	         Backbone,
-	         Epoxy,
 	         EventBus
 		)
 	{

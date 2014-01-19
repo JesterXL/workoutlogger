@@ -1,5 +1,5 @@
 {{#if modal}}
-    <div class="modal fade" style="width: 500px; height: 400px;">
+    <div id="loginModal" class="modal fade" style="width: 500px; height: 400px;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -26,6 +26,10 @@
             </div>
         </div>
     </div>
+
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginModal">
+        Launch demo modal
+    </button>
 {{else}}
     <div>
         <p><span class="label label-danger{{#unless error}}.hide{{/unless}}">Error:</span> {{errorMessage}}</p>
