@@ -1,7 +1,5 @@
 module.exports = function(grunt)
 {
-//	var homeDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
-
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),

@@ -23,7 +23,7 @@ define(["jquery",
 {
 	function WorkoutLoggerApp()
 	{
-        
+
 		this.token = null;
 		this.username = null;
 		this.password = null;

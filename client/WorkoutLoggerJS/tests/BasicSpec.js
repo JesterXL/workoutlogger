@@ -6,12 +6,6 @@ describe("Simple Test:", function()
 		var a = "Hello World!";
 		var b = true;
 		expect(a).toBe("Hello World!");
-//		expect(b).not.toBe(null);
-//		console.log("I ran bro.");
-
-
-
-
 	});
 });
 

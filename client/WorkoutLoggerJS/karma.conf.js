@@ -1,5 +1,3 @@
-// Karma configuration
-// Generated on Mon Dec 23 2013 21:09:03 GMT-0500 (EST)
 
 module.exports = function(config) {
   config.set({
@@ -17,8 +15,9 @@ module.exports = function(config) {
       'tests/requirejs-config.js',
 	    {pattern: 'bower_components/**/*.js', included: false},
       {pattern: 'src/**/*.js', included: false},
-	    {pattern: 'tests/*Spec.js', included: false},
-	    {pattern: 'tests/**/*Spec.js', included: false}
+//	    {pattern: 'tests/*Spec.js', included: false},
+//	    {pattern: 'tests/**/*Spec.js', included: false}
+        {pattern: 'tests/com/jessewarden/workoutlogger/services/GetTokenServiceIntegrationSpec.js', included: false}
     ],
 
 
