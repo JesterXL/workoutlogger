@@ -2,7 +2,7 @@ describe( 'AppController', function() {
   describe( 'isCurrentUrl', function() {
     var AppController, $location, $scope;
 
-    beforeEach( module( 'ngBoilerplate' ) );
+    beforeEach( module( 'workoutlogger' ) );
 
     beforeEach( inject( function( $controller, _$location_, $rootScope ) {
       $location = _$location_;

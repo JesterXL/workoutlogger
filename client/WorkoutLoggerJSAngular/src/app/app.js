@@ -1,7 +1,8 @@
-angular.module( 'ngBoilerplate', [
+angular.module( 'workoutlogger', [
+	'ngResource',
   'templates-app',
   'templates-common',
-  'ngBoilerplate.login',
+	'workoutlogger.login',
   'ui.state',
   'ui.route'
 ])
