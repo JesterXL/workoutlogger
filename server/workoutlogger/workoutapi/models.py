@@ -6,29 +6,12 @@ from django.contrib.auth.models import User
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 
-class Workout(models.Model):
-	user = models.ForeignKey(User)
-	name = models.CharField(max_length=200)
-	occurrence = models.DateTimeField()
-	total_time_in_milliseconds = models.IntegerField(default=0)
-
-	def __unicode__(self):
-		return "Workout: " + self.name
-
-	def toJSON(self):
-		return {
-			"user": {
-				"id": self.user.id,
-			},
-			"name": str(self.name),
-			"occurrence": str(self.occurrence),
-			"total_time_in_milliseconds": self.total_time_in_milliseconds
-		}
-
 
 class Exercise(models.Model):
-	name = models.CharField(max_length=100)
-	workout = models.ForeignKey(Workout)
+	user = models.ForeignKey(User)
+	name = models.CharField(max_length=200)
+	icon_path = models.URLField()
+	icon_path.blank = True
 	
 	def __unicode__(self):
 		return "Excercise: " + self.name
@@ -36,34 +19,81 @@ class Exercise(models.Model):
 	def toJSON(self):
 		return {
 			"name": str(self.name),
-			"id": str(self.id),
-			"sets": []
+			"icon_path": str(self.icon_path),
+			"id": str(self.id)
 		}
 
 class Set(models.Model):
-	good_form = models.BooleanField(default=True)
-	reps = models.IntegerField(default=0)
-	weight = models.IntegerField(default=0)
-	goal_reps = models.IntegerField(default=0)
-	goal_weight = models.IntegerField(default=0)
-	exercise = models.ForeignKey(Exercise)
+	user = models.ForeignKey(User)
+	rep_count = models.IntegerField()
+	weight = models.IntegerField()
+	rest_time = models.IntegerField()
 
-	# def __unicode__(self):
-	# 	return "Set: " + self.name
+	def __unicode__(self):
+		return "Set, reps: " + str(self.rep_count) + ", weight: " + str(self.weight) + ", rest_time: " + str(self.rest_time)
 
 	def toJSON(self):
 		return {
-			"id": self.id,
-			"good_form": self.good_form,
-			"reps": self.reps,
+			"id": str(self.id),
+			"rep_count": self.rep_count,
 			"weight": self.weight,
-			"goal_reps": self.goal_reps,
-			"goal_weight": self.goal_weight
+			"rest_time": self.rest_time
 		}
 
+class Routine(models.Model):
+	user = models.ForeignKey(User)
+	exercise = models.ForeignKey(Exercise)
+	sets = models.ManyToManyField(Set)
 
-# class LazyEncoder(DjangoJSONEncoder):
-#     def default(self, obj):
-#         if isinstance(obj, Promise):
-#             return force_text(obj)
-#         return super(LazyEncoder, self).default(obj)
+	def __unicode__(self):
+		return "Routine"
+
+	def toJSON(self):
+		json = {
+			"id": str(self.id),
+			"user": self.user.toJSON(),
+			"exercise": self.exercise.toJSON(),
+			"sets": []
+		}
+		# TODO: add sets
+		return json
+
+
+class Workout(models.Model):
+	user = models.ForeignKey(User)
+	name = models.CharField(max_length=200)
+	routines = models.ManyToManyField(Routine)
+	occurrence = models.DateTimeField()
+	occurrence.blank = True
+	occurrence.null = True
+
+	def __unicode__(self):
+		return "Workout: " + self.name
+
+	def toJSON(self):
+		json = {
+			"user": self.user.toJSON(),
+			"name": str(self.name),
+			"routines": []
+		}
+		# TODO: loop through routines
+		return json
+
+
+class Program(models.Model):
+	user = models.ForeignKey(User)
+	name = models.CharField(max_length=200)
+	workouts = models.ManyToManyField(Workout)
+
+	def __unicode__(self):
+		return "Program: " + self.name
+
+	def toJSON(self):
+		json = {
+			"user": self.user.toJSON(),
+			"name": str(self.name),
+			"workouts": []
+		}
+		# TODO: loop through workouts
+		return json
+
