@@ -84,6 +84,10 @@ class Program(models.Model):
 	user = models.ForeignKey(User)
 	name = models.CharField(max_length=200)
 	workouts = models.ManyToManyField(Workout)
+	start_date = models.DateTimeField()
+	start_date.blank = True
+	start_date.null = True
+
 
 	def __unicode__(self):
 		return "Program: " + self.name
@@ -92,7 +96,8 @@ class Program(models.Model):
 		json = {
 			"user": self.user.toJSON(),
 			"name": str(self.name),
-			"workouts": []
+			"workouts": [],
+			"start_date": str(self.start_date)
 		}
 		# TODO: loop through workouts
 		return json
