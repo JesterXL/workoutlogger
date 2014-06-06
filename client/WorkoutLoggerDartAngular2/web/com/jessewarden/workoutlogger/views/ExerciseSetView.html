@@ -1,0 +1,62 @@
+<polymer-element name="exerciseset-view">
+  <template>
+  <link rel="stylesheet" href="../../../../bootstrap/css/bootstrap.css">
+    <div>
+    	<h3>Goals</h3>
+    	<div>
+	    	<div class="input-group" style="margin-right: 10px; float: left; width: 120px;">
+			  <span class="input-group-addon">Reps:</span>
+			  <input type="text" class="form-control" value="{{setVO.goalReps}}" disabled="disabled">
+			</div>
+			<div class="input-group" style="margin-right: 10px; float: left; width: 140px;">
+			  <span class="input-group-addon">Weight:</span>
+			  <input type="text" class="form-control" value="{{setVO.goalWeight}}" disabled="disabled">
+			</div>
+		</div>
+		
+		<h3 style="clear: left;">Results:</h3>
+		<div>
+			<div class="input-group" style="margin-right: 10px; float: left; width: 120px;">
+			  <span class="input-group-addon">Reps:</span>
+			  <input id="repsInput" type="text" class="form-control" value="{{setVO.reps}}" 
+			  on-change="{{updateReps}}"
+			  on-click="{{updateReps}}"
+			  on-input="{{updateReps}}">
+			</div>
+			<div class="input-group" style="margin-right: 10px; float: left; width: 140px;">
+			  <span class="input-group-addon">Weight:</span>
+			  <input id="weightInput" type="text" class="form-control" value="{{setVO.weight}}" on-change="{{updateWeight}}">
+			</div>
+		</div>
+		
+		<div style="clear: left; margin-right: 10px; float: left; width: 140px;">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox">Good Form
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox">Heavy
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox">Too Light
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox">Failure
+				</label>
+			</div>
+		</div>
+		
+		<h3 style="clear: left;">Notes:</h3>
+		<textarea class="span6" rows="3"></textarea>
+		
+    </div>
+  </template>
+  <script type="application/dart" src="ExerciseSetView.dart"></script>
+</polymer-element>
+
