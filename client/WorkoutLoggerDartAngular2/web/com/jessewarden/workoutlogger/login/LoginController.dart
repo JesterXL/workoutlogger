@@ -1,6 +1,6 @@
 part of workoutloggerlib;
 
-@Controller(selector: 'login-view', publishAs: 'loginController')
+@Controller(selector: '[login-view]', publishAs: 'loginController')
 class LoginController
 {
 	
