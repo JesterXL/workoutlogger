@@ -4,3 +4,4 @@ dependencies:
   angular: any
   bootjack: any
   browser: any
+  logging: any

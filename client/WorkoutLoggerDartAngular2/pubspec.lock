@@ -8,7 +8,7 @@ packages:
   angular:
     description: angular
     source: hosted
-    version: "0.12.0"
+    version: "0.11.0"
   args:
     description: args
     source: hosted
@@ -65,6 +65,10 @@ packages:
     description: route_hierarchical
     source: hosted
     version: "0.4.21"
+  shadow_dom:
+    description: shadow_dom
+    source: hosted
+    version: "0.10.0"
   source_maps:
     description: source_maps
     source: hosted
@@ -77,7 +81,3 @@ packages:
     description: utf
     source: hosted
     version: "0.9.0"
-  web_components:
-    description: web_components
-    source: hosted
-    version: "0.3.4"

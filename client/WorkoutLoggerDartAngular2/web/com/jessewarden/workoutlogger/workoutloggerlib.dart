@@ -23,3 +23,5 @@ part "login/MockLoginService.dart";
 part "login/LoginView.dart";
 
 part "login/LoginController.dart";
+
+part "WorkoutLoggerApplication.dart";
