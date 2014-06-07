@@ -6,14 +6,28 @@ class LoginController
 	
 	String username = "";
 	String password = "";
+	GetTokenService getTokenService;
+	LoginService loginService;
+	RootScope rootScope;
 	
-	LoginController(Scope scope)
+	LoginController(RootScope rootScope, GetTokenService getTokenService, LoginService loginService)
 	{
-		print("LoginController::constructor");	
+		print("LoginController::constructor");
+		this.getTokenService = getTokenService;
+		this.loginService = loginService;
+		this.rootScope = rootScope;
 	}
 	
-	void onTest()
+	void onLogin()
 	{
-		print("LoginController::onTest");
+		getTokenService.getToken()
+		.then((ServiceEvent event)
+			{
+				return loginService.login(getTokenService.token, username, password);
+			})
+		.then((ServiceEvent event)
+			{
+				rootScope.emit("Login:success");
+			});
 	}
 }

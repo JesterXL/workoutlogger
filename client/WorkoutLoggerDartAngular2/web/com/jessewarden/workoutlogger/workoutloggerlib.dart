@@ -15,8 +15,10 @@ part "events/ServiceEvent.dart";
 part "services/ServicesLocator.dart";
 //
 ////part "services/AbstractService.dart";
-part "services/GetTokenService.dart";
-part "services/LoginService.dart";
+part "login/GetTokenService.dart";
+part "login/MockGetTokenService.dart";
+part "login/LoginService.dart";
+part "login/MockLoginService.dart";
 
 part "login/LoginView.dart";
 

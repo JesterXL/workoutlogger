@@ -1,5 +1,6 @@
 part of workoutloggerlib;
 
+@Injectable()
 class GetTokenService
 {
 	String token;

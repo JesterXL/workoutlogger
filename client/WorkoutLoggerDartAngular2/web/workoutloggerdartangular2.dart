@@ -9,7 +9,8 @@ void main()
 	 Button.use();
    	  
    	  Module module = new Module();
-   	  module.type(GetTokenService);
+   	  module.bind(GetTokenService, toValue: new MockGetTokenService());
+   	  module.bind(LoginService, toValue: new MockLoginService());
    	  module.type(LoginView);
    	  module.type(LoginController);
 	   	applicationFactory()
