@@ -25,3 +25,5 @@ part "login/LoginView.dart";
 part "login/LoginController.dart";
 
 part "WorkoutLoggerApplication.dart";
+
+part "WorkoutLoggerModule.dart";
