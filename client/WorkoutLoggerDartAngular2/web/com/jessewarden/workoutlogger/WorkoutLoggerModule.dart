@@ -7,7 +7,10 @@ class WorkoutLoggerModule extends Module
 		bind(WorkoutLoggerApplication);
 		bind(GetTokenService, toValue: new MockGetTokenService());
 		bind(LoginService, toValue: new MockLoginService());
+		
 		bind(LoginView);
+		bind(DateCycle);
+		
 		bind(LoginController);
 		bind(RouteInitializerFn, toValue: configureRoutes);
 		bind(NgRoutingUsePushState, toFactory: (_) => new NgRoutingUsePushState.value(false));

@@ -17,10 +17,6 @@ packages:
     description: barback
     source: hosted
     version: "0.13.0"
-  bootjack:
-    description: bootjack
-    source: hosted
-    version: "0.6.5"
   browser:
     description: browser
     source: hosted
@@ -37,10 +33,6 @@ packages:
     description: di
     source: hosted
     version: "0.0.40"
-  dquery:
-    description: dquery
-    source: hosted
-    version: "0.6.1"
   html5lib:
     description: html5lib
     source: hosted

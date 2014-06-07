@@ -1,0 +1,26 @@
+{
+  "name": "WorkoutLoggerDartAngular2",
+  "version": "0.0.0",
+  "authors": [
+    "JesterXL <jesse@jessewarden.com>"
+  ],
+  "description": "Workout logger sample application",
+  "main": "workoutloggerdartangular2.dart",
+  "keywords": [
+    "dart",
+    "angular",
+    "fitness",
+    "example",
+    "sample"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/JesterXL/workoutlogger",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
