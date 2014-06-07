@@ -4,12 +4,13 @@
   <head>
     <meta charset="utf-8">
     <title>WorkoutLoggerDartAngular2</title>
+    <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css">
     <link rel="stylesheet" href="workoutloggerdartangular2.css">
   </head>
-  <body ng-app workout-logger-application>
+  <body>
     <script type="application/dart" src="workoutloggerdartangular2.dart"></script>
     <script src="packages/browser/dart.js"></script>
-    <div>
+    <div ng-app workout-logger-application>
     	<ng-view></ng-view>
     </div>
   </body>
