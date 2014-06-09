@@ -12,5 +12,6 @@ urlpatterns = patterns('',
 	url(r'^get_workout/(?P<workout_id>\d+)/$', views.get_workout, name='get_workout'),
 	url(r'^add_set_to_exercise', views.add_set_to_exercise, name='add_set_to_exercise'),
 	url(r'^delete_set', views.delete_set, name='delete_set'),
-	url(r'^update_set', views.update_set, name='update_set')
+	url(r'^update_set', views.update_set, name='update_set'),
+	url(r'^generate_mad_fixtures_yo', views.generate_mad_fixtures_yo, name='generate_mad_fixtures_yo')
 )

@@ -6,8 +6,9 @@ from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.core import serializers
 
-from workoutapi.models import Workout, Exercise, Set
+from workoutapi.models import Exercise, Set, Routine, Workout, Program
 from django.core import serializers
+import datetime
 
 
 
@@ -62,6 +63,10 @@ def get_token(request):
 def login_user(request):
 	try:
 		print("login_user")
+		print("method:" + request.method)
+		# if request.method == "OPTIONS":
+		# 	return jsonResponse(True, 'OPTIONS received')
+		# elif request.method == "POST":
 		print("json in request:" + request.body)
 		jsonLogin = json.loads(request.body)
 		print("username passed in: " + jsonLogin['username'])
@@ -82,6 +87,9 @@ def login_user(request):
 				return jsonResponse(False, 'disabled account')
 		else:
 			return jsonResponse(False, 'invalid login')
+			# except Exception e:
+			# 	print "Error2: " + str(e)
+			# 	return jsonResponse(False, "unknown server error")
 	except Exception, e:
 		print "Error: " + str(e)
 		return jsonResponse(False, 'unknown server error')
@@ -191,7 +199,113 @@ def update_set(request):
 		print str(e)
 		return jsonResponse(False, e)
 
+# helper methods for creating fixtures
+def create_exercise(user, name, icon_path=""):
+	try:
+		exercise = Exercise()
+		exercise.user = user
+		exercise.name = name
+		exercise.icon_path = icon_path
+		exercise.save()
+		return exercise
+	except Exception, e:
+		print "create_exercise error: " + str(e)
+		return False
 
+def create_set(user, rep_count, weight, rest_time):
+	try:
+		set = Set()
+		set.user = user
+		set.rep_count = rep_count
+		set.weight = weight
+		set.rest_time = rest_time
+		set.save()
+		return set
+	except Exception, e:
+		print "create_set error: " + str(e)
+		return False
+
+def create_routine(user, exercise, sets):
+	try:
+		routine = Routine()
+		routine.user = user
+		routine.exercise = exercise
+		routine.save()
+		routine.sets = sets
+		routine.save()
+		return routine
+	except Exception, e:
+		print "create_routine error: " + str(e)
+		return False
+
+def create_workout(user, name, routines, occurrence):
+	try:
+		workout = Workout()
+		workout.user = user
+		workout.name = name
+		workout.occurrence = occurrence
+		workout.save()
+		workout.routines = routines
+		workout.save()
+		return workout
+	except Exception, e:
+		print "create_workout: " + str(e)
+		return False
+
+def create_program(user, name, workouts, start_date):
+	try:
+		program = Program()
+		program.user = user
+		program.name = name
+		program.start_date = start_date
+		program.save()
+		program.workouts = workouts
+		program.save()
+		return program
+	except Exception, e:
+		print "create_program: " + str(e)
+		return False
+
+def generate_mad_fixtures_yo(request):
+	try:
+		user = request.user
+		squat = create_exercise(user, "Barbell Squat")
+		deadlift = create_exercise(user, "Barbell Deadlift")
+		bench_press = create_exercise(user, "Dumbbell Bench Press")
+
+		five_squat_set = create_set(user, 5, 140, 30)
+		five_squat_routine = create_routine(user, squat, [five_squat_set, 
+										five_squat_set,
+										five_squat_set,
+										five_squat_set,
+										five_squat_set])
+
+		five_deadlift_set = create_set(user, 5, 135, 30)
+		five_deadlift_routine = create_routine(user, deadlift, [five_deadlift_set,
+											five_deadlift_set,
+											five_deadlift_set,
+											five_deadlift_set,
+											five_deadlift_set])
+
+		five_bench_press = create_set(user, 5, 90, 30)
+		five_bench_routine = create_routine(user, bench_press, [five_bench_press,
+											five_bench_press,
+											five_bench_press,
+											five_bench_press,
+											five_bench_press])
+		routines = []
+		routines.append(five_squat_routine)
+		routines.append(five_deadlift_routine)
+		routines.append(five_bench_routine)
+		five_by_five_big_three = create_workout(user, "5x5 Big 3", routines, datetime.datetime.now())
+		workouts = []
+		workouts.append(five_by_five_big_three)
+		create_program(user, "3 month 5x5 Big 3", workouts, datetime.datetime.now())
+
+		return jsonResponse(True, True)
+	except Exception, e:
+		print str(e)
+		return jsonResponse(False, e)
 
 
 # def get_all_circuits_from_workout_id(request, workoutID):
