@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 
 part "types/WorkoutTypes.dart";
 part "vo/Exercise.dart";
-part "vo/SetVO.dart";
-part "vo/Workout.dart";
+part "vo/Set.dart";
+part "vo/Routine.dart";
 
 part "events/ServiceEvent.dart";
 
@@ -24,6 +24,7 @@ part "login/MockLoginService.dart";
 
 part "login/LoginView.dart";
 part "today/DateCycle.dart";
+part "today/RoutineInput.dart";
 
 part "login/LoginController.dart";
 

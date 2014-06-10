@@ -2,6 +2,7 @@ part of workoutloggerlib;
 
 class Exercise
 {
-  String name;
-  List<Set> sets;
+	String userID;
+	String name;
+	String iconURL;
 }

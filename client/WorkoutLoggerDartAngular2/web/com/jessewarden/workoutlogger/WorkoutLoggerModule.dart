@@ -5,11 +5,14 @@ class WorkoutLoggerModule extends Module
     WorkoutLoggerModule()
     {
 		bind(WorkoutLoggerApplication);
-		bind(GetTokenService, toValue: new MockGetTokenService());
-		bind(LoginService, toValue: new MockLoginService());
+//		bind(GetTokenService, toValue: new MockGetTokenService());
+//		bind(LoginService, toValue: new MockLoginService());
+	    bind(GetTokenService);
+	    bind(LoginService);
 		
 		bind(LoginView);
 		bind(DateCycle);
+		bind(RoutineInput);
 		
 		bind(LoginController);
 		bind(RouteInitializerFn, toValue: configureRoutes);

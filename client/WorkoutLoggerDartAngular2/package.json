@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/JesterXL/workoutlogger/issues"
   },
-  "homepage": "https://github.com/JesterXL/workoutlogger"
+  "homepage": "https://github.com/JesterXL/workoutlogger",
+  "devDependencies": {
+    "grunt-dart2js": "0.0.5"
+  }
 }
