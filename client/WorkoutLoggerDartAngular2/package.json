@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/JesterXL/workoutlogger",
   "devDependencies": {
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-copy": "^0.5.0",
     "grunt-dart2js": "0.0.5"
   }
 }

@@ -31,13 +31,18 @@ def jsonResponse(success, data):
 		httpResponse = HttpResponse(data)
 
 	httpResponse['Access-Control-Allow-Origin'] = "*"
-	httpResponse['Access-Control-Allow-Methods'] = "POST, GET, OPTIONS"
-	httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept"
+	httpResponse['Access-Control-Allow-Credentials'] = "true"
+	httpResponse['Access-Control-Allow-Methods'] = "POST, GET, PUT, OPTIONS"
+	httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma, Authorization"
 	return httpResponse
 
 def need_to_login_error():
 	response = jsonResponse(False, "need to login")
 	return response
+
+def need_to_login(request):
+	# return request.user.is_authenticated()
+	return False
 
 
 
@@ -61,38 +66,38 @@ def get_token(request):
 
 
 def login_user(request):
-	try:
-		print("login_user")
-		print("method:" + request.method)
-		# if request.method == "OPTIONS":
-		# 	return jsonResponse(True, 'OPTIONS received')
-		# elif request.method == "POST":
-		print("json in request:" + request.body)
-		jsonLogin = json.loads(request.body)
-		print("username passed in: " + jsonLogin['username'])
-		user = authenticate(username=jsonLogin['username'], password=jsonLogin['password'])
-		if user is not None:
-			if user.is_active:
-				login(request, user)
-				request.session.set_expiry(0)
-				userJson = {}
-				userJson['username'] = user.username
-				userJson['first_name'] = user.first_name
-				userJson['last_name'] = user.last_name
-				userJson['email'] = user.email
-				# userJson['last_login'] = user.last_login
-				# userJson['date_joined'] = user.date_joined
-				return jsonResponse(True, userJson)
-			else:
-				return jsonResponse(False, 'disabled account')
-		else:
-			return jsonResponse(False, 'invalid login')
-			# except Exception e:
-			# 	print "Error2: " + str(e)
-			# 	return jsonResponse(False, "unknown server error")
-	except Exception, e:
-		print "Error: " + str(e)
-		return jsonResponse(False, 'unknown server error')
+	print "login_user"
+	print "method:" + request.method
+
+	# try:
+	# 	print("login_user")
+	# 	print("method:" + request.method)
+	# 	print("json in request:" + request.body)
+	# 	jsonLogin = json.loads(request.body)
+	# 	print("username passed in: " + jsonLogin['username'])
+	# 	user = authenticate(username=jsonLogin['username'], password=jsonLogin['password'])
+	# 	if user is not None:
+	# 		if user.is_active:
+	# 			login(request, user)
+	# 			request.session.set_expiry(0)
+	# 			userJson = {}
+	# 			userJson['username'] = user.username
+	# 			userJson['first_name'] = user.first_name
+	# 			userJson['last_name'] = user.last_name
+	# 			userJson['email'] = user.email
+	# 			# userJson['last_login'] = user.last_login
+	# 			# userJson['date_joined'] = user.date_joined
+	# 			return jsonResponse(True, userJson)
+	# 		else:
+	# 			return jsonResponse(False, 'disabled account')
+	# 	else:
+	# 		return jsonResponse(False, 'invalid login')
+	# 		# except Exception e:
+	# 		# 	print "Error2: " + str(e)
+	# 		# 	return jsonResponse(False, "unknown server error")
+	# except Exception, e:
+	# 	print "Error: " + str(e)
+	# 	return jsonResponse(False, 'unknown server error')
 
 
 def logout_user(request):
@@ -103,7 +108,7 @@ def logout_user(request):
 def logged_in(request):
 	print "logged_in"
 	try:
-		if request.user.is_authenticated():
+		if need_to_login(request):
 			return jsonResponse(True, {"logged_in": True})
 		else:
 			return jsonResponse(True, {"logged_in": False})
@@ -111,93 +116,105 @@ def logged_in(request):
 		print "Error: " + str(e)
 		return jsonResponse(False, 'unknown server error')
 
+def get_program_from_date(request):
+	print "get_program_from_date"
+	try:
+		if need_to_login(request):
+			program = Program.objects.filter(workout__id=workout_id)
+			return jsonResponse(True, program)
+		else:
+			return need_to_login_error()
+	except Exception, e:
+		print "get_program_from_date, error: " + str(e)
+		return jsonResponse(False, "unknown server error")
+
 
 # TODO: figure out how to get by user, not all workouts in system
-def get_all_workouts(request):
-	try:
-		if request.user.is_authenticated():
-			all_workouts = serializers.serialize("json", Workout.objects.all())
-			return jsonResponse(True, all_workouts)
-		else:
-			return need_to_login_error()
-	except Exception, e:
-		print(str(e))
-		return jsonResponse(False, e)
+# def get_all_workouts(request):
+# 	try:
+# 		if request.user.is_authenticated():
+# 			all_workouts = serializers.serialize("json", Workout.objects.all())
+# 			return jsonResponse(True, all_workouts)
+# 		else:
+# 			return need_to_login_error()
+# 	except Exception, e:
+# 		print(str(e))
+# 		return jsonResponse(False, e)
 
-def get_workout(request, workout_id):
-	try:
-		if request.user.is_authenticated():
-			# first get all the associated exercises and sets
-			related_exercises = Exercise.objects.filter(workout__id=workout_id)
-			found_workout = Workout.objects.get(id=workout_id)
-			found_workout_json = found_workout.toJSON()
-			found_workout_json["exercises"] = []
-			for exercise in related_exercises:
-				exercise_json = exercise.toJSON()
-				related_sets = Set.objects.filter(exercise__id=exercise.id)
+# def get_workout(request, workout_id):
+# 	try:
+# 		if request.user.is_authenticated():
+# 			# first get all the associated exercises and sets
+# 			related_exercises = Exercise.objects.filter(workout__id=workout_id)
+# 			found_workout = Workout.objects.get(id=workout_id)
+# 			found_workout_json = found_workout.toJSON()
+# 			found_workout_json["exercises"] = []
+# 			for exercise in related_exercises:
+# 				exercise_json = exercise.toJSON()
+# 				related_sets = Set.objects.filter(exercise__id=exercise.id)
 				
-				for workout_set in related_sets:
-					set_json = workout_set.toJSON()
-					exercise_json["sets"].append(set_json)
+# 				for workout_set in related_sets:
+# 					set_json = workout_set.toJSON()
+# 					exercise_json["sets"].append(set_json)
 
-				found_workout_json["exercises"].append(exercise_json)
+# 				found_workout_json["exercises"].append(exercise_json)
 
-			return jsonResponse(True, found_workout_json)
-		else:
-			return need_to_login_error()
-	except Exception, e:
-		print(str(e))
-		return jsonResponse(False, e)
+# 			return jsonResponse(True, found_workout_json)
+# 		else:
+# 			return need_to_login_error()
+# 	except Exception, e:
+# 		print(str(e))
+# 		return jsonResponse(False, e)
 
-def add_set_to_exercise(request):
-	try:
-		# print "add_set_to_exercise"
-		if request.user.is_authenticated():
-			json_post = json.loads(request.body)
-			new_set = Set()
-			new_set.good_form = json_post["goodForm"]
-			new_set.reps = json_post["reps"]
-			new_set.weight = json_post["weight"]
-			new_set.goal_reps = json_post["goalReps"]
-			new_set.goal_weight = json_post["goalWeight"]
-			new_set.exercise = Exercise.objects.get(id=json_post["exerciseID"])
-			new_set.save()
-			new_set_json = new_set.toJSON()
-			new_set_json["cid"] = json_post["cid"]
-			return jsonResponse(True, new_set_json)
-	except Exception, e:
-		print str(e)
-		return jsonResponse(False, e)
+# def add_set_to_exercise(request):
+# 	try:
+# 		# print "add_set_to_exercise"
+# 		if request.user.is_authenticated():
+# 			json_post = json.loads(request.body)
+# 			new_set = Set()
+# 			new_set.good_form = json_post["goodForm"]
+# 			new_set.reps = json_post["reps"]
+# 			new_set.weight = json_post["weight"]
+# 			new_set.goal_reps = json_post["goalReps"]
+# 			new_set.goal_weight = json_post["goalWeight"]
+# 			new_set.exercise = Exercise.objects.get(id=json_post["exerciseID"])
+# 			new_set.save()
+# 			new_set_json = new_set.toJSON()
+# 			new_set_json["cid"] = json_post["cid"]
+# 			return jsonResponse(True, new_set_json)
+# 	except Exception, e:
+# 		print str(e)
+# 		return jsonResponse(False, e)
 
-def delete_set(request):
-	try:
-		if request.user.is_authenticated():
-			json_post = json.loads(request.body)
-			set_before = Set.objects.filter(id=json_post["setID"])
-			print "set before: " + str(set_before.count())
-			Set.objects.filter(id=json_post["setID"]).delete()
-			set_after = Set.objects.filter(id=json_post["setID"])
-			print "set after: " + str(set_after.count())
-			return jsonResponse(True, True)
-	except Exception, e:
-		print str(e)
-		return jsonResponse(False, e)
+# def delete_set(request):
+# 	try:
+# 		if request.user.is_authenticated():
+# 			json_post = json.loads(request.body)
+# 			set_before = Set.objects.filter(id=json_post["setID"])
+# 			print "set before: " + str(set_before.count())
+# 			Set.objects.filter(id=json_post["setID"]).delete()
+# 			set_after = Set.objects.filter(id=json_post["setID"])
+# 			print "set after: " + str(set_after.count())
+# 			return jsonResponse(True, True)
+# 	except Exception, e:
+# 		print str(e)
+# 		return jsonResponse(False, e)
 
-def update_set(request):
-	try:
-		if request.user.is_authenticated():
-			json_post = json.loads(request.body)
-			existing_set = Set.objects.get(id=json_post["id"])
-			existing_set.good_form = json_post["goodForm"]
-			existing_set.reps = json_post["reps"]
-			existing_set.weight = json_post["weight"]
-			existing_set.goal_reps = json_post["goalReps"]
-			existing_set.goal_weight = json_post["goalWeight"]
-			existing_set.save()
-			return jsonResponse(True, True)
-	except Exception, e:
-		print str(e)
-		return jsonResponse(False, e)
+# def update_set(request):
+# 	try:
+# 		if request.user.is_authenticated():
+# 			json_post = json.loads(request.body)
+# 			existing_set = Set.objects.get(id=json_post["id"])
+# 			existing_set.good_form = json_post["goodForm"]
+# 			existing_set.reps = json_post["reps"]
+# 			existing_set.weight = json_post["weight"]
+# 			existing_set.goal_reps = json_post["goalReps"]
+# 			existing_set.goal_weight = json_post["goalWeight"]
+# 			existing_set.save()
+# 			return jsonResponse(True, True)
+# 	except Exception, e:
+# 		print str(e)
+# 		return jsonResponse(False, e)
 
 # helper methods for creating fixtures
 def create_exercise(user, name, icon_path=""):

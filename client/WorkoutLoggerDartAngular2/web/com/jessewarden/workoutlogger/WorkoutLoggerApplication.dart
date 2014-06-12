@@ -13,5 +13,9 @@ class WorkoutLoggerApplication
 				{
 					router.go("login", {});
 				});
+		this.rootScope.on("Login:success").first.then((ScopeEvent event)
+		{
+			router.go("today", {});
+		});
 	}
 }
