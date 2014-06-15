@@ -27,6 +27,7 @@
   "devDependencies": {
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-copy": "^0.5.0",
-    "grunt-dart2js": "0.0.5"
+    "grunt-dart2js": "0.0.5",
+    "grunt-open": "^0.2.3"
   }
 }

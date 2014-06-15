@@ -17,8 +17,13 @@ class GetTokenService
 					(tokenRequest.status == 200 || tokenRequest.status == 0))
 				{
 					print("getToken response: " + tokenRequest.responseText);
-					document.cookie = "csrfCookie=" + tokenRequest.responseText;
-					token = tokenRequest.responseText;
+					var jsonResponse = JSON.decode(tokenRequest.responseText);
+					token = jsonResponse["data"]["token"];
+					print("token: $token");
+					// print("document.cookie: " + document.cookie);
+					// // document.cookie = "csrftoken=" + token;
+					// print("document.cookie: " + document.cookie);
+					print("...we're done here.");
 					completer.complete(new ServiceEvent(ServiceEvent.GET_TOKEN_SUCCESS));
 				}
 			});
