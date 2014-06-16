@@ -4,16 +4,37 @@ class LoginService
 {
 	String token;
 	
+	String getCookie(name)
+	{
+	    var cookieValue = null;
+	    if (document.cookie != '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = cookies[i].trim();
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                // cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                cookieValue = cookie.substring(name.length + 1);
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+
 	Future login(String token, String username, String password)
 	{
 		print("LoginService::login, token: $token, username: $username");
 		print("document.cookie: " + document.cookie);
+		// token = getCookie("csrftoken");
+		print("token: $token");
 		Completer<ServiceEvent> completer = new Completer<ServiceEvent>();
 		try
 		{
 
-			Map<String, String> headers = new Map<String, String>();
-			headers["X-CSRFToken"] = token;
+			
+
+			
 
 //			HttpRequest.request(ServicesLocator.LOGIN,
 //								method: "POST",
@@ -28,11 +49,21 @@ class LoginService
 //				{
 //					completer.completeError(new ServiceEvent(ServiceEvent.LOGIN_ERROR));
 //				});
+
 			Map<String, String> theFormData = new Map<String, String>();
 			theFormData["username"] = "jessewarden";
 			theFormData["password"] = "jessewarden";
-			theFormData["csrfmiddlewaretoken"] = token;
-			theFormData["csrftoken"] = token;
+
+			Map<String, String> headers = new Map<String, String>();
+			if(token != null && token != "")
+			{
+				theFormData["csrfmiddlewaretoken"] = token;
+				theFormData["csrftoken"] = token;
+				headers["X-CSRFToken"] = token;
+				headers["Access-Control-Request-Headers"] = "x-csrftoken, content-type";
+				headers["Access-Control-Request-Method"] = "POST";
+				document.cookie = "csrftoken=" + token + "; domain=workoutlogger.com;";
+			}
 
 			HttpRequest.postFormData(ServicesLocator.LOGIN, 
 										theFormData, 

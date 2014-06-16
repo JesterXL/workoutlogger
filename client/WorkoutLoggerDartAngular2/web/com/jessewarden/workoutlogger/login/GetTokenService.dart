@@ -20,9 +20,9 @@ class GetTokenService
 					var jsonResponse = JSON.decode(tokenRequest.responseText);
 					token = jsonResponse["data"]["token"];
 					print("token: $token");
-					// print("document.cookie: " + document.cookie);
-					// // document.cookie = "csrftoken=" + token;
-					// print("document.cookie: " + document.cookie);
+					print("document.cookie:" + document.cookie);
+					// document.cookie = "csrftoken=" + token + "; domain=workoutlogger.com;";
+					print("document.cookie: " + document.cookie);
 					print("...we're done here.");
 					completer.complete(new ServiceEvent(ServiceEvent.GET_TOKEN_SUCCESS));
 				}

@@ -29,5 +29,12 @@ class LoginController
 			{
 				rootScope.emit("Login:success");
 			});
+		
+		
+		// loginService.login(null, username, password)
+		// .then((ServiceEvent event)
+		// {
+		// 	rootScope.emit("Login:success");
+		// });
 	}
 }
