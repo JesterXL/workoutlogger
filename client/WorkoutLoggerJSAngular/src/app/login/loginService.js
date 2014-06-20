@@ -2,7 +2,7 @@
  * Created by jessewarden on 2/24/14.
  */
 angular.module( 'workoutlogger.login')
-.factory('LoginService', ['$resource', 'TokenService', function ($resource, TokenService)
+.factory('LoginService', function ($http, TokenService)
 {
 	var LoginService = {
 
@@ -46,47 +46,24 @@ angular.module( 'workoutlogger.login')
 			console.log("dataObjectJSON:", dataObjectJSON);
 			var headers = {};
 			headers["X-CSRFToken"] = token;
-			headers["Content-Type"] = "text/plain";
-			headers["Accept"] = "text/plain";
+
 			var me = this;
-			var loginPOSTService = $resource('http://localhost:8000/workoutapi/login_user',
-				{},
+			return $http.post('http://localhost:8000/workoutapi/login_user',
+				dataObject,
 				{
-					post:{
-						method:"POST",
-						isArray:false,
-						headers: headers,
-						withCredentials: true
-					}
+					widthCredentials: true
+				})
+				.success(function()
+				{
+					console.log("LoginWithToken::success");
+				})
+				.error(function()
+				{
+					console.log("LoginWithToken::error");
 				});
-			var promise = loginPOSTService.post(dataObjectJSON, function(data)
-			{
-				if(data && data.response === true)
-				{
-					me.user = data.data;
-				}
-				console.log("loginPOSTService::data:", data);
-				console.log("promise:", promise);
-			});
-//					.success(function(data)
-//					{
-//						if(data && data.response === true)
-//						{
-//							me.user = data.data;
-//						}
-//					})
-//					.error(function(data)
-//					{
-//						console.error("LoginService::onError");
-//						console.error(arguments);
-//						if(data == "FORBIDDEN")
-//						{
-//							console.error("CSRF verification failed. Request aborted.");
-//						}
-//					});
-			return promise;
+
 		}
 	};
 	return LoginService;
 
-}]);
+});

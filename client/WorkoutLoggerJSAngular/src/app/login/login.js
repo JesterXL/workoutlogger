@@ -1,6 +1,8 @@
 /**
  * Created by jessewarden on 2/16/14.
  */
+
+// create a new module
 angular.module( 'workoutlogger.login', [
 		'ngResource',
 		'ui.state'
@@ -24,8 +26,9 @@ angular.module( 'workoutlogger.login', [
 			token: null,
 			getToken: function()
 			{
+				console.log("TokenService::getToken");
 				var me = this;
-				var promise = $http.get('http://localhost:8000/workoutapi/get_token')
+				return $http.get('http://localhost:8000/workoutapi/get_token')
 					.success(function(data, status, headers, config)
 					{
 						if(data && data.response === true)
@@ -40,7 +43,6 @@ angular.module( 'workoutlogger.login', [
 						console.error("status:", headers);
 						console.error("status:", config);
 					});
-				return promise;
 			}
 		};
 		return TokenService;
@@ -50,6 +52,8 @@ angular.module( 'workoutlogger.login', [
 
 	.controller( 'LoginController', ['$scope', 'LoginService', function LoginController( $scope, LoginService)
 	{
+		$scope.myModel = {};
+		$scope.myModel.someValue = "hello";
 		$scope.username = null;
 		$scope.password = null;
 

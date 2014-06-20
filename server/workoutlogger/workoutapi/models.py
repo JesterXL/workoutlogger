@@ -51,11 +51,10 @@ class Routine(models.Model):
 	def toJSON(self):
 		json = {
 			"id": str(self.id),
-			"user": self.user.toJSON(),
 			"exercise": self.exercise.toJSON(),
-			"sets": []
+			"sets": map(lambda item: item.toJSON(), self.sets.all())
 		}
-		# TODO: add sets
+
 		return json
 
 
@@ -74,7 +73,8 @@ class Workout(models.Model):
 		json = {
 			"user": self.user.toJSON(),
 			"name": str(self.name),
-			"routines": []
+			"occurrence": self.occurrence,
+			"routines": map(lambda item: item.toJSON(), self.routines.all())
 		}
 		# TODO: loop through routines
 		return json
@@ -94,10 +94,10 @@ class Program(models.Model):
 
 	def toJSON(self):
 		json = {
-			"user": self.user.toJSON(),
+			"id": str(self.id),
 			"name": str(self.name),
-			"workouts": [],
-			"start_date": str(self.start_date)
+			"start_date": str(self.start_date),
+			"workouts": map(lambda item: item.toJSON(), self.workouts.all())
 		}
 		# TODO: loop through workouts
 		return json

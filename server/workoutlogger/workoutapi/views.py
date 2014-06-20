@@ -12,7 +12,7 @@ import datetime
 
 
 
-def jsonResponse(success, data):
+def jsonResponse(success, data, request=None):
 	response = {}
 	if success:
 		response['response'] = success
@@ -21,20 +21,33 @@ def jsonResponse(success, data):
 		response['response'] = success
 		response['error'] = data
 
-	# res.headers.add("Access-Control-Allow-Origin", "*, ");
- #  res.headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
- #  res.headers.add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+ # 	if success != "token":
+	# 	httpResponse = HttpResponse(json.dumps(response), content_type="application/json")
+	# else:
+	# 	httpResponse = HttpResponse(data)
 
- 	if success != "token":
-		httpResponse = HttpResponse(json.dumps(response), content_type="application/json")
-	else:
-		httpResponse = HttpResponse(data)
+	# httpResponse['Access-Control-Allow-Origin'] = "*"
+	# httpResponse['Access-Control-Allow-Credentials'] = "true"
+	# httpResponse['Access-Control-Allow-Methods'] = "POST, GET, PUT, OPTIONS"
+	# httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma, Authorization"
 
-	httpResponse['Access-Control-Allow-Origin'] = "*"
-	httpResponse['Access-Control-Allow-Credentials'] = "true"
-	httpResponse['Access-Control-Allow-Methods'] = "POST, GET, PUT, OPTIONS"
-	httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma, Authorization"
+	# if sendAsJSON == False:
+	# 	httpResponse = HttpResponse(json.dumps(response))
+	# else:
+
+	httpResponse = HttpResponse(json.dumps(response), content_type="application/json")
+
+	# if headerProp != "":
+	# 	httpResponse[headerProp] = headerValue
+
+	# c = {}
+	# c.update(csrf(request))
+	# theToken = unicode(c['csrf_token'])
+	# # httpResponse["Set-Cookie"] = "csrftoken=" + theToken + "; domain=workoutlogger.com;"
+	# httpResponse.set_cookie("csrftoken", theToken, None, None, '/', "workoutlogger.com", None, False)
+	# set_cookie(httpResponse, 'csrftoken', theToken)
 	return httpResponse
+
 
 def need_to_login_error():
 	response = jsonResponse(False, "need to login")
@@ -56,48 +69,58 @@ def get_token(request):
 		c.update(csrf(request))
 		theToken = unicode(c['csrf_token'])
 		print("token:" + theToken)
+		print "c: " + str(c)
 		customResponse = {}
 		customResponse["token"] = theToken
-		return jsonResponse(True, customResponse)
+		return jsonResponse(True, customResponse, request)
+		# return jsonResponse(True, customResponse)
 	except Exception, e:
 		print "Error: " + str(e)
-		return jsonResponse(False, 'unknown token error')
-
-
+		return jsonResponse(False, 'unknown token error', request)
 
 def login_user(request):
 	print "login_user"
-	print "method:" + request.method
+	print "method: " + request.method
+	print "body: " + request.body
+	try:
+		
+		
+		if request.method == "OPTIONS":
+			return jsonResponse(True, True, True)
 
-	# try:
-	# 	print("login_user")
-	# 	print("method:" + request.method)
-	# 	print("json in request:" + request.body)
-	# 	jsonLogin = json.loads(request.body)
-	# 	print("username passed in: " + jsonLogin['username'])
-	# 	user = authenticate(username=jsonLogin['username'], password=jsonLogin['password'])
-	# 	if user is not None:
-	# 		if user.is_active:
-	# 			login(request, user)
-	# 			request.session.set_expiry(0)
-	# 			userJson = {}
-	# 			userJson['username'] = user.username
-	# 			userJson['first_name'] = user.first_name
-	# 			userJson['last_name'] = user.last_name
-	# 			userJson['email'] = user.email
-	# 			# userJson['last_login'] = user.last_login
-	# 			# userJson['date_joined'] = user.date_joined
-	# 			return jsonResponse(True, userJson)
-	# 		else:
-	# 			return jsonResponse(False, 'disabled account')
-	# 	else:
-	# 		return jsonResponse(False, 'invalid login')
-	# 		# except Exception e:
-	# 		# 	print "Error2: " + str(e)
-	# 		# 	return jsonResponse(False, "unknown server error")
-	# except Exception, e:
-	# 	print "Error: " + str(e)
-	# 	return jsonResponse(False, 'unknown server error')
+		try:
+			requestJSON = json.loads(request.body)
+			username = requestJSON['username']
+			password = requestJSON['password']
+			print "username: " + username
+			print "password: " + password
+			user = authenticate(username=username, password=password)
+		except Exception, e:
+			print "Error authenticating, e:" + str(e)
+			return jsonResponse(False, "Error authenticating, e:" + str(e))
+
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				request.session.set_expiry(0)
+				userJson = {}
+				userJson['username'] = user.username
+				userJson['first_name'] = user.first_name
+				userJson['last_name'] = user.last_name
+				userJson['email'] = user.email
+				# userJson['last_login'] = user.last_login
+				# userJson['date_joined'] = user.date_joined
+				return jsonResponse(True, userJson)
+			else:
+				return jsonResponse(False, 'disabled account')
+		else:
+			return jsonResponse(False, 'invalid login')
+			# except Exception e:
+			# 	print "Error2: " + str(e)
+			# 	return jsonResponse(False, "unknown server error")
+	except Exception, e:
+		print "Error: " + str(e)
+		return jsonResponse(False, 'unknown server error')
 
 
 def logout_user(request):
@@ -116,17 +139,28 @@ def logged_in(request):
 		print "Error: " + str(e)
 		return jsonResponse(False, 'unknown server error')
 
-def get_program_from_date(request):
-	print "get_program_from_date"
+# def show_routine(request):
+# 	print "show_routine"
+# 	try:
+# 		return jsonResponse(True, Routine.objects.all()[0].toJSON())
+# 	except Exception, e:
+# 		print "show_routine error:" + str(e)
+# 		return jsonResponse(False, "unknown server error")
+
+
+def get_all_programs(request):
+	print "get_all_programs"
 	try:
 		if need_to_login(request):
-			program = Program.objects.filter(workout__id=workout_id)
-			return jsonResponse(True, program)
+			user_programs = Program.objects.filter(user__id=user_id)
+			return jsonResponse(True, user_programs.toJSON())
 		else:
 			return need_to_login_error()
 	except Exception, e:
 		print "get_program_from_date, error: " + str(e)
 		return jsonResponse(False, "unknown server error")
+
+
 
 
 # TODO: figure out how to get by user, not all workouts in system
