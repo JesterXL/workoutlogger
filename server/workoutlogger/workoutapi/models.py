@@ -76,7 +76,6 @@ class Workout(models.Model):
 			"occurrence": self.occurrence,
 			"routines": map(lambda item: item.toJSON(), self.routines.all())
 		}
-		# TODO: loop through routines
 		return json
 
 

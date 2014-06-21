@@ -147,6 +147,20 @@ def logged_in(request):
 # 		print "show_routine error:" + str(e)
 # 		return jsonResponse(False, "unknown server error")
 
+def serialize_array_of_models(list_of_models):
+	return map(lambda item: item.toJSON(), list_of_models)
+
+
+def search_exercises(request):
+	print "search_exercises"
+	try:
+		searchTerm = request.GET["searchTerm"]
+		exercises = Exercise.objects.filter(name__startswith=searchTerm)
+		print exercises
+		return jsonResponse(True, serialize_array_of_models(exercises))
+	except Exception, e:
+		print "search_exercises error:" + str(e)
+	return jsonResponse(False, str(e))
 
 def get_all_programs(request):
 	print "get_all_programs"

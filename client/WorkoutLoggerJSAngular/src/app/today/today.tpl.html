@@ -3,9 +3,9 @@
     <input type="search"
            placeholder="Search Exercises"
            ng-model="searchText"
-           ng-enter="onSearch()"
+           ng-enter="showPossibleMatches()"
            ng-change="showPossibleMatches()"/>
-    <button ng-click="onSearch()">Search</button>
+    <button ng-click="showPossibleMatches()">Search</button>
     <div class="searchSuggestions" ng-show="showSuggestions">
         <div ng-repeat="result in searchResults">{{result.name}}</div>
     </div>

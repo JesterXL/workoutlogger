@@ -68,8 +68,4 @@ angular.module( 'workoutlogger.today', [
 		};
 		$scope.showPossibleMatches = _.debounce($scope._showPossibleMatches, 100);
 
-		$scope.onSearch = function()
-		{
-			console.log("onSearch");
-		};
 	});

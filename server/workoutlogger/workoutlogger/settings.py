@@ -86,25 +86,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-CSRF_COOKIE_DOMAIN = "workoutlogger.com"
-SESSION_COOKIE_DOMAIN = "workoutlogger.com"
+# CSRF_COOKIE_DOMAIN = "workoutlogger.com"
+# SESSION_COOKIE_DOMAIN = "workoutlogger.com"
 
 # CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = (
-        'google.com',
-        'localhost',
-        'workoutlogger.com'
-    )
+# CORS_ORIGIN_WHITELIST = (
+#         'google.com',
+#         'localhost',
+#         'workoutlogger.com'
+#     )
 
-CORS_ALLOW_HEADERS = (
-        'x-requested-with',
-        'content-type',
-        'accept',
-        'origin',
-        'authorization',
-        'x-csrftoken',
-        'accept-encoding'
-    )
+# CORS_ALLOW_HEADERS = (
+#         'x-requested-with',
+#         'content-type',
+#         'accept',
+#         'origin',
+#         'authorization',
+#         'x-csrftoken',
+#         'accept-encoding'
+#     )
 
