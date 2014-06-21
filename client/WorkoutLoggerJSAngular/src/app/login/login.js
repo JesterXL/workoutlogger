@@ -48,9 +48,7 @@ angular.module( 'workoutlogger.login', [
 		return TokenService;
 	})
 
-
-
-	.controller( 'LoginController', ['$scope', 'LoginService', function LoginController( $scope, LoginService)
+	.controller( 'LoginController', function LoginController( $scope, LoginService, $rootScope)
 	{
 		$scope.myModel = {};
 		$scope.myModel.someValue = "hello";
@@ -60,6 +58,10 @@ angular.module( 'workoutlogger.login', [
 		$scope.onLogin = function()
 		{
 			console.log("login::onLogin, username: " + $scope.username + ", password: " + $scope.password);
-			LoginService.login($scope.username, $scope.password);
+			LoginService.login($scope.username, $scope.password).
+			then(function()
+			{
+				$rootScope.$broadcast("Login:success");
+			});
 		};
-	}]);
+	});

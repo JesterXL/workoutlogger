@@ -1,0 +1,13 @@
+<div>
+    <b>Today</b>
+    <input type="search"
+           placeholder="Search Exercises"
+           ng-model="searchText"
+           ng-enter="onSearch()"
+           ng-change="showPossibleMatches()"/>
+    <button ng-click="onSearch()">Search</button>
+    <div class="searchSuggestions" ng-show="showSuggestions">
+        <div ng-repeat="result in searchResults">{{result.name}}</div>
+    </div>
+
+</div>
