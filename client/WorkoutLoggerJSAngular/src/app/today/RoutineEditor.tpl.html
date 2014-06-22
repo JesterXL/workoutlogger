@@ -1,0 +1,17 @@
+<div>
+    <div ng-repeat="set in sets">
+        <span>Set {{$index + 1}}</span>
+        <b>Reps</b>
+        <input ng-model="sets.rep_count" />
+        <b>Weight (lbs)</b>
+        <input ng-model="sets.weight"
+               type="number"
+               min="0"
+               max="9000" />
+        <b>Rest (seconds)</b>
+        <input ng-model="sets.rest_time"
+               type="number"
+               min="0"
+               max="300" />
+        <span class="glyphicon glyphicon-plus-sign" ng-click="addSet()"></span>
+</div>

@@ -14,13 +14,13 @@ angular.module( 'workoutlogger.today', [
 			data:{ pageTitle: 'Today' }
 		});
 	})
-	.directive('ngEnter', function()
+	.directive('jxlEnter', function()
 		{
 		return function(scope, element, attrs) {
 			element.bind("keydown keypress", function(event) {
 				if(event.which === 13) {
 					scope.$apply(function(){
-						scope.$eval(attrs.ngEnter, {'event': event});
+						scope.$eval(attrs.jxlEnter, {'event': event});
 					});
 
 					event.preventDefault();
@@ -28,6 +28,15 @@ angular.module( 'workoutlogger.today', [
 			});
 		};
 	})
+
+	.directive('routineEditor', function()
+	{
+		return {
+			restrict: "E",
+			templateUrl: "today/RoutineEditor.tpl.html"
+		};
+	})
+
 	.factory('SearchExercisesService', function($http)
 	{
 		return {
@@ -56,6 +65,9 @@ angular.module( 'workoutlogger.today', [
 		$scope.searchText = "";
 		$scope.showSuggestions = false;
 		$scope.searchResults = [];
+		$scope.focused = false;
+		$scope.todaysExercises = [];
+
 //		$scope.exercises = [
 //		{name: "Deadlift"},
 //		{name: "Squat"},
@@ -92,10 +104,25 @@ angular.module( 'workoutlogger.today', [
 			});
 		};
 
+
 		var debouncedShowPossibleMessages = function()
 		{
 			$scope.$apply($scope._showPossibleMatches);
 		};
 		$scope.showPossibleMatches = _.debounce(debouncedShowPossibleMessages, 100);
+
+		$scope.chooseExercise = function(exercise)
+		{
+			console.log("Today::chooseExercise, exercise:", exercise);
+			$scope.todaysExercises.push(exercise);
+		};
+
+		$scope.sets = [];
+		$scope.addSet = function()
+		{
+			console.log("Today::addSet");
+			$scope.sets.push({rep_count: 0, weight: 0, rest_time: 0});
+
+		};
 
 	});
