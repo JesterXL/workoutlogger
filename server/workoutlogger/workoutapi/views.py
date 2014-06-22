@@ -26,16 +26,17 @@ def jsonResponse(success, data, request=None):
 	# else:
 	# 	httpResponse = HttpResponse(data)
 
-	# httpResponse['Access-Control-Allow-Origin'] = "*"
-	# httpResponse['Access-Control-Allow-Credentials'] = "true"
-	# httpResponse['Access-Control-Allow-Methods'] = "POST, GET, PUT, OPTIONS"
-	# httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma, Authorization"
+	
 
 	# if sendAsJSON == False:
 	# 	httpResponse = HttpResponse(json.dumps(response))
 	# else:
 
 	httpResponse = HttpResponse(json.dumps(response), content_type="application/json")
+	httpResponse['Access-Control-Allow-Origin'] = "*"
+	httpResponse['Access-Control-Allow-Credentials'] = "true"
+	httpResponse['Access-Control-Allow-Methods'] = "POST, GET, PUT, OPTIONS"
+	httpResponse['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Pragma, Authorization"
 
 	# if headerProp != "":
 	# 	httpResponse[headerProp] = headerValue

@@ -1,7 +1,0 @@
-name: WorkoutLogger
-description: A sample web application
-dependencies:
-  bootjack: any
-  browser: any
-  polymer: any
-  unittest: any

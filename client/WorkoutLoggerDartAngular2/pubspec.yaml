@@ -1,6 +1,0 @@
-name: WorkoutLoggerDartAngular2
-description: A sample web application
-dependencies:
-  angular: any
-  browser: any
-  logging: any
