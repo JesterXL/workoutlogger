@@ -82,6 +82,7 @@ class Workout(models.Model):
 
 	def toJSON(self):
 		json = {
+			"id": str(self.id),
 			"user": user_to_json(self.user),
 			"name": str(self.name),
 			"occurrence": str(self.occurrence),

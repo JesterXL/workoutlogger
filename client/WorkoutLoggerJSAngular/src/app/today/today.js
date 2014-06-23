@@ -52,6 +52,7 @@ angular.module( 'workoutlogger.today', [
 						{
 							me.searchResults = json.data;
 						}
+						return me.searchResults;
 					})
 					.error(function(result)
 					{
@@ -60,18 +61,53 @@ angular.module( 'workoutlogger.today', [
 			}
 		};
 	})
-	.controller( 'TodayController', function TodayController( $scope, SearchExercisesService)
+
+	.factory("GetTodaysWorkouts", function($http)
+	{
+		// TODO: get client's timezone + time + all the other insane client date stuff
+		return {
+			workouts: null,
+
+			getTodaysWorkouts: function()
+			{
+				var me = this;
+				return $http.get("http://localhost:8001/workoutapi/get_workout_by_day")
+					.success(function(json)
+					{
+						if(json && json.response === true)
+						{
+							me.workouts = json.data;
+						}
+						return me.workouts;
+					})
+					.error(function(result)
+					{
+						console.error("GetTodaysWorkouts::error:", result);
+					});
+			}
+		};
+	})
+
+	.controller( 'TodayController', function TodayController($scope,
+															SearchExercisesService,
+															GetTodaysWorkouts)
 	{
 		$scope.searchText = "";
 		$scope.showSuggestions = false;
 		$scope.searchResults = [];
 		$scope.focused = false;
 		$scope.todaysExercises = [];
-		$scope.todaysWorkout = null;
+		$scope.todaysWorkouts = null;
+		$scope.loadingTodaysWorkouts = true;
 
 		$scope.init = function()
 		{
-
+			GetTodaysWorkouts.getTodaysWorkouts()
+			.then(function(result)
+			{
+				$scope.todaysWorkouts = GetTodaysWorkouts.workouts;
+				$scope.loadingTodaysWorkouts = false;
+			});
 		};
 
 		$scope._showPossibleMatches = function()

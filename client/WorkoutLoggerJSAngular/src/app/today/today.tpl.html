@@ -1,20 +1,37 @@
 <div ng-blur="focused = false">
-    <b>Today</b>
-    <input type="search"
-           placeholder="Search Exercises"
-           ng-model="searchText"
-           jxl-enter="showPossibleMatches()"
-           ng-change="showPossibleMatches()"
-           ng-focus="focused = true">
-    <div class="searchSuggestions" ng-show="showSuggestions && focused">
-        <div ng-repeat="result in searchResults" ng-click="chooseExercise(result)">{{result.name}}</div>
+    <div ng-show="loadingTodaysWorkouts">
+        <img src="assets/images/loading.gif"></img>
     </div>
+    <div ng-hide="loadingTodaysWorkouts">
+        <b>Today</b>
+        <input type="search"
+               placeholder="Search Exercises"
+               ng-model="searchText"
+               jxl-enter="showPossibleMatches()"
+               ng-change="showPossibleMatches()"
+               ng-focus="focused = true">
+        <div class="searchSuggestions" ng-show="showSuggestions && focused">
+            <div ng-repeat="result in searchResults" ng-click="chooseExercise(result)">{{result.name}}</div>
+        </div>
 
-    <div>
-        <div ng-repeat="exercise in todaysExercises">
-            <img width="72px" height="72px" src="{{exercise.icon_path}}" alt="{{exercise.name}}"></img>
-            <span><b>{{exercise.name}}</b></span>
-            <routine-editor />
+        <!--<div>-->
+            <!--<div ng-repeat="exercise in todaysExercises">-->
+                <!--<img width="72px" height="72px" src="{{exercise.icon_path}}" alt="{{exercise.name}}"></img>-->
+                <!--<span><b>{{exercise.name}}</b></span>-->
+                <!--<routine-editor />-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div>
+            <div ng-repeat="workout in todaysWorkouts">
+                <p>name: {{workout.name}}</p>
+                <p>occurrence: {{workout.occurrence}}</p>
+                <p>routines:</p>
+                <div ng-repeat="routine in workout.routines">
+                    <p>Exercise: {{routine.exercise}}</p>
+                    <p>Sets: {{routine.sets}}</p>
+                </div>
+            </div>
         </div>
     </div>
 
