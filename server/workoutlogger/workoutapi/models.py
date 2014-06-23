@@ -1,11 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
-# import json
+import json as jxljson
 # from django.utils.functional import Promise
 # from django.utils.encoding import force_text
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 
+def user_to_json(user):
+	userJson = {}
+	userJson['username'] = user.username
+	userJson['first_name'] = user.first_name
+	userJson['last_name'] = user.last_name
+	userJson['email'] = user.email
+	userJson['type'] = "User"
+	return userJson
 
 class Exercise(models.Model):
 	user = models.ForeignKey(User)
@@ -20,7 +28,8 @@ class Exercise(models.Model):
 		return {
 			"name": str(self.name),
 			"icon_path": str(self.icon_path),
-			"id": str(self.id)
+			"id": str(self.id),
+			"type": "Excercise"
 		}
 
 class Set(models.Model):
@@ -37,7 +46,8 @@ class Set(models.Model):
 			"id": str(self.id),
 			"rep_count": self.rep_count,
 			"weight": self.weight,
-			"rest_time": self.rest_time
+			"rest_time": self.rest_time,
+			"type": "Set"
 		}
 
 class Routine(models.Model):
@@ -52,7 +62,8 @@ class Routine(models.Model):
 		json = {
 			"id": str(self.id),
 			"exercise": self.exercise.toJSON(),
-			"sets": map(lambda item: item.toJSON(), self.sets.all())
+			"sets": map(lambda item: item.toJSON(), self.sets.all()),
+			"type": "Routine"
 		}
 
 		return json
@@ -71,10 +82,11 @@ class Workout(models.Model):
 
 	def toJSON(self):
 		json = {
-			"user": self.user.toJSON(),
+			"user": user_to_json(self.user),
 			"name": str(self.name),
-			"occurrence": self.occurrence,
-			"routines": map(lambda item: item.toJSON(), self.routines.all())
+			"occurrence": str(self.occurrence),
+			"routines": map(lambda item: item.toJSON(), self.routines.all()),
+			"type": "Workout"
 		}
 		return json
 
@@ -96,7 +108,8 @@ class Program(models.Model):
 			"id": str(self.id),
 			"name": str(self.name),
 			"start_date": str(self.start_date),
-			"workouts": map(lambda item: item.toJSON(), self.workouts.all())
+			"workouts": map(lambda item: item.toJSON(), self.workouts.all()),
+			"type": "Program"
 		}
 		# TODO: loop through workouts
 		return json

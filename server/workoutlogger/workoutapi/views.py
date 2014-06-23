@@ -148,8 +148,14 @@ def logged_in(request):
 # 		print "show_routine error:" + str(e)
 # 		return jsonResponse(False, "unknown server error")
 
+def convert_item_to_json(item):
+	if callable(getattr(item, "toJSON")):
+		return item.toJSON()
+	else:
+		return str(item)
+
 def serialize_array_of_models(list_of_models):
-	return map(lambda item: item.toJSON(), list_of_models)
+	return map(convert_item_to_json, list_of_models)
 
 
 def search_exercises(request):
@@ -162,6 +168,27 @@ def search_exercises(request):
 	except Exception, e:
 		print "search_exercises error:" + str(e)
 	return jsonResponse(False, str(e))
+
+def get_workout_by_day(request):
+	print "get_workout_by_day"
+	try:
+		# import datetime
+		# start_date = datetime.date(2005, 1, 1)
+		# end_date = datetime.date(2005, 3, 31)
+		# Entry.objects.filter(pub_date__range=(start_date, end_date))
+		now = datetime.datetime.now()
+		start_date = str(now.year) + "-" + str(now.month) + "-" + str(now.day)
+		end_date = str(now.year) + "-" + str(now.month) + "-" + str((now.day + 1))
+
+		print "start_date: " + str(start_date)
+		print "end_date: " + str(end_date)
+		workouts = Workout.objects.filter(occurrence__range=[start_date, end_date])
+		print "workouts: " + str(workouts)
+		return jsonResponse(True, serialize_array_of_models(workouts))
+	except Exception, e:
+		print "get_workout_by_day error: " + str(e)
+		return jsonResponse(False, str(e))
+
 
 def get_all_programs(request):
 	print "get_all_programs"

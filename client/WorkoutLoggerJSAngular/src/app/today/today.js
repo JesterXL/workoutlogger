@@ -67,15 +67,12 @@ angular.module( 'workoutlogger.today', [
 		$scope.searchResults = [];
 		$scope.focused = false;
 		$scope.todaysExercises = [];
+		$scope.todaysWorkout = null;
 
-//		$scope.exercises = [
-//		{name: "Deadlift"},
-//		{name: "Squat"},
-//		{name: "Bench Press"},
-//		{name: "Sumo Squat"},
-//		{name: "Stiff Leg Deadlift"},
-//		{name: "Boat"}
-//		];
+		$scope.init = function()
+		{
+
+		};
 
 		$scope._showPossibleMatches = function()
 		{
@@ -124,5 +121,7 @@ angular.module( 'workoutlogger.today', [
 			$scope.sets.push({rep_count: 0, weight: 0, rest_time: 0});
 
 		};
+
+		$scope.init();
 
 	});
