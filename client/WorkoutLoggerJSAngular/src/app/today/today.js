@@ -33,7 +33,10 @@ angular.module( 'workoutlogger.today', [
 	{
 		return {
 			restrict: "E",
-			templateUrl: "today/RoutineEditor.tpl.html"
+			templateUrl: "today/RoutineEditor.tpl.html",
+			scope: {
+				routine: '='
+			}
 		};
 	})
 

@@ -14,25 +14,29 @@
             <div ng-repeat="result in searchResults" ng-click="chooseExercise(result)">{{result.name}}</div>
         </div>
 
+
+        <div ng-repeat="workout in todaysWorkouts">
+            <routine-editor routine="routine" ng-repeat="routine in workout.routines" />
+            <!--<p>name: {{workout.name}}</p>-->
+            <!--<p>occurrence: {{workout.occurrence}}</p>-->
+            <!--<p>routines:</p>-->
+            <!--<div ng-repeat="routine in workout.routines">-->
+                <!--<p>Exercise: {{routine.exercise}}</p>-->
+                <!--<p>Sets: {{routine.sets}}</p>-->
+            <!--</div>-->
+        </div>
+
         <!--<div>-->
-            <!--<div ng-repeat="exercise in todaysExercises">-->
-                <!--<img width="72px" height="72px" src="{{exercise.icon_path}}" alt="{{exercise.name}}"></img>-->
-                <!--<span><b>{{exercise.name}}</b></span>-->
-                <!--<routine-editor />-->
+            <!--<div ng-repeat="workout in todaysWorkouts">-->
+                <!--<p>name: {{workout.name}}</p>-->
+                <!--<p>occurrence: {{workout.occurrence}}</p>-->
+                <!--<p>routines:</p>-->
+                <!--<div ng-repeat="routine in workout.routines">-->
+                    <!--<p>Exercise: {{routine.exercise}}</p>-->
+                    <!--<p>Sets: {{routine.sets}}</p>-->
+                <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-
-        <div>
-            <div ng-repeat="workout in todaysWorkouts">
-                <p>name: {{workout.name}}</p>
-                <p>occurrence: {{workout.occurrence}}</p>
-                <p>routines:</p>
-                <div ng-repeat="routine in workout.routines">
-                    <p>Exercise: {{routine.exercise}}</p>
-                    <p>Sets: {{routine.sets}}</p>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>

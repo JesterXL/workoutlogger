@@ -1,23 +1,47 @@
-<!--<div>-->
-    <!--<div ng-repeat="set in sets">-->
-        <!--<span>Set {{$index + 1}}</span>-->
-        <!--<b>Reps</b>-->
-        <!--<input ng-model="sets.rep_count" />-->
-        <!--<b>Weight (lbs)</b>-->
-        <!--<input ng-model="sets.weight"-->
-               <!--type="number"-->
-               <!--min="0"-->
-               <!--max="9000" />-->
-        <!--<b>Rest (seconds)</b>-->
-        <!--<input ng-model="sets.rest_time"-->
-               <!--type="number"-->
-               <!--min="0"-->
-               <!--max="300" />-->
-        <!--<span class="glyphicon glyphicon-plus-sign" ng-click="addSet()"></span>-->
-<!--</div>-->
 <div>
-    id: {{id}}
-    exercise: {{exercise}}
-    sets: {{sets}}
-    type: {{type}}
+
+    <div ng-repeat="set in routine.sets">
+        <span>
+            <img width="72px" height="72px"
+                 src="{{routine.exercise.icon_path}}"
+                 alt="{{routine.exercise.name}}"></img>
+            <b>{{routine.exercise.name}}</b>
+        </span>
+        <span>Set {{$index + 1}}</span>
+        <form role="form">
+            <div class="form-group">
+                <label>Reps</label>
+                <input type="number"
+                       class="form-control"
+                       placeholder=""
+                       ng-model="set.rep_count" />
+            </div>
+            <div class="form-group">
+                <label>Weight (lbs)</label>
+                <input ng-model="set.weight"
+                       type="number"
+                       min="0"
+                       max="9000" />
+            </div>
+            <div class="form-group">
+                <label>Rest (seconds)</label>
+                <input ng-model="set.rest_time"
+                       type="number"
+                       min="0"
+                       max="300" />
+            </div>
+
+            <!--<span class="glyphicon glyphicon-plus-sign" ng-click="addSet()"></span>-->
+            <!-- HACK: parent.parent... flashback to horrible Flash timeline code... -->
+            <button ng-show="$parent.$parent.$last"
+                    type="button"
+                    class="btn btn-default">Add Set</button>
+         </form>
+    </div>
 </div>
+<!--<div>-->
+    <!--id: {{id}}-->
+    <!--exercise: {{exercise}}-->
+    <!--sets: {{sets}}-->
+    <!--type: {{type}}-->
+<!--</div>-->
