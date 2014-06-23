@@ -7,8 +7,8 @@
                  alt="{{routine.exercise.name}}"></img>
             <b>{{routine.exercise.name}}</b>
         </span>
-        <span>Set {{$index + 1}}</span>
-        <form role="form">
+        <span ng-click="toggleShow()">Set {{$index + 1}}</span>
+        <form role="form" ng-show="showThisSet">
             <div class="form-group">
                 <label>Reps</label>
                 <input type="number"

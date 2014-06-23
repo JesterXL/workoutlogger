@@ -36,6 +36,13 @@ angular.module( 'workoutlogger.today', [
 			templateUrl: "today/RoutineEditor.tpl.html",
 			scope: {
 				routine: '='
+			},
+			link: function (scope, element) {
+				scope.showThisSet = false;
+				scope.toggleShow = function()
+				{
+					scope.showThisSet = !scope.showThisSet;
+				};
 			}
 		};
 	})
