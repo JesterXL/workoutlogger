@@ -53,23 +53,26 @@ angular.module( 'workoutlogger.today', [
 			restrict: "E",
 			templateUrl: "today/DateScroller.tpl.html",
 			scope: {
-				currentDate: "="
 			},
 			link: function(scope, element)
 			{
-//				scope.currentDate = new Date();
-//				scope.nextDay = function()
-//				{
-//					var date = new Date(scope.currentDate.valueOf());
-//					date.date++;
-//					scope.currentDate = date;
-//				};
-//				scope.previousDay = function()
-//				{
-//					var date = new Date(scope.currentDate.valueOf());
-//					date.date--;
-//					scope.currentDate = date;
-//				};
+				scope.currentDate = new Date();
+				scope.nextDay = function()
+				{
+					console.log("nextDay");
+					var date = new Date(scope.currentDate.valueOf());
+					date.setDate(date.getDate() + 1);
+					console.log("was:", scope.currentDate);
+					scope.currentDate = date;
+					console.log("is:", scope.currentDate);
+				};
+				scope.previousDay = function()
+				{
+					console.log("previousDay");
+					var date = new Date(scope.currentDate.valueOf());
+					date.setDate(date.getDate() - 1);
+					scope.currentDate = date;
+				};
 			}
 		};
 	})

@@ -1,5 +1,11 @@
-<div>
+<button type="button"
+        class="btn btn-default"  style="float: left;"
+        ng-click="previousDay()">
     <span class="glyphicon glyphicon-chevron-left"></span>
-    <h3>The Date: {{currentDate}}</h3>
+</button>
+<h3 style="float: left; width: 240px; text-align: center;">{{currentDate | date: 'EEEE, MMMM d'}}</h3>
+<button type="button"
+        class="btn btn-default" style="float: left;"
+        ng-click="nextDay()">
     <span class="glyphicon glyphicon-chevron-right"></span>
-</div>
+</button>
