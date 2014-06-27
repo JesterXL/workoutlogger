@@ -2,8 +2,8 @@
     <div ng-show="loadingTodaysWorkouts">
         <img src="assets/images/loading.gif"></img>
     </div>
-    <div ng-hide="loadingTodaysWorkouts">
-        <b>Today</b>
+    <!--<div ng-hide="loadingTodaysWorkouts">-->
+        <date-scroller />
         <input type="search"
                placeholder="Search Exercises"
                ng-model="searchText"
@@ -37,6 +37,6 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-    </div>
+    <!--</div>-->
 
 </div>

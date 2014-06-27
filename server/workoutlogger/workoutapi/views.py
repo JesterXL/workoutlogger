@@ -177,7 +177,7 @@ def get_workout_by_day(request):
 		# end_date = datetime.date(2005, 3, 31)
 		# Entry.objects.filter(pub_date__range=(start_date, end_date))
 		now = datetime.datetime.now()
-		start_date = str(now.year) + "-" + str(now.month) + "-" + str(now.day)
+		start_date = str(now.year) + "-" + str(now.month) + "-" + str(now.day - 1)
 		end_date = str(now.year) + "-" + str(now.month) + "-" + str((now.day + 1))
 
 		print "start_date: " + str(start_date)

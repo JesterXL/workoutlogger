@@ -47,6 +47,33 @@ angular.module( 'workoutlogger.today', [
 		};
 	})
 
+	.directive('dateScroller', function()
+	{
+		return {
+			restrict: "E",
+			templateUrl: "today/DateScroller.tpl.html",
+			scope: {
+				currentDate: "="
+			},
+			link: function(scope, element)
+			{
+//				scope.currentDate = new Date();
+//				scope.nextDay = function()
+//				{
+//					var date = new Date(scope.currentDate.valueOf());
+//					date.date++;
+//					scope.currentDate = date;
+//				};
+//				scope.previousDay = function()
+//				{
+//					var date = new Date(scope.currentDate.valueOf());
+//					date.date--;
+//					scope.currentDate = date;
+//				};
+			}
+		};
+	})
+
 	.factory('SearchExercisesService', function($http)
 	{
 		return {
@@ -115,6 +142,7 @@ angular.module( 'workoutlogger.today', [
 			GetTodaysWorkouts.getTodaysWorkouts()
 			.then(function(result)
 			{
+				console.log("GetTodaysWorkouts::then, workouts", GetTodaysWorkouts.workouts);
 				$scope.todaysWorkouts = GetTodaysWorkouts.workouts;
 				$scope.loadingTodaysWorkouts = false;
 			});
