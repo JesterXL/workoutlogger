@@ -1,47 +1,26 @@
-<div ng-blur="focused = false">
-    <div ng-show="loadingTodaysWorkouts">
-        <img src="assets/images/loading.gif"></img>
+<div ng-blur="focused = false" class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div ng-show="loadingTodaysWorkouts">
+                <img src="assets/images/loading.gif"></img>
+            </div>
+            <div ng-hide="loadingTodaysWorkouts">
+                <date-scroller></date-scroller>
+
+                <input type="search"
+                       placeholder="Search Exercises"
+                       ng-model="searchText"
+                       jxl-enter="showPossibleMatches()"
+                       ng-change="showPossibleMatches()"
+                       ng-focus="focused = true">
+                <div class="searchSuggestions" ng-show="showSuggestions && focused">
+                    <div ng-repeat="result in searchResults" ng-click="chooseExercise(result)">{{result.name}}</div>
+                </div>
+
+                <div ng-repeat="workout in todaysWorkouts">
+                    <routine-editor routine="routine" ng-repeat="routine in workout.routines" />
+                </div>
+            </div>
+        </div>
     </div>
-    <!--<div ng-hide="loadingTodaysWorkouts">-->
-        <date-scroller></date-scroller>
-
-        <p>&nbsp;</p>
-    <p>&nbsp;</p>
-
-        <input type="search"
-               placeholder="Search Exercises"
-               ng-model="searchText"
-               jxl-enter="showPossibleMatches()"
-               ng-change="showPossibleMatches()"
-               ng-focus="focused = true">
-        <div class="searchSuggestions" ng-show="showSuggestions && focused">
-            <div ng-repeat="result in searchResults" ng-click="chooseExercise(result)">{{result.name}}</div>
-        </div>
-
-        <p>&nbsp;</p>
-
-        <div ng-repeat="workout in todaysWorkouts">
-            <routine-editor routine="routine" ng-repeat="routine in workout.routines" />
-            <!--<p>name: {{workout.name}}</p>-->
-            <!--<p>occurrence: {{workout.occurrence}}</p>-->
-            <!--<p>routines:</p>-->
-            <!--<div ng-repeat="routine in workout.routines">-->
-                <!--<p>Exercise: {{routine.exercise}}</p>-->
-                <!--<p>Sets: {{routine.sets}}</p>-->
-            <!--</div>-->
-        </div>
-
-        <!--<div>-->
-            <!--<div ng-repeat="workout in todaysWorkouts">-->
-                <!--<p>name: {{workout.name}}</p>-->
-                <!--<p>occurrence: {{workout.occurrence}}</p>-->
-                <!--<p>routines:</p>-->
-                <!--<div ng-repeat="routine in workout.routines">-->
-                    <!--<p>Exercise: {{routine.exercise}}</p>-->
-                    <!--<p>Sets: {{routine.sets}}</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-
 </div>
